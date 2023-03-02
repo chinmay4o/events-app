@@ -1,0 +1,10 @@
+.top_menu {
+  display: grid;
+  place-items: center;
+  width: 470px;
+  grid-template-columns: 1fr 1fr 1.4fr 1fr;
+  margin: 0 10px 0 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(78, 78, 78);
+}

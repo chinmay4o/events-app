@@ -1,0 +1,13 @@
+.dashboard_container {
+  display: grid;
+  width: 100%;
+  background-color: #fff;
+}
+
+.dashboard_inner {
+  display: grid;
+  grid-template-columns: 228px 1fr;
+  width: 1440px;
+  max-width: 1440px;
+  margin: 0 auto;
+}

@@ -1,0 +1,10 @@
+@tailwind components;
+
+@layer components {
+  .primaryButton {
+    @apply bg-primary text-white h-12 py-3 px-5 my-2 text-base font-medium rounded-sm w-full;
+  }
+  .secondaryButton {
+    @apply bg-gray-200 text-gray-800 h-[45px] py-3 px-5 my-2 text-[15px] font-semibold rounded-sm w-full;
+  }
+}

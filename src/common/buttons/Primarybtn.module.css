@@ -1,0 +1,15 @@
+.primary_btn {
+    @apply bg-primary;
+    width: 100%;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    /* background-color: #A55EEA;     */
+    margin: 10px auto;
+    cursor: pointer;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0 9px;
+    font-size: 16px;
+}

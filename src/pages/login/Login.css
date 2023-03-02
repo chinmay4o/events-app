@@ -1,0 +1,36 @@
+.login_container {
+  height: calc(100vh - 58px);
+}
+
+.primary_submit {
+  width: 100%;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background-color: #a55eea;
+  margin: 10px auto;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.link_btn,
+.google_btn {
+  width: 100%;
+  height: 48px;
+  background-color: #425993;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  display: grid;
+  /* grid-template-columns: 50px 1fr; */
+  place-items: center;
+  padding: 0 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.google_btn {
+  background-color: #5384ec;
+}

@@ -1,0 +1,87 @@
+.csvContainer {
+  width: 100%;
+  /* background-color: red;
+  min-height: 100vh;*/
+  display: grid;
+  place-items: center;
+}
+.csvContainer .csvInner {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+}
+.csvContainer .csvInner h3 {
+  font-size: 30px;
+  text-align: center;
+  margin: 20px auto;
+}
+.csvContainer .csvInner select {
+  display: block;
+  width: 200px;
+  height: 35px;
+  border: 2px solid #c3c3c3;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  font-family: "League Spartan";
+  font-size: 17px;
+  font-weight: 600;
+  margin: 15px auto;
+  padding: 7px;
+  color: #444;
+}
+.csvContainer .csvInner .docLink {
+  margin-top: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(98, 98, 98);
+  text-align: center;
+  margin-bottom: 15px;
+}
+.csvContainer .csvInner .uploadWidget {
+  background: #f2f2f2;
+  border: 2px dashed #f50;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 12px;
+  gap: 0.5rem;
+  color: #2f3336;
+  text-align: center;
+  width: 350px;
+  margin: auto;
+  cursor: pointer;
+}
+.csvContainer .csvInner .uploadWidget svg {
+  height: 24px;
+}
+.csvContainer .csvInner .uploadWidget__statusText--error {
+  color: #e53935;
+}
+.csvContainer .csvInner .uploadWidget__statusText--success {
+  color: #689f38;
+}
+.csvContainer .csvInner .uploadWidget--error {
+  border: 1px solid #e53935;
+}
+.csvContainer .csvInner .subBtn {
+  font-family: "League Spartan";
+  border: none;
+  border-radius: 5px;
+  width: 350px;
+  height: 40px;
+  padding: 11px 20px;
+  display: grid;
+  place-items: center;
+  background-color: #f50;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  margin: auto;
+  margin-top: 28px;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px rgba(255, 194, 108, 0.3);
+}
+.csvContainer .csvInner .subBtn:hover {
+  text-decoration: underline;
+  box-shadow: 2px 3px 5px rgba(156, 156, 156, 0.737);
+}
