@@ -48,10 +48,10 @@ function FintechCard12() {
           <h3 className="text-[15px] font-[600] mb-1">
             <span className="text-[#000]">Speakers</span>
           </h3>
-          <div className="text-[22px] font-[600] text-[#000] mb-1">21</div>
-          <div className="text-sm">
+          <div className="text-[22px] font-[600] text-[#000] mb-1">0</div>
+          {/* <div className="text-sm">
             <span className="font-medium text-emerald-500">+7</span> - Today
-          </div>
+          </div> */}
         </header>
       </div>
       {/* Chart built with Chart.js 3 */}

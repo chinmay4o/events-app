@@ -4,7 +4,7 @@ import LineChart from '../charts/LineChart09';
 // Import utilities
 import { tailwindConfig, hexToRGB } from "../../../../utils/Utils";
 
-function FintechCard11() {
+function FintechCard11({exhibitors}) {
 
   const chartData = {
     labels: [
@@ -47,7 +47,7 @@ function FintechCard11() {
         <h3 className="text-[15px] font-[600] mb-1">
             <span className="text-[#000]">Exhibitors</span>
           </h3>
-          <div className="text-[22px] font-[600] text-[#000] mb-1">9</div>
+          <div className="text-[22px] font-[600] text-[#000] mb-1">{exhibitors.length}</div>
           <div className="text-sm">
             <span className="font-medium text-emerald-500">+3</span> - Today
           </div>
