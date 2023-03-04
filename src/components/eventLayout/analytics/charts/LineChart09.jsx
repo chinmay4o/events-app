@@ -10,7 +10,7 @@ import { formatValue } from '../../../../utils/Utils';
 
 Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip);
 
-function LineChart08({
+function LineChart09({
   data,
   width,
   height,
@@ -26,40 +26,29 @@ function LineChart08({
       type: 'line',
       data: data,
       options: {
-        layout: {
-          padding: {
-            top: 16,
-            bottom: 16,
-            left: 20,
-            right: 20,
-          },
-        },
         scales: {
           y: {
+            display: false,
             beginAtZero: true,
-            grid: {
-              drawBorder: false,
-              drawTicks: false,
-            },
-            ticks: {
-              maxTicksLimit: 2,
-              display: false,
-            },
           },
           x: {
-            type: 'time',
-            time: {
-              parser: 'MM-DD-YYYY',
-              unit: 'month',
-            },
-            display: false,
+            type: 'linear',
+            display: false
+            // grace: '5%'
           },
+          // x: {
+          //   type: 'time',
+          //   time: {
+          //     parser: 'MM-DD-YYYY',
+          //     unit: 'month',
+          //   },
+          //   display: false,
+          // },
         },
         plugins: {
           tooltip: {
             callbacks: {
               title: () => toolTip, // Disable tooltip title
-              // label: (context) => formatValue(context.parsed.y),
               label: (context) => context.parsed.y,
             },
           },
@@ -83,4 +72,4 @@ function LineChart08({
   );
 }
 
-export default LineChart08;
+export default LineChart09;

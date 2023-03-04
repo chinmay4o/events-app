@@ -1,50 +1,34 @@
-import React from "react";
+import React from 'react';
+import LineChart from '../charts/LineChart09';
 
 // Import utilities
 import { tailwindConfig, hexToRGB } from "../../../../utils/Utils";
-import LineChart08 from "../charts/LineChart08";
 
 function FintechCard11() {
+
   const chartData = {
     labels: [
-      "12-01-2020",
-      "01-01-2021",
-      "02-01-2021",
-      "03-01-2021",
-      "04-01-2021",
-      "05-01-2021",
-      "06-01-2021",
-      "07-01-2021",
-      "08-01-2021",
-      "09-01-2021",
-      "10-01-2021",
-      "11-01-2021",
-      "12-01-2021",
-      "01-01-2022",
-      "02-01-2022",
-      "03-01-2022",
-      "04-01-2022",
-      "05-01-2022",
-      "06-01-2022",
-      "07-01-2022",
-      "08-01-2022",
-      "09-01-2022",
-      "10-01-2022",
-      "11-01-2022",
-      "12-01-2022",
-      "01-01-2023",
+      '12-01-2020', '01-01-2021', '02-01-2021',
+      '03-01-2021', '04-01-2021', '05-01-2021',
+      '06-01-2021', '07-01-2021', '08-01-2021',
+      '09-01-2021', '10-01-2021', '11-01-2021',
+      '12-01-2021', '01-01-2022', '02-01-2022',
+      '03-01-2022', '04-01-2022', '05-01-2022',
+      '06-01-2022', '07-01-2022', '08-01-2022',
+      '09-01-2022', '10-01-2022', '11-01-2022',
+      '12-01-2022', '01-01-2023',
     ],
     datasets: [
       // Line
       {
         data: [
-          222, 222, 226, 271, 365, 365, 238, 324, 288, 206, 324, 324, 500, 409,
-          409, 273, 232, 273, 500, 570, 767, 808, 685, 767, 685, 685,
+          222, 222, 226, 271, 365, 365, 238,
+          324, 288, 206, 324, 324, 500, 409,
+          409, 273, 232, 273, 500, 570, 767,
+          808, 685, 767, 685, 685,
         ],
         fill: true,
-        backgroundColor: `rgba(${hexToRGB(
-          tailwindConfig().theme.colors.emerald[500]
-        )}, 0.08)`,
+        backgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.emerald[500])}, 0.08)`,
         borderColor: tailwindConfig().theme.colors.emerald[500],
         borderWidth: 2,
         tension: 0,
@@ -60,20 +44,19 @@ function FintechCard11() {
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-3 bg-[#f9fbff] shadow-lg rounded-sm">
       <div className="px-5 pt-5">
         <header>
-          <h3 className="text-[15px] font-[600] mb-1">
+        <h3 className="text-[15px] font-[600] mb-1">
             <span className="text-[#000]">Exhibitors</span>
           </h3>
           <div className="text-[22px] font-[600] text-[#000] mb-1">9</div>
           <div className="text-sm">
-            <span className="font-medium text-emerald-500">+3 (3,7%)</span> -
-            Today
+            <span className="font-medium text-emerald-500">+3</span> - Today
           </div>
         </header>
       </div>
       {/* Chart built with Chart.js 3 */}
       <div className="grow">
         {/* Change the height attribute to adjust the chart height */}
-        <LineChart08 data={chartData} width={260} height={98} />
+        <LineChart data={chartData} width={260} height={98} toolTip="Exhibitors"/>
       </div>
     </div>
   );

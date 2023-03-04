@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,23 +19,21 @@ const LoginOtp = () => {
 
   const [loadingB, setLoadingB] = useState(false);
   const [email, setEmail] = useState("");
-
   const [counter, setCounter] = useState(30);
-
-  const [otp, setOtp] = useState({
-    value: "",
-    error: false,
-  });
-
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [token, setToken] = useState("");
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { error, loading, userInfo } = userLogin;
-
   const navigate = useNavigate();
 
   useEffect(() => {
+    let token = localStorage.getItem("token");
     let email = localStorage.getItem("email");
 
+    if (token) {
+      setToken(token);
+    }
     if (email) {
       setEmail(email);
     }
@@ -54,8 +52,10 @@ const LoginOtp = () => {
   }, [userInfo?.email, error]);
 
   async function onSubmit(data) {
-    if (otp.length !== 4) {
-      setOtp((prev) => ({ ...prev, error: false }));
+    const finalOtp = Number(otp.join(""));
+    if (otp.includes("")) {
+      alert("Sorry Invalid Otp");
+      return;
     }
     if (!email) {
       alert("Sorry can't fetch your email");
@@ -66,7 +66,8 @@ const LoginOtp = () => {
         url: `${process.env.REACT_APP_SERVER_URL}/user/verifyemailOtp`,
         data: {
           email: email,
-          code: otp.value,
+          token: token,
+          code: finalOtp,
         },
       })
         .then(async (response) => {
@@ -95,11 +96,29 @@ const LoginOtp = () => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
   }, [counter]);
 
-  const handleChange = (otpValue) => {
-    setOtp((prev) => ({ ...prev, error: false }));
-    setOtp((prev) => ({ ...prev, value: otpValue }));
-  };
+  const handleChange = (e) => {
+    const regex = /^[0-9\b]+$/;
+    const inputChar = e.target.value;
+    if (inputChar === "" || regex.test(inputChar)) {
+      const index = parseInt(e.target.id.slice(-1)) - 1;
+      const newOtp = otp.slice();
+      newOtp[index] = e.target.value;
+      setOtp(newOtp);
 
+      if (inputChar !== "" && index < 3) {
+        const nextInput = e.target.nextSibling;
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
+      if (inputChar === "" && index > 0) {
+        const prevInput = e.target.previousSibling;
+        if (prevInput) {
+          prevInput.focus();
+        }
+      }
+    }
+  };
   return (
     <>
       {/* {loadingB && <Loader />} */}
@@ -116,11 +135,7 @@ const LoginOtp = () => {
             </p>
             {/* <ProgressBar width="45" step={1} /> */}
             <div>
-              <OTPLogin
-                handleChange={handleChange}
-                otpValue={otp.value}
-                errored={otp.error}
-              />
+              <OTPLogin otp={otp} handleChange={handleChange} />
             </div>
 
             <input

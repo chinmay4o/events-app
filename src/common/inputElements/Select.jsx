@@ -16,11 +16,12 @@ export default function Select({
     multiple ? onChange([]) : onChange(undefined);
   }
   function selectOption(option) {
-    console.log(option.value);
-    console.log(value);
     if (multiple) {
-      if (value.includes(option)) {
-        onChange(value.filter((o) => o !== option));
+      const valfilter = value.some((val) => {
+        return option.value === val.value;
+      });
+      if (valfilter) {
+        onChange(value.filter((o) => o.value !== option.value));
       } else {
         onChange([...value, option]);
       }

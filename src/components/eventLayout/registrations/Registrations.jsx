@@ -84,6 +84,24 @@ function Registrations() {
   const hideBadge = (index) => {
     targetRef.current[index].style.display = "none";
   };
+  console.log(registrations);
+
+  const handleDownload = () => {
+    const fields = ["firstName", "lastName", "email", "organization"];
+    const headerRow = fields.join(",");
+    const dataRows = registrations.map((row) =>
+      fields.map((field) => row[field]).join(",")
+    );
+    const csvContent =
+      "data:text/csv;charset=utf-8," + [headerRow, ...dataRows].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "RegisteredUser.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="w-full md:w-[422px] md:ml-[30px] md:mt-[25px]">
@@ -180,12 +198,18 @@ function Registrations() {
               <img src="/svgs/sort_by_alpha.svg" className="inline" alt="sort"></img>
             </p>
           </div> */}
+          {/* <a
+            className="text-primary text-[13px] block"
+            href="/attendeeDefault.csv"
+          >
+            template here
+          </a> */}
           <button
             className="bg-gray-200 text-gray-800 h-8 py-1 px-2 text-[12px] ml-4 my-1 font-semibold rounded-sm w-[30%]"
-            // btnText="Download"
-            onClick={() => {
-              console.log("Clicked");
-            }}
+            onClick={handleDownload}
+            // onClick={() => {
+            //   window.open("/attendeeDefault.csv");
+            // }}
           >
             Download
           </button>
@@ -261,9 +285,24 @@ function Registrations() {
                           </p>
                         </td>
 
-                        <td className="text-[12px] font-[400]">
-                          25th November, 5:00pm
-                        </td>
+                        {attendee.attendee[0]?.eventSpecificData.map(
+                          (ele, index) => {
+                            if (ele.eventId === eventsid.params.eventId) {
+                              const xmas95 = new Date(ele.timeStamp);
+                              const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
+                              return (
+                                <td className="text-[12px] font-[400]">
+                                  {ele?.timeStamp
+                                    ? new Intl.DateTimeFormat(
+                                        "en-US",
+                                        optionsFull
+                                      ).format(xmas95)
+                                    : "N/A"}
+                                </td>
+                              );
+                            }
+                          }
+                        )}
                         {attendee.attendee[0]?.eventSpecificData.map(
                           (ele, ind) => {
                             if (ele.eventId === eventsid.params.eventId) {
@@ -298,7 +337,7 @@ function Registrations() {
                             onMouseLeave={() => hideBadge(index)}
                           >
                             <img
-                              className="w-[250px] border rounded-t-xl"
+                              className="w-[250px] border rounded-t-xl register_img"
                               src={
                                 attendee.attendee[0]?.eventSpecificData[0]
                                   .badgeUrl
@@ -307,16 +346,14 @@ function Registrations() {
                             <div className=" flex justify-evenly text-white">
                               <button
                                 onClick={() => {
-                                  const printWindow = window.open(
-                                    URL.createObjetURL(
+                                  var win = window.open("");
+                                  win.document.write(
+                                    '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
                                       attendee.attendee[0]?.eventSpecificData[0]
-                                        .badgeUrl
-                                    ),
-                                    "_blank"
+                                        .badgeUrl +
+                                      '" onload="window.print();window.close()" /></body></html>'
                                   );
-                                  printWindow.onload = function () {
-                                    printWindow.print();
-                                  };
+                                  win.focus();
                                 }}
                                 title="ImageName"
                                 className="w-[100%] bg-primary h-[30px] mr-2 rounded-bl-lg"
