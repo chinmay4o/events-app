@@ -9,6 +9,7 @@ import LandingSocialBtn from "./LandingSocialBtn";
 import moment from "moment";
 import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import GoogleCalendar from "./GoogleCalendar";
+import LinkedinReg from "./LinkedinReg";
 
 const LandingPage = ({ singleEvent }) => {
   const navigate = useNavigate();
@@ -224,7 +225,7 @@ const LandingPage = ({ singleEvent }) => {
               Location
             </span>
             <span
-              className="flex items-center cursor-pointer font-normal"
+              className="flex items-center cursor-pointer font-normal mymd:w-[310px]"
               onClick={() => {
                 window.open(singleEvent.location?.landmark, "_blank");
               }}
@@ -279,11 +280,16 @@ const LandingPage = ({ singleEvent }) => {
                 navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
               }}
               style={
-                searchParams.get("tab") === "register" ? { color: "black" } : {}
+                searchParams.get("tab") === "register" ||
+                searchParams.get("tab") === "registerlinkedin"
+                  ? { color: "black" }
+                  : {}
               }
               className={
-                searchParams.get("tab") === "register" &&
-                "font-[600] underline underline-offset-8 decoration-black decoration-2"
+                searchParams.get("tab") === "register" ||
+                searchParams.get("tab") === "registerlinkedin"
+                  ? "font-[600] underline underline-offset-8 decoration-black decoration-2"
+                  : {}
               }
             >
               Register
@@ -348,6 +354,29 @@ const LandingPage = ({ singleEvent }) => {
           <div className={styles.modules_box1_render}>
             {searchParams.get("tab") === "schedule" ? (
               <LandingSchedule singleEvent={singleEvent} />
+            ) : searchParams.get("tab") === "registerlinkedin" ? (
+              isRegistered ? (
+                <div className="w-[90%] h-[450px] grid place-items-center">
+                  <div>
+                    <h3 className="text-[20px] font-[600] text-primary">
+                      Thank you for registering{" "}
+                    </h3>
+                    <p className="text-[15px] font-[500] underline pt-[6px] text-center">
+                      Please check your inbox
+                    </p>
+                    <img
+                      src="/svgs/success.svg"
+                      alt="success"
+                      className="w-[200px] h-[300px]"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <LinkedinReg
+                  setIsRegistered={setIsRegistered}
+                  isRegistered={isRegistered}
+                />
+              )
             ) : searchParams.get("tab") === "register" ? (
               isRegistered ? (
                 <div className="w-[90%] h-[450px] grid place-items-center">
@@ -403,7 +432,8 @@ const LandingPage = ({ singleEvent }) => {
         <p className="hover:text-primary">Mail Us</p>
         <p></p>
       </div>
-      {searchParams.get("tab") !== "register" ? (
+      {searchParams.get("tab") !== "register" &&
+      searchParams.get("tab") !== "registerlinkedin" ? (
         <div className="fixed bottom-0 h-[74px] z-20 w-[93%] mymd:w-[100%] flex mymd:justify-end items-center justify-center bg-white mymd:bg-transparent border shadow mymd:border-none rounded-t-xl ">
           <button
             type="submit"
