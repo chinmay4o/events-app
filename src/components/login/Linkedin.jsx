@@ -24,7 +24,7 @@ function throttle(fn, delay) {
 
 const Linkedin = () => {
   // const vercelDomain = "http://localhost:3000/";
-  const vercelDomain = "https://dev.warbay.com/";
+  const vercelDomain = "https://dev.warpbay.com/";
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
