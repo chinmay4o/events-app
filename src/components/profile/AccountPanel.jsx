@@ -189,10 +189,12 @@ function AccountPanel({ savedUserConfig }) {
                   "linkedinAccessToken"
                 );
                 localStorage.clear();
-                localStorage.setItem(
-                  "linkedinAccessToken",
-                  linkedinAccessToken
-                );
+                if (linkedinAccessToken) {
+                  localStorage.setItem(
+                    "linkedinAccessToken",
+                    linkedinAccessToken
+                  );
+                }
                 dispatch(logout());
                 dispatch({
                   type: USER_EVENTS_EMPTY,

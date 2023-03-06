@@ -23,7 +23,8 @@ function throttle(fn, delay) {
 }
 
 const Linkedin = () => {
-  const vercelDomain = "http://localhost:3000/";
+  // const vercelDomain = "http://localhost:3000/";
+  const vercelDomain = "https://dev.warpbay.com/";
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,14 +41,9 @@ const Linkedin = () => {
     scope: "r_emailaddress,r_basicprofile,w_member_social",
     // scope: "r_emailaddress,w_member_social,r_compliance",
     onSuccess: (code) => {
-      if (localStorage.getItem("linkedinAccessToken")) {
-        throttle(
-          getLinkedinAccessToken(
-            code,
-            localStorage.getItem("linkedinAccessToken")
-          ),
-          10000
-        );
+      const linkedinAccessToken = localStorage.getItem("linkedinAccessToken");
+      if (linkedinAccessToken) {
+        throttle(getLinkedinAccessToken(code, linkedinAccessToken), 10000);
       } else {
         throttle(getLinkedinAccessToken(code, null), 10000);
       }
@@ -74,42 +70,44 @@ const Linkedin = () => {
         }),
       });
 
-      let data = await response.json();
-      if (data?.newUser) {
-        localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
-        navigate(
-          `/login/userdetails?step=2&firstName=${data.firstName}&lastName=${data.lastName}&email=${data.email}`
-        );
+      if (response.status !== 200) {
+        alert("something went wrong 400");
       } else {
-        dispatch({
-          type: USER_LOGIN_SUCCESS,
-          payload: {
-            ...data.oldUser,
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
-            linkedinAccessToken: data.linkedinAccessToken,
-          },
-        });
-        //accessToken
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
-        //User
-        localStorage.setItem(
-          "user",
-          response.data.oldUser
-            ? JSON.stringify(response.data.oldUser)
-            : JSON.stringify(response.data.oldUser)
-        );
-      }
+        let data = await response.json();
+        if (data?.newUser) {
+          localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
+          navigate(
+            `/login/userdetails?step=2&firstName=${data.firstName}&lastName=${data.lastName}&email=${data.email}&linkedinAccessToken=${data.linkedinAccessToken}`
+          );
+        } else {
+          dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: {
+              ...data.oldUser,
+              accessToken: data.accessToken,
+              refreshToken: data.refreshToken,
+              linkedinAccessToken: data.linkedinAccessToken,
+            },
+          });
+          //accessToken
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.setItem("refreshToken", data.refreshToken);
+          localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
+          //User
+          localStorage.setItem(
+            "user",
+            response.data.oldUser
+              ? JSON.stringify(response.data.oldUser)
+              : JSON.stringify(response.data.oldUser)
+          );
+        }
 
-      if (data.email) {
-        console.log(data, "linkedin email");
-      } else {
-        throw new Error("Linkedin data.email not found");
+        if (data.email) {
+          console.log(data, "linkedin email");
+        } else {
+          alert("Linkedin data.email not found");
+        }
       }
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

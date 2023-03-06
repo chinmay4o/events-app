@@ -4,7 +4,7 @@ import BarChart from '../charts/BarChart05';
 // Import utilities
 import { tailwindConfig } from "../../../../utils/Utils";
 
-function FintechCard03() {
+function FintechCard03({attendees}) {
 
   const chartData = {
     labels: [
@@ -40,7 +40,7 @@ function FintechCard03() {
       </header>
       {/* Chart built with Chart.js 3 */}
       {/* Change the height attribute to adjust the chart height */}
-      <BarChart data={chartData} width={595} height={248} toolTip="Attendees"/>
+      <BarChart data={chartData} width={595} height={248} toolTip="Attendees" attendees={attendees}/>
     </div>
   );
 }
