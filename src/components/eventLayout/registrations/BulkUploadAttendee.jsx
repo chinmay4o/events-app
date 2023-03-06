@@ -86,7 +86,7 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
       return (
         Number.isInteger(mobile_number) &&
         mobile_number > 0 &&
-        `${mobile_number}`.length == 10
+        `${mobile_number}`.length === 10
       );
     });
 
@@ -132,7 +132,6 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
     }
 
     return recipients.map((recipient) => {
-      console.log(recipient, "====recipient====");
       return {
         userEmail: recipient.email,
         data: {

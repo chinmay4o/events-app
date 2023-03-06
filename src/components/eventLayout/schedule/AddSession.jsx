@@ -13,6 +13,8 @@ import moment from "moment";
 import throttle from "../../../utils/throttle";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import TimeInput from "../../../common/timeInput/TimeInput";
+import { UPDATE_EVENT } from "../../../redux/constants/eventConstants";
+import { useDispatch } from "react-redux";
 
 export default function AddSession({
   open,
@@ -39,6 +41,9 @@ export default function AddSession({
     reset,
     watch,
   } = useForm({ mode: "onChange" });
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isEdit) {
       const timeStr = new Date(singleSchedule?.startTime)
@@ -114,10 +119,12 @@ export default function AddSession({
       setscheduleTime("");
     }
   }, [event?.speakers, isEdit, open]); //Not good can trigger infinite loop
+
   const onSubmit = async (data) => {
     console.log(data);
     setIsSubmitting(true);
     if (value1.length === 0) {
+      // this is speakers array
       alert("Please select atleast one speaker");
       setIsSubmitting(false);
     } else if (!data.sessionTime) {
@@ -130,7 +137,8 @@ export default function AddSession({
           let newData = {
             ...data,
             _id: singleSchedule._id,
-            speakers: data.speakers.map((sp) => sp.value),
+            // speakers : value1.length !== 0 ? data.speakers.map((speaker) => speaker.value) : null,
+            speakers: data.speakers.map((speaker) => speaker.value),
             startTime: new Date(
               `${moment(dateValue).format("ll")}, ${data.sessionTime}`
             ).toISOString(),
@@ -149,7 +157,7 @@ export default function AddSession({
           scheduleCopy[scheduleCopy.length - 1].sessions.push({
             sessionName: data.sessionName,
             sessionDescription: data.sessionDescription,
-            speakers: data.speakers.map((sp) => sp.value),
+            speakers: data.speakers.map((speaker) => speaker.value),
             sessionTags: data.sessionTags.split(","),
             onlineSessionUrl: data.onlineSessionUrl,
             venueName: data.venueName,
@@ -177,6 +185,7 @@ export default function AddSession({
           ],
         };
       }
+
       try {
         const updatedEvent = await patchAuthenticatedRequest(
           `/event/${event._id}`,
@@ -190,8 +199,15 @@ export default function AddSession({
         updatedSchedule.forEach((day) => {
           allSessions = [...allSessions, ...day.sessions];
         });
-        // console.log(allSessions);
         setSchedule(allSessions);
+
+        dispatch({
+          type: UPDATE_EVENT,
+          payload: {
+            schedule: updatedEvent.data.savedEventConfig.schedule,
+          },
+        });
+
         setOpen(false);
         setIsEdit(false);
         setSingleSchedule({
@@ -207,6 +223,7 @@ export default function AddSession({
         setValue1([]);
         setIsSubmitting(false);
       } catch (err) {
+        console.log(err, "error from schedule");
         // scheduleCopy = [];
         setOpen(false);
         setIsSubmitting(false);
@@ -379,9 +396,10 @@ export default function AddSession({
                               id={"selectSpeaker"}
                               options={options}
                               value={value1}
-                              onChange={(o) => {
-                                setValue("speakers", o);
-                                setValue1(o);
+                              onChange={(event) => {
+                                console.log(event);
+                                setValue("speakers", event);
+                                setValue1(event);
                               }}
                             />
                           </div>

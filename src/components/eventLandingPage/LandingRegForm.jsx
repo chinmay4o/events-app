@@ -4,7 +4,7 @@ import { getRequest } from "../../../src/utils/API/api.ts";
 import styles from "./Landing.module.css";
 import axios from "axios";
 import TextInputP from "../../common/inputElements/TextInputP";
-import { useMatch } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import { FormControl } from "../eventLayout/settings2/regForm/FormControl";
 
 const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
@@ -12,6 +12,7 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const eventsid = useMatch("/event/:eventId");
+  const navigate = useNavigate();
   const formMethods = useForm();
   const {
     handleSubmit,
@@ -100,11 +101,15 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
           <input
             type="checkbox"
             id="radiobtn"
-            // onChange={() => setcatogory("public")}
-            className="mr-2 border border-[#EBEEF2] bg-white checked:bg-primary checked:border-[#EBEEF2] cursor-pointer   focus:ring-0"
-            // checked={catogory === "public" ? true : false}
+            className="mr-2 border border-[#EBEEF2] border-2 bg-white checked:bg-primary checked:border-[#EBEEF2] cursor-pointer focus:ring-0"
+            checked={false}
+            onChange={() =>
+              navigate(
+                `/event/${eventsid.params.eventId}?tab=${"registerlinkedin"}`
+              )
+            }
           />
-          <label htmlFor="radiobtn" className="flex">
+          <label htmlFor="radiobtn" className="flex cursor-pointer">
             Autofill via &nbsp;
             <img src="/svgs/linkedinblue.svg" alt="linkedin" /> &nbsp;Linkedin
           </label>

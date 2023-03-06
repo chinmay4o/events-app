@@ -37,7 +37,15 @@ const LoginUserDetails = () => {
       alert("please fill all the details");
       setIsSubmitting(false);
     } else {
-      dispatch(login({ ...data, email: email }));
+      searchParams.get("linkedinAccessToken")
+        ? dispatch(
+            login({
+              ...data,
+              email: email,
+              linkedinAccessToken: searchParams.get("linkedinAccessToken"),
+            })
+          )
+        : dispatch(login({ ...data, email: email }));
     }
   }
 

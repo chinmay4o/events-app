@@ -7,6 +7,7 @@ function TextInputP({
   required,
   type,
   register,
+  defaultValue,
   pattern,
   minLength,
   disabled = false,
@@ -15,12 +16,17 @@ function TextInputP({
   ...props
 }) {
   return (
-    <div className={props.mb? `relative mb-${props.mb}` : `relative mb-[28px]`}>
+    <div
+      className={props.mb ? `relative mb-${props.mb}` : `relative mb-[28px]`}
+    >
       <input
         type={type}
         id={id}
-        className={`${width ? `w-[${width}]` : "w-full"} peer bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+        className={`${
+          width ? `w-[${width}]` : "w-full"
+        } peer bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         {...register(id, {
           required: required,
           pattern: pattern,

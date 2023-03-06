@@ -39,13 +39,14 @@ const Schedule = ({ singleEvent }) => {
                     {new Date(session.startTime).toLocaleDateString("en-UK", {
                       month: "short",
                       day: "numeric",
-                    })}
+                    })}{" "}
+                    {session.startTime.substring(0, 4).slice(-2)}
                   </div>
                   <div className="text-[13px] font-medium py-1 text-gray-500 ">
-                    {session?.sessionDescription.split("").length > 500 ? (
-                      <>{session?.sessionDescription.slice(0, 500)}...</>
+                    {session?.sessionDescription.split("").length > 400 ? (
+                      <>{session?.sessionDescription.slice(0, 400)}...</>
                     ) : (
-                      session?.sessionDescription.slice(0, 500)
+                      session?.sessionDescription.slice(0, 400)
                     )}
                   </div>
 
@@ -83,12 +84,17 @@ const Schedule = ({ singleEvent }) => {
                           } else {
                             return (
                               <>
-                                <div className="flex items-center text-[13px] font-medium text-[#1C1C1E]">
-                                  {" "}
-                                  <img
-                                    src="/svgs/profile.svg"
-                                    className="w-[25px] h-[25px] object-cover mr-2"
-                                  />
+                                <div className="flex items-center text-[13px] font-medium text-[#1C1C1E] mb-2">
+                                  <div class="w-[25px] h-[25px] rounded-full bg-primary flex items-center justify-center mr-2 text-white text-sm font-medium">
+                                    {singleEvent.speakers[i].firstName.slice(
+                                      0,
+                                      1
+                                    )}
+                                    {singleEvent.speakers[i].lastName.slice(
+                                      0,
+                                      1
+                                    )}
+                                  </div>{" "}
                                   {singleEvent.speakers[i].firstName}{" "}
                                   {singleEvent.speakers[i].lastName},{" "}
                                   {singleEvent.speakers[i].jobTitle},{" "}

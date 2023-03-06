@@ -185,7 +185,16 @@ function AccountPanel({ savedUserConfig }) {
             <div
               className={`cursor-pointer w-[140px] bg-danger text-[16px] grid place-items-center h-[40px] rounded-[8px] text-[#fff] font-[600] mt-[30px] mx-auto`}
               onClick={() => {
+                let linkedinAccessToken = localStorage.getItem(
+                  "linkedinAccessToken"
+                );
                 localStorage.clear();
+                if (linkedinAccessToken) {
+                  localStorage.setItem(
+                    "linkedinAccessToken",
+                    linkedinAccessToken
+                  );
+                }
                 dispatch(logout());
                 dispatch({
                   type: USER_EVENTS_EMPTY,

@@ -175,6 +175,23 @@ body {
   --daysWidth: calc(var(--daySize) * 7);
 }
 
+.bgWhite {
+  background: white;
+  box-shadow: 0px 3px 6px 0px #cacaca;
+}
+
+.customBtn {
+  border-radius: 0px;
+  padding: 10px;
+}
+
+/* form input {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+} */
+
 @keyframes fpFadeInDown {
   from {
     opacity: 0;
@@ -194,6 +211,13 @@ body {
     );
     padding: var(--calendarPadding);
     width: calc(var(--daysWidth) + calc(var(--calendarPadding) * 2));
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
   }
 
   @screen lg {
