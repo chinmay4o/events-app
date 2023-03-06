@@ -82,6 +82,7 @@ const LinkedinReg = ({ setIsRegistered }) => {
       }
     } catch (error) {
       console.log(error);
+      navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
     }
   }
 
@@ -110,7 +111,7 @@ const LinkedinReg = ({ setIsRegistered }) => {
           <img src="/svgs/linkedinblue.svg" alt="linkedin" /> &nbsp;Linkedin
         </label>
       </div>
-      {linkData.firstName ? (
+      {linkData?.firstName ? (
         <LinkedinRegForm
           linkData={linkData}
           setIsRegistered={setIsRegistered}
