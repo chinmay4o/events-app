@@ -212,18 +212,14 @@ function CheckinAttendees({ setEventTitle }) {
             </button>
           </li>
           <li className="m-1">
-            <a
-              href={`/events/${
-                eventsid.params.eventId
-              }/registrations?tab=${"CheckedIn"}`}
-              target="_blank"
-              // onClick={() => {
-              //   navigate(
-              //     `/events/${
-              //       eventsid.params.eventId
-              //     }/registrations?tab=${"CheckedIn"}`
-              //   );
-              // }}
+            <button
+              onClick={() => {
+                navigate(
+                  `/events/${
+                    eventsid.params.eventId
+                  }/registrations?tab=${"CheckedIn"}`
+                );
+              }}
               className={`inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border shadow-sm ${
                 tab === "CheckedIn"
                   ? "border-transparent  bg-primary text-white "
@@ -231,7 +227,7 @@ function CheckinAttendees({ setEventTitle }) {
               } duration-150 ease-in-out`}
             >
               Checked In
-            </a>
+            </button>
           </li>
           <li className="m-1">
             <button
