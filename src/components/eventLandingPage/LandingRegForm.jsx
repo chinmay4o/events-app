@@ -101,7 +101,7 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
           <input
             type="checkbox"
             id="radiobtn"
-            className="mr-2 border border-[#EBEEF2] bg-white checked:bg-primary checked:border-[#EBEEF2] cursor-pointer   focus:ring-0"
+            className="mr-2 border border-[#EBEEF2] border-2 bg-white checked:bg-primary checked:border-[#EBEEF2] cursor-pointer focus:ring-0"
             checked={false}
             onChange={() =>
               navigate(
