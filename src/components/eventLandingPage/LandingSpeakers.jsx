@@ -8,41 +8,49 @@ const LandingSpeakers = ({ singleEvent }) => {
         singleEvent.speakers.map((speakerData, key) => (
           <>
             <div className={styles.single_speaker_tab} key={key}>
-              <div className="flex">
-                <img
-                  src={
-                    speakerData.profilePicture
-                      ? speakerData.profilePicture
-                      : "/svgs/profile.svg"
-                  }
-                  className="rounded-full sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] object-cover mr-3"
-                />
+              <div className="flex items-center">
+                {speakerData.profilePicture ? (
+                  <img
+                    src={speakerData.profilePicture}
+                    className="rounded-full sm:w-[40px] sm:h-[40px] w-[40px] h-[40px] object-cover mr-3"
+                  />
+                ) : (
+                  <div class="sm:w-[40px] sm:h-[40px] w-[40px] h-[40px] rounded-full bg-primary flex items-center justify-center mr-2 text-white text-lg font-medium">
+                    {speakerData.firstName.slice(0, 1)}
+                    {speakerData.lastName.slice(0, 1)}
+                  </div>
+                )}
+
                 <div className="">
                   <div className="sm:text-[14px] text-[13px] font-semibold pt-[5px] ">
                     {speakerData.firstName} {speakerData.lastName}
                   </div>
-                  <div className="text-[10px] font-medium py-[0px] text-gray-500">
+                  <div className="text-[12px] font-medium py-[0px] text-gray-500">
                     {speakerData.jobTitle}, {speakerData.organization}
                   </div>
                 </div>
               </div>
-              <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 h-19">
+              <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 min-h-[80px]">
                 {speakerData.speaker.eventSpecificData[0].bio.split("").length >
-                200 ? (
+                150 ? (
                   <>
-                    {speakerData.speaker.eventSpecificData[0].bio.slice(0, 200)}
+                    {speakerData.speaker.eventSpecificData[0].bio.slice(0, 150)}
                     ...
                   </>
                 ) : (
                   <>
                     {" "}
-                    {speakerData.speaker.eventSpecificData[0].bio.slice(0, 200)}
+                    {speakerData.speaker.eventSpecificData[0].bio.slice(0, 150)}
                   </>
                 )}
               </div>
-              <div className="mymd:mt-3 mt-3">
+              <div className="mymd:mt-3 mt-0">
                 <span className="flex items-center cursor-pointer text-[#0E76A8] text-base font-bold ">
-                  <a href="#" className="flex">
+                  <a
+                    href={speakerData.linkedinUrl}
+                    className="flex"
+                    target="_blank"
+                  >
                     <img
                       src="/svgs/linkedinblue.svg"
                       alt="share"
@@ -56,7 +64,18 @@ const LandingSpeakers = ({ singleEvent }) => {
           </>
         ))
       ) : (
-        <p className="text-[12px] font-[600]">Loading...</p>
+        <div className="grid w-full place-items-center h-[250px]">
+          <div>
+            <img
+              src="/svgs/nullState.svg"
+              alt=""
+              className="w-[200px] h-[200px]"
+            />
+            <p className="text-[15px] font-[500] text-[#717171]  text-center">
+              Nothing here...
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

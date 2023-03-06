@@ -9,6 +9,8 @@ import LandingSocialBtn from "./LandingSocialBtn";
 import moment from "moment";
 import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import GoogleCalendar from "./GoogleCalendar";
+import LinkedinReg from "./LinkedinReg";
+import LandingSponsors from "./LandingSponsors";
 
 const LandingPage = ({ singleEvent }) => {
   const navigate = useNavigate();
@@ -20,13 +22,28 @@ const LandingPage = ({ singleEvent }) => {
   const eventsid = useMatch("/event/:eventId");
   const [searchParams] = useSearchParams();
   const [googleCal, setGoogleCal] = useState(false);
+  const [eventStatus, setEventStatus] = useState("upcoming");
+
   const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
   const optionsWeekDay = { weekday: "long" }; // imp gets Friday, November 18, 2022
-
   useEffect(() => {
     navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
   }, []);
-
+  useEffect(() => {
+    const eventStart = new Date("2023-03-06T07:45:00.000Z");
+    const eventEnd = new Date("2023-03-06T17:15:00.000Z");
+    const now = new Date();
+    console.log(now);
+    if (now > eventEnd) {
+      const hoursSinceEnd = (now - eventEnd) / (1000 * 60 * 60);
+      if (hoursSinceEnd < 1) {
+        setEventStatus("ended");
+      } else {
+        setEventStatus("ended and more than an hour");
+      }
+    }
+  }, []);
+  console.log(eventStatus);
   useEffect(() => {
     if (popup) {
       document.body.style.overflow = "hidden";
@@ -45,7 +62,6 @@ const LandingPage = ({ singleEvent }) => {
     setPopup(false);
     setCopied("");
   };
-  console.log(googleCal);
   return (
     <div className="pt-0 mymd:pt-18 mymd:mb-0 mx-auto mymd:grid place-items-center w-[93vw] mymd:max-w-[1440px] mymd:w-full mb-[100px] ">
       {/* {share Popup} */}
@@ -59,10 +75,12 @@ const LandingPage = ({ singleEvent }) => {
             <div className="h-[35px] font-semibold text-[20px] border-b-2 outline-offset-4 relative">
               Share This Event
               <span
-                className="absolute right-0 rounded-full bg-gray-200 cursor-pointer"
+                className="absolute right-0 rounded-full bg-gray-200 cursor-pointer w-[28px] h-[28px]"
                 onClick={closeCopy}
               >
-                <img src="/svgs/close.svg" alt="close" className="w-[22px] " />
+                <div className="flex justify-center items-center text-gray-800 w-[28px] h-[28px]">
+                  x
+                </div>
               </span>
               <div className="h-[85px] flex justify-evenly items-center mt-2">
                 <LandingSocialBtn />
@@ -161,10 +179,10 @@ const LandingPage = ({ singleEvent }) => {
         <img
           src={singleEvent?.coverImage}
           alt=""
-          className={"w-full h-full rounded-md"}
+          className={"w-full h-full rounded-md object-cover"}
         />
       </div>
-      <div className="mymd:sticky z-20 top-[65px] bg-white">
+      <div className="bg-white">
         {/* {event blocks} */}
         <div className="mymd:flex justify-between mymd:h-[136px] mymd:w-[824px] w-[100%] mymd:mb-4">
           {/* {1st item} */}
@@ -173,19 +191,20 @@ const LandingPage = ({ singleEvent }) => {
               Event By
             </span>
             <div className="flex items-center mymd:mt-2">
-              <img
-                src={
-                  singleEvent.organizer?.profilePicture
-                    ? singleEvent.organizer.profilePicture
-                    : "/svgs/profile.svg"
-                }
-                alt="user"
-                className="border h-9 w-9 rounded-full object-cover mr-2"
-              />
+              {singleEvent.organizer?.profilePicture ? (
+                <img
+                  src={singleEvent.organizer.profilePicture}
+                  alt="user"
+                  className="border h-9 w-9 rounded-full object-cover mr-2"
+                />
+              ) : (
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center mr-2 text-white text-lg font-medium">
+                  {singleEvent.organizer.organization.charAt(0)}
+                </div>
+              )}
               <span className="truncate font-normal">
                 {" "}
-                {singleEvent.organizer.firstName}{" "}
-                {singleEvent.organizer.lastName}
+                {singleEvent.organizer.organization}
               </span>
             </div>
           </div>
@@ -224,16 +243,15 @@ const LandingPage = ({ singleEvent }) => {
               Location
             </span>
             <span
-              className="flex items-center cursor-pointer font-normal"
+              className="flex cursor-pointer font-normal mymd:w-[302px] text-primary underline mymd: mt-[10px]"
               onClick={() => {
                 window.open(singleEvent.location?.landmark, "_blank");
               }}
             >
-              {" "}
               <img
                 src="/svgs/Location.svg"
                 alt="location"
-                className="mr-2 my-5 truncate"
+                className="mr-1 h-[24px]"
               />
               {singleEvent.location?.addressLine1},{" "}
               {singleEvent.location?.pincode}, {singleEvent.location?.city},{" "}
@@ -279,11 +297,16 @@ const LandingPage = ({ singleEvent }) => {
                 navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
               }}
               style={
-                searchParams.get("tab") === "register" ? { color: "black" } : {}
+                searchParams.get("tab") === "register" ||
+                searchParams.get("tab") === "registerlinkedin"
+                  ? { color: "black" }
+                  : {}
               }
               className={
-                searchParams.get("tab") === "register" &&
-                "font-[600] underline underline-offset-8 decoration-black decoration-2"
+                searchParams.get("tab") === "register" ||
+                searchParams.get("tab") === "registerlinkedin"
+                  ? "font-[600] underline underline-offset-8 decoration-black decoration-2"
+                  : {}
               }
             >
               Register
@@ -332,6 +355,20 @@ const LandingPage = ({ singleEvent }) => {
             </div>
             <div
               onClick={() => {
+                navigate(`/event/${eventsid.params.eventId}?tab=${"sponsors"}`);
+              }}
+              style={
+                searchParams.get("tab") === "sponsors" ? { color: "black" } : {}
+              }
+              className={
+                searchParams.get("tab") === "sponsors" &&
+                "font-[600] underline underline-offset-8 decoration-black decoration-2"
+              }
+            >
+              Sponsors
+            </div>
+            <div
+              onClick={() => {
                 navigate(`/event/${eventsid.params.eventId}?tab=${"contact"}`);
               }}
               style={
@@ -348,21 +385,82 @@ const LandingPage = ({ singleEvent }) => {
           <div className={styles.modules_box1_render}>
             {searchParams.get("tab") === "schedule" ? (
               <LandingSchedule singleEvent={singleEvent} />
+            ) : searchParams.get("tab") === "registerlinkedin" ? (
+              isRegistered ? (
+                <div className="mymd:w-[600px] w-[100%] h-[450px] pt-2">
+                  <div className="flex">
+                    <img
+                      src="/svgs/Checkcircle.svg"
+                      alt="check"
+                      className="mr-1 rounded-full m-[-4px]"
+                    />
+                    <div className="text-[16px]">
+                      You have successfully registered for RIIDL’s Winter Cohort
+                      2023 !
+                      <br />
+                      Please use this QR code to check-in to the event.
+                    </div>
+                  </div>
+                  <span
+                    className="flex items-center justify-center cursor-pointer cursor-pointer border w-[170px] h-[40px] rounded border-primary ml-12 mb-7 mt-3"
+                    onClick={() => setGoogleCal(true)}
+                  >
+                    <img
+                      src="/svgs/calendar_monthcalendar.svg"
+                      alt="calender"
+                      className="mr-2"
+                    />
+                    Add to calender
+                  </span>
+                  You will also receive an invite on your submitted email ID.
+                  <br />
+                  <div className="mt-3">
+                    Did not receive? Please check your spam folder.
+                    <br />
+                    Or{" "}
+                    <span className="text-primary font-normal	underline cursor-pointer">
+                      click here to resend the invite
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <LinkedinReg
+                  setIsRegistered={setIsRegistered}
+                  isRegistered={isRegistered}
+                />
+              )
             ) : searchParams.get("tab") === "register" ? (
               isRegistered ? (
-                <div className="w-[90%] h-[450px] grid place-items-center">
-                  <div>
-                    <h3 className="text-[20px] font-[600] text-primary">
-                      Thank you for registering{" "}
-                    </h3>
-                    <p className="text-[15px] font-[500] underline pt-[6px] text-center">
-                      Please check your inbox
-                    </p>
+                <div className="mymd:w-[600px] w-[100%] h-[450px] pt-2">
+                  <div className="flex">
                     <img
-                      src="/svgs/success.svg"
-                      alt="success"
-                      className="w-[200px] h-[300px]"
+                      src="/svgs/Checkcircle.svg"
+                      alt="check"
+                      className="mr-1 rounded-full m-[-4px]"
                     />
+                    <div className="text-[16px]">
+                      You have successfully registered for RIIDL’s Winter Cohort
+                      2023 !
+                      <br />
+                      Please use this QR code to check-in to the event.
+                    </div>
+                  </div>
+                  <span
+                    className="flex items-center justify-center cursor-pointer cursor-pointer border w-[170px] h-[40px] rounded border-primary ml-12 mb-7 mt-3"
+                    onClick={() => setGoogleCal(true)}
+                  >
+                    <img
+                      src="/svgs/calendar_monthcalendar.svg"
+                      alt="calender"
+                      className="mr-2"
+                    />
+                    Add to calender
+                  </span>
+                  You will also receive an invite on your submitted email ID.
+                  <br />
+                  <div className="mt-3">
+                    Did not receive? Please check your spam folder.
+                    <br />
                   </div>
                 </div>
               ) : (
@@ -373,6 +471,8 @@ const LandingPage = ({ singleEvent }) => {
               )
             ) : searchParams.get("tab") === "speakers" ? (
               <LandingSpeakers singleEvent={singleEvent} />
+            ) : searchParams.get("tab") === "sponsors" ? (
+              <LandingSponsors singleEvent={singleEvent} />
             ) : searchParams.get("tab") === "contact" ? (
               <LandingHost singleEvent={singleEvent} />
             ) : searchParams.get("tab") === "about" ? (
@@ -403,7 +503,8 @@ const LandingPage = ({ singleEvent }) => {
         <p className="hover:text-primary">Mail Us</p>
         <p></p>
       </div>
-      {searchParams.get("tab") !== "register" ? (
+      {searchParams.get("tab") !== "register" &&
+      searchParams.get("tab") !== "registerlinkedin" ? (
         <div className="fixed bottom-0 h-[74px] z-20 w-[93%] mymd:w-[100%] flex mymd:justify-end items-center justify-center bg-white mymd:bg-transparent border shadow mymd:border-none rounded-t-xl ">
           <button
             type="submit"

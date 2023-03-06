@@ -1,21 +1,20 @@
 import React, { useRef, useEffect } from 'react';
 
 import {
-  Chart, BarController, BarElement, LinearScale, TimeScale, Tooltip, Legend,
+  Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip,
 } from 'chart.js';
 import 'chartjs-adapter-moment';
 
 // Import utilities
-import { tailwindConfig, formatValue } from "../../../../utils/Utils";
+import { tailwindConfig } from '../../../../utils/Utils';
 
-Chart.register(BarController, BarElement, LinearScale, TimeScale, Tooltip, Legend);
+Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip);
 
-function BarChart05({
+function LineChart05({
   data,
   width,
   height,
-  toolTip,
-  attendees
+  toolTip
 }) {
 
   const canvas = useRef(null);
@@ -25,29 +24,32 @@ function BarChart05({
     const ctx = canvas.current;
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: data,
       options: {
         layout: {
-          padding: {
-            top: 12,
-            bottom: 16,
-            left: 20,
-            right: 20,
-          },
+          padding: 20,
         },
         scales: {
           y: {
+            beginAtZero: true,
             grid: {
               drawBorder: false,
             },
             ticks: {
-              maxTicksLimit: 5,
-              // callback: (value) => formatValue(value),
-              callback: (value) => value,
+              maxTicksLimit: 7,
+              callback: (value) => `${value}`,
             },
           },
           x: {
+            // type: 'time',
+            // time: {
+            //   parser: 'MM-DD-YYYY',
+            //   unit: 'month',
+            //   displayFormats: {
+            //     month: 'MMM YY',
+            //   },
+            // },
             type: 'time',
             time: {
               parser: 'MM-DD-YYYY',
@@ -60,6 +62,10 @@ function BarChart05({
               display: false,
               drawBorder: false,
             },
+            ticks: {
+              autoSkipPadding: 48,
+              maxRotation: 0,
+            },
           },
         },
         plugins: {
@@ -69,17 +75,13 @@ function BarChart05({
           tooltip: {
             callbacks: {
               title: () => toolTip, // Disable tooltip title
-              // label: (context) => formatValue(context.parsed.y),
-              label: (context) => context.parsed.y,
+              label: (context) => `${context.parsed.y}`,
             },
           },
         },
         interaction: {
           intersect: false,
           mode: 'nearest',
-        },
-        animation: {
-          duration: 500,
         },
         maintainAspectRatio: false,
         resizeDelay: 200,
@@ -98,7 +100,7 @@ function BarChart05({
             const items = c.options.plugins.legend.labels.generateLabels(c);
             items.forEach((item) => {
               const li = document.createElement('li');
-              li.style.marginRight = tailwindConfig().theme.margin[4];
+              li.style.marginLeft = tailwindConfig().theme.margin[3];
               // Button element
               const button = document.createElement('button');
               button.style.display = 'inline-flex';
@@ -116,9 +118,9 @@ function BarChart05({
               box.style.borderRadius = tailwindConfig().theme.borderRadius.full;
               box.style.marginRight = tailwindConfig().theme.margin[2];
               box.style.borderWidth = '3px';
-              box.style.borderColor = item.fillStyle;
+              box.style.borderColor = c.data.datasets[item.datasetIndex].borderColor;
               box.style.pointerEvents = 'none';
-              // Labelx
+              // Label
               const label = document.createElement('span');
               label.style.color = tailwindConfig().theme.colors.slate[500];
               label.style.fontSize = tailwindConfig().theme.fontSize.sm[0];
@@ -135,22 +137,25 @@ function BarChart05({
       ],
     });
     return () => chart.destroy();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <React.Fragment>
       <div className="px-5 py-3">
-        <div className="flex flex-wrap justify-between items-center">
+        <div className="flex flex-wrap justify-between items-end">
           <div className="flex items-center">
-            <div className="text-3xl font-bold text-slate-800 mr-2">{attendees}</div>
-            <div className="text-sm">total</div>
+            {/* <div className="text-3xl font-bold text-slate-800 mr-2">244.7%</div> */}
+            <div className="text-sm">
+              <span className="font-medium text-slate-800">17.4%</span> AVG
+            </div>
           </div>
-          <div className="grow ml-2">
-            <ul ref={legend} className="flex flex-wrap justify-end"></ul>
+          <div className="grow ml-2 mb-1">
+            <ul ref={legend} className="flex flex-wrap justify-end" />
           </div>
         </div>
       </div>
+      {/* Chart built with Chart.js 3 */}
       <div className="grow">
         <canvas ref={canvas} width={width} height={height}></canvas>
       </div>
@@ -158,4 +163,4 @@ function BarChart05({
   );
 }
 
-export default BarChart05;
+export default LineChart05;
