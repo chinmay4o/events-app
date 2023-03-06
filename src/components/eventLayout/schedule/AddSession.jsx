@@ -39,6 +39,7 @@ export default function AddSession({
     reset,
     watch,
   } = useForm({ mode: "onChange" });
+  
   useEffect(() => {
     if (isEdit) {
       const timeStr = new Date(singleSchedule?.startTime)

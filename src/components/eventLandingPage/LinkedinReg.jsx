@@ -23,7 +23,8 @@ function throttle(fn, delay) {
 }
 
 const LinkedinReg = ({ setIsRegistered }) => {
-  const vercelDomain = "http://localhost:3000/";
+  // const vercelDomain = "http://localhost:3000/";
+  const vercelDomain = "https://dev.warpbay.com/";
   const [isChecked, setIsChecked] = useState(true);
   const [linkData, setlinkData] = useState({});
   const navigate = useNavigate();
@@ -67,6 +68,10 @@ const LinkedinReg = ({ setIsRegistered }) => {
             : null,
         }),
       });
+
+      if(response.status !== 200) {
+        alert("something went wrong!!")
+      }
 
       let data = await response.json();
 
