@@ -51,7 +51,7 @@ function Registrations() {
     const response = await getRequest(route || next);
 
     if (
-      registrations.length == 0 &&
+      registrations.length === 0 &&
       (searchValue.value === "" || searchValue.value === " ")
     ) {
       setRegistrations(response.data.attendees);
