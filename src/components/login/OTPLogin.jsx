@@ -18,8 +18,9 @@ const OTPLogin = (props) => {
                     size="1"
                     id="digit-1"
                     key="1"
+                    autoFocus
                     value={otp[0]}
-                    autocomplete="off"
+                    autoComplete="off"
                     onChange={handleChange}
                   />
                   <input
@@ -31,7 +32,7 @@ const OTPLogin = (props) => {
                     key="2"
                     size="1"
                     value={otp[1]}
-                    autocomplete="off"
+                    autoComplete="off"
                     onChange={handleChange}
                   />
                   <input
@@ -43,7 +44,7 @@ const OTPLogin = (props) => {
                     id="digit-3"
                     key="3"
                     value={otp[2]}
-                    autocomplete="off"
+                    autoComplete="off"
                     onChange={handleChange}
                   />
                   <input
@@ -55,7 +56,7 @@ const OTPLogin = (props) => {
                     key="4"
                     size="1"
                     value={otp[3]}
-                    autocomplete="off"
+                    autoComplete="off"
                     onChange={handleChange}
                   />
                 </div>
