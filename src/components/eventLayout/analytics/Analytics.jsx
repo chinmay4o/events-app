@@ -105,9 +105,9 @@ const Analytics = () => {
     console.log(singleEvent, "from Analytics");
     getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
     getAttendedAttendees();
-    if (singleEvent.exhibitorAndSponsor?.length) {
-      setExhibitors(singleEvent.exhibitorAndSponsors);
-    }
+    // if (singleEvent.exhibitorAndSponsor?.length) {
+    //   setExhibitors(singleEvent.exhibitorAndSponsors);
+    // }
   }, []);
 
   useEffect(() => {
