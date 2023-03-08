@@ -886,3 +886,7 @@ body {
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
 }
+
+.react-date-picker__clear-button__icon{
+  display: none !important;
+}
