@@ -139,6 +139,15 @@ function EventHome() {
               />
               <div className="w-auto bg-[#F4F6F9] rounded-xl text-black px-3 py-1 font-semibold absolute bottom-[10px] left-[10px] text-[11px]">
                 {moment(singleEvent.startDate).format("LLL")}
+                {/* {new Date(singleEvent.endDate).toLocaleDateString("en-IN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                  timeZone: "Asia/Kolkata",
+                })} */}
               </div>
             </div>
             <div className="flex w-[335px] md:w-[422px] mt-5 mx-auto md:mx-0">

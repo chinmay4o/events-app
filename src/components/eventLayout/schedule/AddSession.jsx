@@ -123,7 +123,14 @@ export default function AddSession({
   const onSubmit = async (data) => {
     console.log(data);
     setIsSubmitting(true);
-    if (value1.length === 0) {
+    if (
+      new Date(
+        `${moment(dateValue).format("ll")}, ${data.sessionTime}`
+      ).toISOString() < event.startDate
+    ) {
+      alert("Please select valid time!");
+      setIsSubmitting(false);
+    } else if (value1.length === 0) {
       // this is speakers array
       alert("Please select atleast one speaker");
       setIsSubmitting(false);
@@ -374,7 +381,17 @@ export default function AddSession({
                                 onChange={(value) => setDateValue(value)}
                                 value={dateValue}
                                 minDate={new Date(event.startDate)}
+                                // minDate={new Date(
+                                //   event.startDate
+                                // ).toLocaleDateString("en-IN", {
+                                //   timeZone: "Asia/Kolkata",
+                                // })}
                                 maxDate={new Date(event.endDate)}
+                                // maxDate={new Date(
+                                //   event.endDate
+                                // ).toLocaleDateString("en-IN", {
+                                //   timeZone: "Asia/Kolkata",
+                                // })}
                                 format="dMMMy"
                               />
                             </div>

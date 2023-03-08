@@ -9,6 +9,7 @@ import TextInputPD from "../../../common/inputElements/TextInputPD";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import TimeInput from "../../../common/timeInput/TimeInput";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../../../common/inputElements/TextInput";
 
 const CreateEvent = (props) => {
   const navigate = useNavigate();
@@ -17,6 +18,14 @@ const CreateEvent = (props) => {
     startDate: new Date(),
     endDate: new Date(),
   });
+  const [date, setDate] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
+
+  useEffect(() => {
+    console.log(date, "f + date");
+  }, [date.startDate, date.endDate]);
 
   const [event, setEvent] = useState({
     title: "Globoil India 2022",
@@ -71,11 +80,12 @@ const CreateEvent = (props) => {
       setEvent((prevState) => {
         return { ...prevState, ...data };
       });
-
+      console.log(date, "date = 12");
       dispatch({
         type: CARRY_EVENT,
         payload: {
-          newEvent: { ...data, ...dateValue },
+          newEvent: { ...data, ...date },
+          // newEvent: { ...data, ...dateValue },
         },
       });
 
@@ -99,7 +109,7 @@ const CreateEvent = (props) => {
             <ProgressBar width="25" />
             <div className=""></div>
 
-            <TextInputPD
+            <TextInput
               type="text"
               placeholder="Event Name"
               id="title"
@@ -118,12 +128,24 @@ const CreateEvent = (props) => {
                   Start Date
                 </label>
                 <DatePicker
-                  onChange={(value) =>
-                    setDateValue({ ...dateValue, startDate: value })
-                  }
+                  onChange={(value) => {
+                    console.log(value, "+ startdate");
+                    const date = new Date(value);
+                    date.setHours(5, 30, 0, 0);
+                    let isoString = date.toISOString();
+                    console.log(isoString, "isoString + startdate");
+                    // setDate({ ...date, startDate: isoString });
+                    setDate((prev => {
+                      return {
+                        ...prev,  startDate: isoString 
+                      }
+                    }));
+                    setDateValue({ ...dateValue, startDate: value });
+                  }}
                   value={dateValue.startDate}
                   minDate={new Date()}
                   format="dMMMy"
+                  // locale="hu-HU"
                 />
               </div>
 
@@ -144,12 +166,25 @@ const CreateEvent = (props) => {
                   End Date
                 </label>
                 <DatePicker
-                  onChange={(value) =>
-                    setDateValue({ ...dateValue, endDate: value })
-                  }
+                  onChange={(value) => {
+                    console.log(value, "+ endDate");
+                    const date = new Date(value);
+                    date.setHours(5, 30, 0, 0);
+
+                    let isoString = date.toISOString();
+                    console.log(isoString, "isoString + endDate");
+                    // setDate({startDate: date.startDate, endDate: isoString });
+                    setDate((prev => {
+                      return {
+                        ...prev,  endDate: isoString 
+                      }
+                    }));
+                    setDateValue({ ...dateValue, endDate: value });
+                  }}
                   value={dateValue.endDate}
                   minDate={dateValue.startDate}
                   format="dMMMy"
+                  // locale="hu-HU"
                 />
               </div>
               <TimeInput
