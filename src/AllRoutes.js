@@ -24,6 +24,7 @@ import Settings from "./components/eventLayout/settings/Settings";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import EventsID from "./pages/events/EventsID";
 import LinkedIn from "./pages/linkedin/Linkedin";
+import LinkedinAutoPost from "./components/eventLayout/communications/marketing/LinkedinAutoPost";
 // import EmailMarketing from "./components/eventLayout/communications/EmailMarketing";
 
 const AllRoutes = () => {
@@ -49,6 +50,10 @@ const AllRoutes = () => {
       <Route
         path="/events/:eventId/settings/formbuilder"
         element={<FormBuilder />}
+      />
+      <Route
+        path="/events/:eventId/communications/linkedin-marketing"
+        element={<LinkedinAutoPost />}
       />
       {/* <Route
         path="/events/:eventId/communications/eventmarketing"

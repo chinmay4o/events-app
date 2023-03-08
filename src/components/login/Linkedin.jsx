@@ -87,12 +87,14 @@ const Linkedin = () => {
               accessToken: data.accessToken,
               refreshToken: data.refreshToken,
               linkedinAccessToken: data.linkedinAccessToken,
+              linkedinURNId: data.linkedinURNId,
             },
           });
           //accessToken
           localStorage.setItem("accessToken", data.accessToken);
           localStorage.setItem("refreshToken", data.refreshToken);
           localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
+          localStorage.setItem("linkedinURNId", data.linkedinURNId);
           //User
           localStorage.setItem(
             "user",

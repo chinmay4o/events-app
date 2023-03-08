@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useMatch, useNavigate } from "react-router-dom";
 
 function Settings() {
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
 
   const navigate = useNavigate();
   const singleEvent = useSelector((state) => state.eventData);
@@ -21,7 +21,7 @@ function Settings() {
         <div
           className="flex items-center justify-between pb-2 border-b-2"
           onClick={() => {
-            navigate(`/events/${eventsid.params.eventId}/settings/formbuilder`);
+            navigate(`/events/${eventsId.params.eventId}/settings/formbuilder`);
           }}
         >
           <div className="flex items-center">
