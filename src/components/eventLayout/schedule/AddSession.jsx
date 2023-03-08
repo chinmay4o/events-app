@@ -130,26 +130,32 @@ export default function AddSession({
     ) {
       alert("Please select valid time!");
       setIsSubmitting(false);
-    } else if (value1.length === 0) {
-      // this is speakers array
-      alert("Please select atleast one speaker");
-      setIsSubmitting(false);
-    } else if (!data.sessionTime) {
+    }  else if (!data.sessionTime) {
       alert("Please select time for the session");
       setIsSubmitting(false);
     } else {
       let scheduleCopy = event.schedule || [];
       if (scheduleCopy && scheduleCopy.length > 0) {
         if (singleSchedule.sessionName !== "" && isEdit) {
-          let newData = {
-            ...data,
-            _id: singleSchedule._id,
-            // speakers : value1.length !== 0 ? data.speakers.map((speaker) => speaker.value) : null,
-            speakers: data.speakers.map((speaker) => speaker.value),
-            startTime: new Date(
-              `${moment(dateValue).format("ll")}, ${data.sessionTime}`
-            ).toISOString(),
-          };
+          let newData;
+          if (value1.length !== 0) { // removing speakers array if its not present
+            newData = {
+              ...data,
+              _id: singleSchedule._id,
+              speakers: data.speakers.map((speaker) => speaker.value),
+              startTime: new Date(
+                `${moment(dateValue).format("ll")}, ${data.sessionTime}`
+              ).toISOString(),
+            };
+          } else {
+            newData = {
+              ...data,
+              _id: singleSchedule._id,
+              startTime: new Date(
+                `${moment(dateValue).format("ll")}, ${data.sessionTime}`
+              ).toISOString(),
+            };
+          }
           let newscheduleCopy = scheduleCopy[
             scheduleCopy.length - 1
           ].sessions.filter((item) => {
@@ -164,7 +170,7 @@ export default function AddSession({
           scheduleCopy[scheduleCopy.length - 1].sessions.push({
             sessionName: data.sessionName,
             sessionDescription: data.sessionDescription,
-            speakers: data.speakers.map((speaker) => speaker.value),
+            speakers: data.speakers.length > 0 ? data.speakers.map((speaker) => speaker.value) : [],
             sessionTags: data.sessionTags.split(","),
             onlineSessionUrl: data.onlineSessionUrl,
             venueName: data.venueName,
@@ -182,7 +188,7 @@ export default function AddSession({
             {
               sessionName: data.sessionName,
               sessionDescription: data.sessionDescription,
-              speakers: data.speakers.map((sp) => sp.value),
+              speakers: data.speakers.length > 0 ? data.speakers.map((speaker) => speaker.value) : [],
               sessionTags: data.sessionTags.split(","),
               venueName: data.venueName,
               startTime: new Date(
