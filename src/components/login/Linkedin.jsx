@@ -43,9 +43,9 @@ const Linkedin = () => {
     onSuccess: (code) => {
       const linkedinAccessToken = localStorage.getItem("linkedinAccessToken");
       if (linkedinAccessToken) {
-        throttle(getLinkedinAccessToken(code, linkedinAccessToken), 10000);
+        throttle(() => getLinkedinAccessToken(code, linkedinAccessToken), 10000);
       } else {
-        throttle(getLinkedinAccessToken(code, null), 10000);
+        throttle(() => getLinkedinAccessToken(code, null), 10000);
       }
     },
     onError: (error) => {
@@ -76,6 +76,7 @@ const Linkedin = () => {
         let data = await response.json();
         if (data?.newUser) {
           localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
+          localStorage.setItem("linkedinURNId", data.linkedinURNId ? data.linkedinURNId : null);
           navigate(
             `/login/userdetails?step=2&firstName=${data.firstName}&lastName=${data.lastName}&email=${data.email}&linkedinAccessToken=${data.linkedinAccessToken}`
           );
