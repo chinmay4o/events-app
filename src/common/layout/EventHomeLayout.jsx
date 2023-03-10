@@ -5,10 +5,11 @@ import DemoEventBar from "../../components/eventLayout/DemoEventBar";
 import EventLayout from "../../components/eventLayout/EventLayout";
 import { useMatch } from "react-router-dom";
 import RegForm from "../../components/eventLayout/settings/RegForm/RegForm";
+import LinkedinAutoPost from "../../components/eventLayout/communications/marketing/LinkedinAutoPost";
 
 const EventHomeLayout = () => {
-  const FORMBUILDER = useMatch("/events/:eventId/settings/formbuilder");
-  console.log(FORMBUILDER);
+  const formBuilder = useMatch("/events/:eventId/settings/formbuilder");
+  const LinkedinPost = useMatch("/events/:eventId/communications/linkedin-marketing");
   const singleEvent = useSelector((state) => state.eventData);
   return (
     <div className="flex flex-col">
@@ -43,7 +44,8 @@ const EventHomeLayout = () => {
                   : " h-[calc(100vh_-_58px)]"
               }`}
             >
-              {FORMBUILDER ? <RegForm /> : <EventLayout />}
+              {formBuilder ? <RegForm /> : LinkedinPost ? <LinkedinAutoPost /> : <EventLayout />}
+           
 
               {/* {props.children} */}
             </div>

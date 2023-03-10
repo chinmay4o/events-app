@@ -3,6 +3,7 @@ import { useLinkedIn } from "react-linkedin-login-oauth2";
 import { useMatch, useNavigate } from "react-router-dom";
 import LandingRegForm from "./LandingRegForm";
 import LinkedinRegForm from "./LinkedinRegForm";
+import axios from "axios";
 
 var initialThrottleCall = false;
 function throttle(fn, delay) {
@@ -10,12 +11,9 @@ function throttle(fn, delay) {
     if (initialThrottleCall === false) {
       fn();
       initialThrottleCall = Date.now();
-      console.log("normal");
     } else if (Date.now() - initialThrottleCall > delay) {
-      console.log(Date.now() - initialThrottleCall, "delay");
       fn();
       initialThrottleCall = Date.now();
-      console.log("throttle");
     }
   } catch (error) {
     console.log(error);
@@ -23,12 +21,12 @@ function throttle(fn, delay) {
 }
 
 const LinkedinReg = ({ setIsRegistered }) => {
-  // const vercelDomain = "http://localhost:3000/";
-  const vercelDomain = "https://dev.warpbay.com/";
+  const vercelDomain = "http://localhost:3000/";
+  // const vercelDomain = "https://dev.warpbay.com/";
   const [isChecked, setIsChecked] = useState(true);
   const [linkData, setlinkData] = useState({});
   const navigate = useNavigate();
-  const eventsid = useMatch("/event/:eventId");
+  const eventsId = useMatch("/event/:eventId");
 
   const { linkedInLogin } = useLinkedIn({
     clientId: "77q4vi8kkicqo6",
@@ -69,25 +67,37 @@ const LinkedinReg = ({ setIsRegistered }) => {
         }),
       });
 
-      if(response.status !== 200) {
-        alert("something went wrong!!")
+      if (response.status !== 200) {
+        alert("something went wrong!!");
       }
 
       let data = await response.json();
 
       if (data?.newUser) {
+        localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
+        localStorage.setItem(
+          "linkedinURNId",
+          data.linkedinURNId ? data.linkedinURNId : null
+        );
         const newUser = {
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
+          linkedinAccessToken: data.linkedinAccessToken,
+          linkedinURNId: data.linkedinURNId ? data.linkedinURNId : null,
         };
         setlinkData(newUser);
-      } else {
+      } else if (data?.oldUser) {
+        localStorage.setItem("linkedinAccessToken", data.linkedinAccessToken);
+        localStorage.setItem(
+          "linkedinURNId",
+          data.linkedinURNId ? data.linkedinURNId : null
+        );
         setlinkData(data.oldUser);
       }
     } catch (error) {
       console.log(error);
-      navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
+      navigate(`/event/${eventsId.params.eventId}?tab=${"register"}`);
     }
   }
 
@@ -95,7 +105,7 @@ const LinkedinReg = ({ setIsRegistered }) => {
     if (isChecked) {
       linkedInLogin();
     } else {
-      navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
+      navigate(`/event/${eventsId.params.eventId}?tab=${"register"}`);
     }
   }, [isChecked]);
 
@@ -124,6 +134,10 @@ const LinkedinReg = ({ setIsRegistered }) => {
       ) : (
         <>Loading....</>
       )}
+      <LinkedinRegForm
+          linkData={linkData}
+          setIsRegistered={setIsRegistered}
+        />
     </>
   );
 };
