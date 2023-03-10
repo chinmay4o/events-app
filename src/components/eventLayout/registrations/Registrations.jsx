@@ -102,7 +102,7 @@ function Registrations() {
     link.click();
     document.body.removeChild(link);
   };
-
+  let badgeImg;
   return (
     <div className="w-full md:w-[422px] md:ml-[30px] md:mt-[25px]">
       <div className="py-0">
@@ -324,9 +324,9 @@ function Registrations() {
                           }
                         )}
                         {/* <td className="text-[12px] font-[500]">1961</td> */}
-                        {console.log(
-                          attendee.attendee[0]?.eventSpecificData[0].badgeUrl
-                        )}
+                        {/* {console.log(eventsid.params.eventId)}
+                        {console.log(attendee.attendee[0]?.eventSpecificData)} */}
+
                         <td className="text-center">
                           <div
                             ref={(element) => {
@@ -336,13 +336,25 @@ function Registrations() {
                             onMouseEnter={() => showBadge(index)}
                             onMouseLeave={() => hideBadge(index)}
                           >
-                            <img
+                            {attendee.attendee[0]?.eventSpecificData.map(
+                              (items) => {
+                                if (items.eventId === eventsid.params.eventId) {
+                                  return (
+                                    <img
+                                      className="w-[250px] border rounded-t-xl register_img"
+                                      src={items.badgeUrl}
+                                    />
+                                  );
+                                }
+                              }
+                            )}
+                            {/* <img
                               className="w-[250px] border rounded-t-xl register_img"
                               src={
                                 attendee.attendee[0]?.eventSpecificData[0]
                                   .badgeUrl
                               }
-                            />
+                            /> */}
                             <div className=" flex justify-evenly text-white">
                               <button
                                 onClick={() => {

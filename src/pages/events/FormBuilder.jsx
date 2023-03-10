@@ -1,6 +1,5 @@
 import React from "react";
 import RegForm from "../../components/eventLayout/settings/RegForm/RegForm";
-
 import BottomBar from "../../components/bottomBar/BottomBar";
 
 function FormBuilder() {

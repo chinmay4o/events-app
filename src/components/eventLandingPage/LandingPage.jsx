@@ -29,21 +29,7 @@ const LandingPage = ({ singleEvent }) => {
   useEffect(() => {
     navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
   }, []);
-  useEffect(() => {
-    const eventStart = new Date("2023-03-06T07:45:00.000Z");
-    const eventEnd = new Date("2023-03-06T17:15:00.000Z");
-    const now = new Date();
-    console.log(now);
-    if (now > eventEnd) {
-      const hoursSinceEnd = (now - eventEnd) / (1000 * 60 * 60);
-      if (hoursSinceEnd < 1) {
-        setEventStatus("ended");
-      } else {
-        setEventStatus("ended and more than an hour");
-      }
-    }
-  }, []);
-  console.log(eventStatus);
+
   useEffect(() => {
     if (popup) {
       document.body.style.overflow = "hidden";
@@ -439,8 +425,7 @@ const LandingPage = ({ singleEvent }) => {
                       className="mr-1 rounded-full m-[-4px]"
                     />
                     <div className="text-[16px]">
-                      You have successfully registered for RIIDL’s Winter Cohort
-                      2023 !
+                      You have successfully registered for {singleEvent?.title}!
                       <br />
                       Please use this QR code to check-in to the event.
                     </div>

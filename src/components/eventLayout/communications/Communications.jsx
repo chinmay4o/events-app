@@ -6,7 +6,7 @@ import Marketing from "./Marketing";
 import Notifications from "./Notifications";
 
 function Communications() {
-  const [activeTab, setActiveTab] = useState("notifications-tab");
+  const [activeTab, setActiveTab] = useState("marketing-tab");
   const event = useSelector((state) => state.eventData);
   return (
     <div className="w-full md:w-[375px] md:ml-[30px] md:mt-[27px]">
@@ -28,24 +28,6 @@ function Communications() {
           <li className="mr-2" role="presentation">
             <button
               className={`inline-block px-4 py-1 rounded-t-lg border-b-2  ${
-                activeTab === "notifications-tab"
-                  ? "text-primary hover:text-primary dark:text-blue-500 dark:hover:text-blue-500 border-primary dark:border-blue-500"
-                  : "border-transparent hover:text-gray-600 : hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700"
-              }`}
-              id="notifications-tab"
-              data-tabs-target="#notifications"
-              type="button"
-              role="tab"
-              aria-controls="notifications"
-              aria-selected="true"
-              onClick={() => setActiveTab("notifications-tab")}
-            >
-              Notifications
-            </button>
-          </li>
-          <li className="mr-2" role="presentation">
-            <button
-              className={`inline-block px-4 py-1 rounded-t-lg border-b-2  ${
                 activeTab === "marketing-tab"
                   ? "text-primary hover:text-primary dark:text-blue-500 dark:hover:text-blue-500 border-primary dark:border-blue-500"
                   : "border-transparent hover:text-gray-600 : hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700"
@@ -59,6 +41,24 @@ function Communications() {
               onClick={() => setActiveTab("marketing-tab")}
             >
               Marketing
+            </button>
+          </li>
+          <li className="mr-2" role="presentation">
+            <button
+              className={`inline-block px-4 py-1 rounded-t-lg border-b-2  ${
+                activeTab === "notifications-tab"
+                  ? "text-primary hover:text-primary dark:text-blue-500 dark:hover:text-blue-500 border-primary dark:border-blue-500"
+                  : "border-transparent hover:text-gray-600 : hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700"
+              }`}
+              id="notifications-tab"
+              data-tabs-target="#notifications"
+              type="button"
+              role="tab"
+              aria-controls="notifications"
+              aria-selected="true"
+              onClick={() => setActiveTab("notifications-tab")}
+            >
+              Notifications
             </button>
           </li>
           <li className="mr-2" role="presentation">

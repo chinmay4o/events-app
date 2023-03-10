@@ -1,14 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { navbarContent } from "../../helper/constant";
-// import Speakers from "../../../../public/Speakers";
-// import Schedule from "../../../../public/Schedule";
-// import Sponsors from "../../../../public/Sponsors";
-// import Form from "../../../../public/Form";
-// import Communication from "../../../../public/Communication";
-// import People from "../../../../public/People";
-// import Home from "../../../../public/Home";
-// import CheckIn from "../../../../public/CheckIn";
 import {
   useMatch,
   useNavigate,

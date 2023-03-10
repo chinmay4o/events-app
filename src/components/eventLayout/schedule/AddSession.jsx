@@ -385,11 +385,6 @@ export default function AddSession({
                               }}
                             />
                           </div>
-                          {/* <TextInput
-                            type="select"
-                            label="Select speakers"
-                            placeholder="Select speakers"
-                          /> */}
                           {isEdit ? (
                             <input
                               disabled={isSubmitting}
