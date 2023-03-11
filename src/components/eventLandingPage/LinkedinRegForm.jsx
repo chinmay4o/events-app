@@ -225,11 +225,11 @@ const LinkedinRegForm = ({ isRegistered, setIsRegistered, linkData }) => {
             // linkData.linkedinAccessToken,
             // linkData.linkedinURNId,
           // );
-          handleLinkedinPost(
-            l1,
-            l2,
-            eventsId.params.eventId
-          );
+          // handleLinkedinPost(
+          //   l1,
+          //   l2,
+          //   eventsId.params.eventId
+          // );
         }}
       >
         Linkedin post
