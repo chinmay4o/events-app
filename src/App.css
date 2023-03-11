@@ -691,7 +691,7 @@ body {
   display: flex;
   flex-grow: 1;
   flex-shrink: 0;
-  border: thin solid rgb(235, 235, 235);
+  border: thin solid rgb(227, 227, 227);
   border-radius: 10px;
   padding: 5px 7px;
   background-color: #fbfbfb;
