@@ -16,7 +16,7 @@ const LandingSponsors = ({ singleEvent }) => {
       );
     }
   }, [event.exhibitorAndSponsors]);
-
+  console.log(singleEvent);
   return (
     <div className="mymd:flex justify-between flex-wrap w-full">
       {sponsorAndExhibitors?.length > 0 ? (

@@ -104,15 +104,35 @@ function Registrations() {
   };
   let badgeImg;
   return (
-    <div className="w-full md:w-[422px] md:ml-[30px] md:mt-[25px]">
+    <div className="md:ml-[0px] md:mt-[25px] md:w-[800px]">
       <div className="py-0">
         {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
             {event.title}
           </span>
         </div> */}
-        <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5  text-[#585858]">
-          Registrations
+        <div className="font-[600] w-[335px] md:w-full text-[19px] pt-2.5 text-[#585858] flex justify-between items-center">
+          <div>Registrations</div>
+          <div className="flex">
+            <button
+              className="bg-primary text-white h-8 py-1 px-2 text-[14px] ml-4 my-1 font-semibold rounded-sm w-[167px] h-[35px]"
+              onClick={handleDownload}
+              // onClick={() => {
+              //   window.open("/attendeeDefault.csv");
+              // }}
+            >
+              Download
+            </button>
+            <button
+              className="bg-gray-200 text-gray-800 h-8 py-1 px-2 text-[14px] ml-4 my-1 font-semibold rounded-sm w-[167px]  h-[35px]"
+              // btnText="Download"
+              onClick={() => {
+                setIsBulkUpload(true);
+              }}
+            >
+              Upload CSV
+            </button>
+          </div>
         </div>
         <form className="flex md:hidden w-[340px] mx-auto items-center my-4">
           <label htmlFor="simple-search" className="sr-only">
@@ -151,7 +171,7 @@ function Registrations() {
             ></input>
           </div>
         </form>
-        <div className="w-[335px] md:w-[422px] mt-2 mx-auto">
+        <div className="w-[335px] md:w-[422px] mt-2">
           {/* <div className="flex justify-between text-[#C5C5C7]">
             <p className="cursor-pointer">
               By Name <img src="/svgs/sort_by_alpha.svg" alt="sort"></img>
@@ -166,14 +186,16 @@ function Registrations() {
           </div> */}
         </div>
 
-        <div className="flex flex-row items-center w-[340px] md:w-[780px] mt-2 mx-auto text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <div className="flex flex-row items-center w-[340px] md:w-[780px] mt-2  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
           <ul className="flex flex-wrap -mb-px">
             <li className="mr-2" onClick={() => setTab("Registered")}>
               <a
                 href="#"
-                className={`inline-block px-4 py-4 ${
-                  tab === "Registered" ? "text-primary border-primary" : ""
-                } rounded-t-lg border-b-2 border-transparent dark:hover:text-gray-300`}
+                className={`inline-block px-0 py-4 ${
+                  tab === "Registered"
+                    ? "text-primary border-primary underline underline-offset-8	 decoration-2"
+                    : ""
+                } rounded-t-lg border-b-2 border-transparent dark:hover:text-gray-300 text-[15px] `}
               >
                 Registered
               </a>
@@ -182,8 +204,10 @@ function Registrations() {
               <a
                 href="#"
                 className={`inline-block px-4 py-4 ${
-                  tab === "Attended" ? "text-primary border-primary" : ""
-                } rounded-t-lg border-b-2 border-transparent dark:hover:text-gray-300`}
+                  tab === "Attended"
+                    ? "text-primary border-primary underline underline-offset-8	 decoration-2"
+                    : ""
+                } rounded-t-lg border-b-2 border-transparent dark:hover:text-gray-300 text-[15px]`}
                 onClick={() => {
                   getAttendedAttendees();
                 }}
@@ -204,7 +228,7 @@ function Registrations() {
           >
             template here
           </a> */}
-          <button
+          {/* <button
             className="bg-gray-200 text-gray-800 h-8 py-1 px-2 text-[12px] ml-4 my-1 font-semibold rounded-sm w-[30%]"
             onClick={handleDownload}
             // onClick={() => {
@@ -221,10 +245,10 @@ function Registrations() {
             }}
           >
             Upload CSV
-          </button>
+          </button> */}
         </div>
 
-        <div className="overflow-y-auto w-[335px] mx-auto md:w-[780px] min-h-[270px] max-h-[360px] scrollbar">
+        <div className="overflow-y-auto w-[335px] md:w-full min-h-[270px] max-h-[360px] scrollbar">
           {tab === "Registered" && registrations && registrations.length > 0 ? (
             <table className="table-auto md:w-[770px]">
               <thead className="">

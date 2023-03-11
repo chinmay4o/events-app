@@ -30,7 +30,7 @@ const EventHomeLayout = () => {
               singleEvent.isMockEvent
                 ? "h-[calc(100vh_-_98px)]"
                 : " h-[calc(100vh_-_58px)]"
-            }  mx-auto`}
+            }  `}
           >
             {/* <div className="sidebar md:w-[228px]"> */}
             <div className="sidebar md:w-[228px]">
@@ -40,7 +40,7 @@ const EventHomeLayout = () => {
               />
             </div>
             <div
-              className={`container ml-[25px] w-full ${
+              className={`container ml-[30px] w-full ${
                 singleEvent.isMockEvent
                   ? "h-[calc(100vh_-_98px)]"
                   : " h-[calc(100vh_-_58px)]"

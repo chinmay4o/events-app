@@ -36,7 +36,7 @@ function Schedule() {
 
   return (
     <>
-      <div className="w-full md:w-[422px] md:ml-[30px] md:mt-[25px]">
+      <div className="w-full md:w-[422px] md:ml-[0px] md:mt-[0px]">
         <TopModal message="Are you sure you want to delete?" />
         <div className="py-0">
           {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
@@ -44,10 +44,19 @@ function Schedule() {
             {event.title}
           </span>
         </div> */}
-          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858]">
-            Schedule
+          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+            <div>Schedule</div>
+            <div className="w-[335px] md:w-[230px]">
+              <PrimaryButton
+                btnText={"Add More Sessions"}
+                onClick={() => {
+                  setOpen(true);
+                  setIsEdit(false);
+                }}
+              />
+            </div>
           </div>
-          <div className="mt-5 mb-[30px] overflow-y-auto mx-auto w-[335px] md:w-[422px] h-[270px] scrollbar">
+          <div className="mt-5 mb-[30px] overflow-y-auto mx-auto w-[335px] md:w-[422px] scrollbar pt-[75px] absolute pb-[50px]">
             {schedule?.length > 0 ? (
               schedule
                 .sort((a, b) => new Date(a.startTime) - new Date(b.startTime))
@@ -60,13 +69,13 @@ function Schedule() {
                             session?.sessionDescription.length > 60
                               ? "42px"
                               : "20px"
-                          }_50px] h-[185px]`
+                          }_50px]`
                         : `grid-rows-[1fr_${
                             session?.sessionDescription.length > 60
                               ? "42px"
                               : "20px"
-                          }] h-[150px]`
-                    } min-h-[102px] max-h-[185px] w-[96%] relative left-[7px] border-b-[1px] border-b-[#d0d0d0] mb-[20px]`}
+                          }]`
+                    }w-[95%] relative left-[0px] border-b-[1px] border-b-[#d0d0d0] py-[13px]`}
                   >
                     <div className="">
                       <div className="grid grid-cols-[70px_1fr_30px_30px] ">
@@ -183,7 +192,7 @@ function Schedule() {
                         <div className="spacer"></div>
                       </div>
                     </div>
-                    <div className="grid grid-cols-[1fr_150px] gap-[5px]">
+                    <div className="flex mt-2 justify-between items-center">
                       <div className="grid grid-cols-[30px_30px_30px_30px] gap-[5px]">
                         {session.speakers.length > 0
                           ? session.speakers.map((ele, index) => {
@@ -204,28 +213,37 @@ function Schedule() {
                             })
                           : []}
                       </div>
-                      <div className="venueName text-[12px] font-[500] text-[#aaaaaa] relative top-[5px]">
-                        {session?.venueName && session.venueName}
-                      </div>
-                    </div>
-
-                    {session.onlineSessionUrl && (
-                      <div className="grid grid-cols-[1fr_160px] pb-[6px]">
-                        <p className="spacer"></p>{" "}
-                        <div className="grid place-items-center grid-cols-[20px_1fr] gap-[5px]">
-                          <i className="fa-solid fa-wifi fa-font-solid text-green-500 font-[600]"></i>
-                          <p
-                            className="cursor-pointer grid place-items-center grid-cols-[1fr_20px] bg-gray-200 text-[#000] text-[13px] font-[500] w-[120px] h-[28px] px-[8px] rounded-sm"
-                            onClick={() => {
-                              window.open(session.onlineSessionUrl, "_blank");
-                            }}
-                          >
-                            Join session{" "}
-                            <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                          </p>
+                      {session?.venueName ? (
+                        <div className="venueName text-[13px] font-[500] text-[#aaaaaa] top-[0px] flex justify-end">
+                          {session?.venueName && session.venueName}
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        session.onlineSessionUrl && (
+                          <div className=" pb-[0px]">
+                            {/* <p className="spacer"></p>{" "} */}
+                            <div className="flex items-center">
+                              <span className="text-green-500 mr-2 text-[14px]">
+                                &#9679; online
+                              </span>
+
+                              {/* <i className="fa-solid fa-wifi fa-font-solid text-green-500 font-[600]"></i> */}
+                              <p
+                                className="cursor-pointer grid place-items-center grid-cols-[1fr_0px] bg-gray-200 text-[#000] text-[13px] font-[500] w-[95px] h-[28px] px-[0px] rounded-sm "
+                                onClick={() => {
+                                  window.open(
+                                    session.onlineSessionUrl,
+                                    "_blank"
+                                  );
+                                }}
+                              >
+                                Join Now{" "}
+                                {/* <i className="fa-solid fa-arrow-up-right-from-square"></i> */}
+                              </p>
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
                 ))
             ) : (
@@ -243,7 +261,7 @@ function Schedule() {
               </div>
             )}
           </div>
-          <div className="w-[335px] md:w-[340px] mx-auto">
+          {/* <div className="w-[335px] md:w-[340px] mx-auto">
             <PrimaryButton
               btnText={"Add More Sessions"}
               onClick={() => {
@@ -251,7 +269,7 @@ function Schedule() {
                 setIsEdit(false);
               }}
             />
-          </div>
+          </div> */}
           {/* <div className="w-[335px] md:w-[422px] mx-auto">
           <SecondaryButton
             btnText={"Upload CSV"}
