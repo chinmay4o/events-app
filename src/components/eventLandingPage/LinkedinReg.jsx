@@ -134,10 +134,6 @@ const LinkedinReg = ({ setIsRegistered }) => {
       ) : (
         <>Loading....</>
       )}
-      <LinkedinRegForm
-          linkData={linkData}
-          setIsRegistered={setIsRegistered}
-        />
     </>
   );
 };
