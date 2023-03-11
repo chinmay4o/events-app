@@ -111,7 +111,15 @@ function SideMenu({ eventTitle, organizer }) {
             ></path>
           </svg>
         </button> */}
-        <p className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px]">
+        <p
+          className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px] hover:underline	cursor-pointer"
+          onClick={() =>
+            window.open(
+              `${window.location.origin}/event/${eventsid.params.eventId}`,
+              "_blank"
+            )
+          }
+        >
           {eventTitle
             ? eventTitle.charAt(0).toUpperCase() +
               eventTitle.slice(1, eventTitle.length)

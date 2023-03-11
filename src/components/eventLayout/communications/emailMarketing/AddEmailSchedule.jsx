@@ -25,7 +25,7 @@ export default function AddEmailSchedule({
   const [options, setOptions] = useState([]);
   const [value2, setValue2] = useState(options[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [dateValue, setDateValue] = useState(new Date(event.startDate));
+  const [dateValue, setDateValue] = useState(new Date());
   const [attendeesEmail, setAttendeesEmail] = useState([]);
   const [scheduleTime, setscheduleTime] = useState("");
   const eventsid = useMatch("/events/:eventId/*");
@@ -48,7 +48,6 @@ export default function AddEmailSchedule({
         .toISOString()
         .slice(11, 19);
       reset({
-        campaignName: singleEmail?.campaignName,
         emailSubject: singleEmail?.emailSubject,
         emailBody: singleEmail?.emailBody,
         campaignTime: singleEmail?.campaignTime,
@@ -78,7 +77,6 @@ export default function AddEmailSchedule({
       setmaxDate(new Date(event.endDate));
     } else {
       reset({
-        campaignName: "",
         emailSubject: "",
         emailBody: "",
       });
@@ -92,13 +90,14 @@ export default function AddEmailSchedule({
       setValue1([]);
       setValue();
       setscheduleTime("");
-      setDateValue(new Date(event.startDate));
+      setDateValue(new Date());
       setminDate(new Date());
       setmaxDate(new Date(event.endDate));
     }
   }, [event?._id, open]);
 
   const onSubmit = async (data) => {
+    console.log(data);
     setIsSubmitting(true);
     if (value1.length === 0) {
       alert("Please select atleast one option");
@@ -256,15 +255,15 @@ export default function AddEmailSchedule({
                           )}
                         >
                           {/* <TextInput
-                            register={register}
+                           register={register}
                             type="text"
                             id={"campaignName"}
                             required
                             label="Campaign Name"
                             placeholder="Campaign Name"
-                          /> */}
+                          />  */}
 
-                          <div className="relative my-4 my-[25px]">
+                          <div className="relative mb-[25px]">
                             <label
                               htmlFor="startDate"
                               className="text-[12px] text-[#9c9c9c] absolute -top-[18px] left-[12px]"
