@@ -11,8 +11,8 @@ function handleLinkedinPost(linkedinAccessToken, linkedinURNId, eventId) {
   // linkedinURNid can be passed here from different page where login is going to happen
   // let linkedinAccessToken = localStorage.getItem("linkedinAccessToken");
   // let linkedinURNid = localStorage.getItem("linkedinURNid");
-  if(!eventId) {
-   return alert("something went wrong! Please try again");
+  if (!eventId) {
+    return alert("something went wrong! Please try again");
   }
   if (linkedinAccessToken && linkedinURNId) {
     axios
@@ -36,8 +36,9 @@ function handleLinkedinPost(linkedinAccessToken, linkedinURNId, eventId) {
 }
 
 const LinkedinRegForm = ({ isRegistered, setIsRegistered, linkData }) => {
-  let l1 = "AQUPp1f7AeX3h8qFSRzRi65y4ogC8ZLOlNLzIw6IiTzwAcHc3wo1EPPMSrALaneSWgF8gJmn09pbYG7EXmcY3aRSfpLgUhynEODha2yEMGbBJxIKcyfPrxpJyBGyELZxnAjgogtR_TX4OSRSAGrAZtjyklEKlCxBuA82uU5rZZ2id2fBuOkTD3AwXb0lYJW36xsZa5-NLe0AUbADe0tVKdLhbqK0GYLRQol_wNLDjbVjs46_QtucnxPOCwkppl4fhlkSavGY1Lrk1xYNQW5fBLQ_Ww1eud6iFkUNsyoj3eB2gMObLfBCXEr2_jUHWU0QwJOw7L52Lz_41JDcK1dbJ0TFLhD8SQ"
-  let l2 = "-WvuDcxHN3"
+  let l1 =
+    "AQUPp1f7AeX3h8qFSRzRi65y4ogC8ZLOlNLzIw6IiTzwAcHc3wo1EPPMSrALaneSWgF8gJmn09pbYG7EXmcY3aRSfpLgUhynEODha2yEMGbBJxIKcyfPrxpJyBGyELZxnAjgogtR_TX4OSRSAGrAZtjyklEKlCxBuA82uU5rZZ2id2fBuOkTD3AwXb0lYJW36xsZa5-NLe0AUbADe0tVKdLhbqK0GYLRQol_wNLDjbVjs46_QtucnxPOCwkppl4fhlkSavGY1Lrk1xYNQW5fBLQ_Ww1eud6iFkUNsyoj3eB2gMObLfBCXEr2_jUHWU0QwJOw7L52Lz_41JDcK1dbJ0TFLhD8SQ";
+  let l2 = "-WvuDcxHN3";
   const [regForm, setRegForm] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -96,7 +97,8 @@ const LinkedinRegForm = ({ isRegistered, setIsRegistered, linkData }) => {
         setIsSubmitting(false);
         setIsRegistered(true);
         setIsSubmitting(false);
-        handleLinkedinPost(// linkedin AutoPost
+        handleLinkedinPost(
+          // linkedin AutoPost
           linkData.linkedinAccessToken,
           linkData.linkedinURNId,
           eventsId.params.eventId
@@ -217,7 +219,7 @@ const LinkedinRegForm = ({ isRegistered, setIsRegistered, linkData }) => {
           </button>
         </div>
       </form>
-      <div
+      {/* <div
       className="primary_submit"
         onClick={() => {
           // handleLinkedinPost(
@@ -233,7 +235,7 @@ const LinkedinRegForm = ({ isRegistered, setIsRegistered, linkData }) => {
         }}
       >
         Linkedin post
-      </div>
+      </div> */}
     </div>
   );
 };
