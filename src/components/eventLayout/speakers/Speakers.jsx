@@ -43,17 +43,32 @@ function Speakers() {
 
   return (
     <>
-      <div className="w-full md:w-[422px] md:ml-[30px] md:mt-[25px]">
+      <div className="w-full md:w-[422px] md:ml-[0px] md:mt-[0] pb-5">
         <div className="py-0">
           {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
             {event.title}
           </span>
         </div> */}
-          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858]">
-            Speakers
+          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-3 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+            <div>Speakers</div>
+            {speakers && speakers.length > 0 ? (
+              <div className="w-[335px] md:w-[230px]">
+                <Primarybtn
+                  onClick={() => {
+                    setOpen(true);
+                    setIsEdit(false);
+                  }}
+                >
+                  Add More Speakers
+                </Primarybtn>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
-          <div className="mt-5 mb-[30px] w-[335px] mx-auto md:w-[430px] overflow-y-auto h-[250px] scrollbar">
+
+          <div className="mt-2 mb-[50px] w-[335px] mx-auto md:w-[430px] overflow-y-auto scrollbar pt-[75px] absolute pb-[50px]">
             {speakers && speakers.length > 0 ? (
               speakers.map((speaker, key) => (
                 <>
@@ -67,10 +82,6 @@ function Speakers() {
                         }
                         className="rounded-full w-[50px] h-[50px] object-cover"
                       />
-                      {/* <img
-                  src="/speaker.png"
-                  className="rounded-full w-[50px] h-[50px]"
-                /> */}
                       <div className="pl-2.5 w-[197px]">
                         <div className="text-[14px] font-semibold py-1">
                           {speaker.firstName} {speaker.lastName}
@@ -124,29 +135,30 @@ function Speakers() {
                 </>
               ))
             ) : (
-              <div className="grid w-full place-items-center h-[250px]">
+              <div className="grid w-full h-[300px]">
                 <div>
                   <img
                     src="/svgs/nullState.svg"
                     alt=""
                     className="w-[200px] h-[200px]"
                   />
-                  <p className="text-[15px] font-[500] text-[#717171]  text-center">
+                  <p className="text-[15px] font-[500] text-[#717171]">
                     No Speakers available...
                   </p>
                 </div>
+
+                <div className="w-[335px] md:w-[335px]">
+                  <Primarybtn
+                    onClick={() => {
+                      setOpen(true);
+                      setIsEdit(false);
+                    }}
+                  >
+                    Add More Speakers
+                  </Primarybtn>
+                </div>
               </div>
             )}
-          </div>
-          <div className="w-[335px] mx-auto md:w-[340px]">
-            <Primarybtn
-              onClick={() => {
-                setOpen(true);
-                setIsEdit(false);
-              }}
-            >
-              Add More Speakers
-            </Primarybtn>
           </div>
 
           {/* <div className="w-[335px] mx-auto md:w-[422px]">

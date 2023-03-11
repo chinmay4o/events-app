@@ -38,7 +38,7 @@ function Sponsors() {
   }, [event.exhibitorAndSponsors]);
 
   return (
-    <div className="w-full md:w-[422px] md:ml-[30px] md:mt-[25px]">
+    <div className="w-full md:w-[422px] md:ml-[0px] md:mt-[0px] pb-5">
       <div className="py-0">
         {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
@@ -54,10 +54,18 @@ function Sponsors() {
             <img src="/svgs/Settings.svg" alt="edit" className="cursor-pointer" />
           </div>
         </div> */}
-        <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858]">
-          Sponsors/ Exhibitors
+        <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+          <div>Sponsors/ Exhibitors</div>
+          <div className="w-[335px] md:w-[200px]">
+            <PrimaryButton
+              btnText={"Add more sponsors"}
+              onClick={() => {
+                setOpen(true);
+              }}
+            />
+          </div>
         </div>
-        <div className="mt-5 mb-[30px] w-[335px] mx-auto md:w-[430px] overflow-y-auto h-[250px] scrollbar">
+        <div className="mt-5 mb-[30px] w-[335px] mx-auto md:w-[430px] overflow-y-auto scrollbar pt-[75px] absolute pb-[50px]">
           {sponsorAndExhibitors?.length > 0 ? (
             sponsorAndExhibitors.map((sponsorAndExhibitor, key) => (
               <>
@@ -208,14 +216,14 @@ function Sponsors() {
           </div> */}
         </div>
 
-        <div className="w-[335px] md:w-[340px] mx-auto ">
+        {/* <div className="w-[335px] md:w-[340px] mx-auto ">
           <PrimaryButton
             btnText={"Add more sponsors"}
             onClick={() => {
               setOpen(true);
             }}
           />
-        </div>
+        </div> */}
         {/* <div className="w-[335px] md:w-[422px] mx-auto md:mx-0 ">
           <SecondaryButton
             btnText={"Upload CSV"}

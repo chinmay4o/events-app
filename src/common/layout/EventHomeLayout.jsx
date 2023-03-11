@@ -6,10 +6,17 @@ import EventLayout from "../../components/eventLayout/EventLayout";
 import { useMatch } from "react-router-dom";
 import RegForm from "../../components/eventLayout/settings/RegForm/RegForm";
 import LinkedinAutoPost from "../../components/eventLayout/communications/marketing/LinkedinAutoPost";
+import EmailMarketing from "../../components/eventLayout/communications/emailMarketing/EmailMarketing";
 
 const EventHomeLayout = () => {
   const formBuilder = useMatch("/events/:eventId/settings/formbuilder");
-  const LinkedinPost = useMatch("/events/:eventId/communications/linkedin-marketing");
+  const LinkedinPost = useMatch(
+    "/events/:eventId/communications/linkedin-marketing"
+  );
+  const emailMarketing = useMatch(
+    "/events/:eventId/communications/eventMarketing"
+  );
+
   const singleEvent = useSelector((state) => state.eventData);
   return (
     <div className="flex flex-col">
@@ -28,7 +35,7 @@ const EventHomeLayout = () => {
               singleEvent.isMockEvent
                 ? "h-[calc(100vh_-_98px)]"
                 : " h-[calc(100vh_-_58px)]"
-            }  mx-auto`}
+            }  `}
           >
             {/* <div className="sidebar md:w-[228px]"> */}
             <div className="sidebar md:w-[228px]">
@@ -38,14 +45,21 @@ const EventHomeLayout = () => {
               />
             </div>
             <div
-              className={`container ml-[25px] w-full ${
+              className={`container ml-[30px] w-full ${
                 singleEvent.isMockEvent
                   ? "h-[calc(100vh_-_98px)]"
                   : " h-[calc(100vh_-_58px)]"
               }`}
             >
-              {formBuilder ? <RegForm /> : LinkedinPost ? <LinkedinAutoPost /> : <EventLayout />}
-           
+              {formBuilder ? (
+                <RegForm />
+              ) : LinkedinPost ? (
+                <LinkedinAutoPost />
+              ) : emailMarketing ? (
+                <EmailMarketing />
+              ) : (
+                <EventLayout />
+              )}
 
               {/* {props.children} */}
             </div>

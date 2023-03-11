@@ -13,12 +13,15 @@ function App() {
   const eventsId = useMatch("events/:eventId");
   const eventId = useMatch("event/:eventId");
   const formBuilder = useMatch("/events/:eventId/settings/formbuilder");
+  const emailMarketing = useMatch(
+    "/events/:eventId/communications/eventmarketing"
+  );
   const settings = useMatch("/events/:eventId/settings");
   const linkedinAutoPost = useMatch("/events/:eventId/communications/linkedin-marketing");
   const login = useMatch("/login");
   return (
     <Provider store={store}>
-      {eventsId || formBuilder || settings || linkedinAutoPost ? (
+      {eventsId || formBuilder || settings || linkedinAutoPost || emailMarketing ? (
         <EventHomeLayout>
           <BottomBar />
         </EventHomeLayout>

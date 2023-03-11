@@ -16,7 +16,7 @@ const LandingSponsors = ({ singleEvent }) => {
       );
     }
   }, [event.exhibitorAndSponsors]);
-
+  console.log(singleEvent);
   return (
     <div className="mymd:flex justify-between flex-wrap w-full">
       {sponsorAndExhibitors?.length > 0 ? (
@@ -24,11 +24,7 @@ const LandingSponsors = ({ singleEvent }) => {
           <div className="mymd:w-[292px] mymd:h-[184px] bg-[#F5F5F5] rounded-xl mb-3 p-[20px] h-[128px]">
             {singleEvent.organizer?.profilePicture ? (
               <img
-                src={
-                  sponsorAndExhibitor.profilePicture
-                    ? sponsorAndExhibitor.profilePicture
-                    : "/svgs/profile.svg"
-                }
+                src={sponsorAndExhibitor.profilePicture}
                 className="rounded-full mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] object-cover "
               />
             ) : (

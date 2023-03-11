@@ -1,14 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { navbarContent } from "../../helper/constant";
-// import Speakers from "../../../../public/Speakers";
-// import Schedule from "../../../../public/Schedule";
-// import Sponsors from "../../../../public/Sponsors";
-// import Form from "../../../../public/Form";
-// import Communication from "../../../../public/Communication";
-// import People from "../../../../public/People";
-// import Home from "../../../../public/Home";
-// import CheckIn from "../../../../public/CheckIn";
 import {
   useMatch,
   useNavigate,
@@ -120,7 +111,15 @@ function SideMenu({ eventTitle, organizer }) {
             ></path>
           </svg>
         </button> */}
-        <p className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px]">
+        <p
+          className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px] hover:underline	cursor-pointer"
+          onClick={() =>
+            window.open(
+              `${window.location.origin}/event/${eventsid.params.eventId}`,
+              "_blank"
+            )
+          }
+        >
           {eventTitle
             ? eventTitle.charAt(0).toUpperCase() +
               eventTitle.slice(1, eventTitle.length)

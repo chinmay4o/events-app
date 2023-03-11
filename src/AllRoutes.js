@@ -25,7 +25,7 @@ import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import EventsID from "./pages/events/EventsID";
 import LinkedIn from "./pages/linkedin/Linkedin";
 import LinkedinAutoPost from "./components/eventLayout/communications/marketing/LinkedinAutoPost";
-// import EmailMarketing from "./components/eventLayout/communications/EmailMarketing";
+import EmailMarketing from "./components/eventLayout/communications/emailMarketing/EmailMarketing";
 
 const AllRoutes = () => {
   const location = useLocation();
@@ -55,10 +55,8 @@ const AllRoutes = () => {
         path="/events/:eventId/communications/linkedin-marketing"
         element={<LinkedinAutoPost />}
       /> */}
-      {/* <Route
-        path="/events/:eventId/communications/eventmarketing"
-        element={<EmailMarketing />}
-      /> */}
+
+      <Route path="/events/:eventId/communications/eventmarketing" />
       <Route
         path="/events/:eventId/registrations"
         element={<Registrations />}
