@@ -18,7 +18,10 @@ const SpeakerSearch = () => {
   }, [debouncedSearch]);
 
   return (
-    <form className="hidden md:flex items-center my-4">
+    <form
+      className="hidden md:flex items-center my-4 mx-2"
+      onSubmit={(event) => event.preventDefault()}
+    >
       <label htmlFor="simple-search" className="sr-only">
         Search
       </label>

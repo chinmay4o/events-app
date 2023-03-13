@@ -9,7 +9,7 @@ function CheckinCheckout() {
 
   return (
     <div className="pt-14 md:pt-0 md:mb-0 mx-auto grid place-items-center min-w-[312px] max-w-[422px] w-full md:max-w-[1440px] md:w-full mb-14">
-      <div className="flex flex-col items-center mt-16 md:w-[85%] w-[95%]">
+      <div className="flex flex-col items-center mt-3 md:w-[85%] w-[95%]">
         <div className="text-[27px] font-[600] bottom-2">{eventTitle}</div>
         <div className="text-[18px] font-[500] mt-[15px]">Registrations</div>
         <div

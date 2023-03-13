@@ -23,12 +23,9 @@ const LandingPage = ({ singleEvent }) => {
   const [searchParams] = useSearchParams();
   const [googleCal, setGoogleCal] = useState(false);
   const [eventStatus, setEventStatus] = useState("upcoming");
-
+  console.log(searchParams.get("tab"));
   const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
   const optionsWeekDay = { weekday: "long" }; // imp gets Friday, November 18, 2022
-  useEffect(() => {
-    navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
-  }, []);
 
   useEffect(() => {
     if (popup) {
@@ -184,7 +181,7 @@ const LandingPage = ({ singleEvent }) => {
                   className="border h-9 w-9 rounded-full object-cover mr-2"
                 />
               ) : (
-                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center mr-2 text-white text-lg font-medium">
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center mr-2 text-white text-lg font-medium uppercase">
                   {singleEvent.organizer.organization.charAt(0)}
                 </div>
               )}
@@ -239,9 +236,15 @@ const LandingPage = ({ singleEvent }) => {
                 alt="location"
                 className="mr-1 h-[24px]"
               />
-              {singleEvent.location?.addressLine1},{" "}
-              {singleEvent.location?.pincode}, {singleEvent.location?.city},{" "}
-              {singleEvent.location?.state}
+              {singleEvent.location?.pincode ? (
+                <>
+                  {singleEvent.location?.addressLine1},{" "}
+                  {singleEvent.location?.pincode}, {singleEvent.location?.city},{" "}
+                  {singleEvent.location?.state}
+                </>
+              ) : (
+                singleEvent.location?.addressLine1
+              )}
             </span>
           </div>
           <div className="mymd:hidden flex text-primary justify-around h-10 mt-4 font-bold text-xs">
@@ -284,13 +287,15 @@ const LandingPage = ({ singleEvent }) => {
               }}
               style={
                 searchParams.get("tab") === "register" ||
-                searchParams.get("tab") === "registerlinkedin"
+                searchParams.get("tab") === "registerlinkedin" ||
+                searchParams.get("tab") === null
                   ? { color: "black" }
                   : {}
               }
               className={
                 searchParams.get("tab") === "register" ||
-                searchParams.get("tab") === "registerlinkedin"
+                searchParams.get("tab") === "registerlinkedin" ||
+                searchParams.get("tab") === null
                   ? "font-[600] underline underline-offset-8 decoration-black decoration-2"
                   : {}
               }
@@ -381,8 +386,7 @@ const LandingPage = ({ singleEvent }) => {
                       className="mr-1 rounded-full m-[-4px]"
                     />
                     <div className="text-[16px]">
-                      You have successfully registered for RIIDL’s Winter Cohort
-                      2023 !
+                      You have successfully registered for {singleEvent?.title}!
                       <br />
                       Please use this QR code to check-in to the event.
                     </div>
@@ -462,7 +466,44 @@ const LandingPage = ({ singleEvent }) => {
               <LandingHost singleEvent={singleEvent} />
             ) : searchParams.get("tab") === "about" ? (
               <LandingAbout singleEvent={singleEvent} />
-            ) : null}
+            ) : isRegistered ? (
+              <div className="mymd:w-[600px] w-[100%] h-[450px] pt-2">
+                <div className="flex">
+                  <img
+                    src="/svgs/Checkcircle.svg"
+                    alt="check"
+                    className="mr-1 rounded-full m-[-4px]"
+                  />
+                  <div className="text-[16px]">
+                    You have successfully registered for {singleEvent?.title}!
+                    <br />
+                    Please use this QR code to check-in to the event.
+                  </div>
+                </div>
+                <span
+                  className="flex items-center justify-center cursor-pointer cursor-pointer border w-[170px] h-[40px] rounded border-primary ml-12 mb-7 mt-3"
+                  onClick={() => setGoogleCal(true)}
+                >
+                  <img
+                    src="/svgs/calendar_monthcalendar.svg"
+                    alt="calender"
+                    className="mr-2"
+                  />
+                  Add to calender
+                </span>
+                You will also receive an invite on your submitted email ID.
+                <br />
+                <div className="mt-3">
+                  Did not receive? Please check your spam folder.
+                  <br />
+                </div>
+              </div>
+            ) : (
+              <LandingRegForm
+                setIsRegistered={setIsRegistered}
+                isRegistered={isRegistered}
+              />
+            )}
           </div>
         </div>
         <div className={styles.modules_box2}></div>
@@ -489,7 +530,8 @@ const LandingPage = ({ singleEvent }) => {
         <p></p>
       </div>
       {searchParams.get("tab") !== "register" &&
-      searchParams.get("tab") !== "registerlinkedin" ? (
+      searchParams.get("tab") !== "registerlinkedin" &&
+      searchParams.get("tab") !== null ? (
         <div className="fixed bottom-0 h-[74px] z-20 w-[93%] mymd:w-[100%] flex mymd:justify-end items-center justify-center bg-white mymd:bg-transparent border shadow mymd:border-none rounded-t-xl ">
           <button
             type="submit"

@@ -105,7 +105,7 @@ function Registrations() {
   };
   console.log(registrations);
   return (
-    <div className="md:ml-[0px] md:mt-[25px] md:w-[900px]">
+    <div className="md:ml-[0px] md:mt-[15px] md:w-[900px] pb-12">
       <div className="py-0">
         {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
@@ -279,12 +279,29 @@ function Registrations() {
                       <tr className="h-[55px] border-b">
                         <td className="text-[12px] font-[500]]">
                           <div className="grid grid-cols-[45px_1fr] gap-[1px]">
-                            <img
+                            {attendee.profilePicture ? (
+                              <img
+                                src={attendee.profilePicture}
+                                className="w-[32px] h-[32px] rounded-[50%] object-cover"
+                              />
+                            ) : (
+                              <div
+                                className={`sm:w-[32px] sm:h-[32px] w-[32px] h-[32px] rounded-full bg-${
+                                  ["red", "green", "blue", "yellow", "indigo"][
+                                    Math.floor(Math.random() * 5)
+                                  ]
+                                }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
+                              >
+                                {attendee.firstName.slice(0, 1)}
+                                {attendee.lastName.slice(0, 1)}
+                              </div>
+                            )}
+                            {/* <img
                               src={`${
                                 attendee.profilePicture || "/svgs/profile.svg"
                               }`}
                               className="w-[32px] h-[32px] rounded-[50%] object-cover"
-                            />
+                            /> */}
                             <p className="text-[12px] font-[400] grid grid-rows-2">
                               <p>
                                 {attendee.firstName.charAt(0).toUpperCase() +
@@ -443,10 +460,20 @@ function Registrations() {
               return (
                 <div className="my-4 flex justify-between">
                   <div className="flex w-[80%]">
-                    <img
+                    <div
+                      className={`sm:w-[50px] sm:h-[50px] w-[50px] h-[50px] rounded-full bg-${
+                        ["red", "green", "blue", "yellow", "indigo"][
+                          Math.floor(Math.random() * 5)
+                        ]
+                      }-500 flex items-center justify-center mr-2 text-white text-lg font-medium uppercase`}
+                    >
+                      {attendee.firstName.slice(0, 1)}
+                      {attendee.lastName.slice(0, 1)}
+                    </div>
+                    {/* <img
                       src="/svgs/profile.svg"
                       className="w-[50px] h-[50px] rounded-full"
-                    />
+                    /> */}
                     {/* <i className="fa-light fa-user w-[50px] h-[50px]"></i> */}
                     <div className="pl-2 w-[240px]">
                       <div className="text-xs font-semibold py-1">
@@ -499,7 +526,7 @@ function Registrations() {
             </Modal>
           </div>
         </div>
-        {(registrations && registrations.length > 0) || next ? (
+        {/* {(registrations && registrations.length > 0) || next ? (
           <div className="mt-8">
             <PaginationClassic
               onClick={async () => {
@@ -511,7 +538,7 @@ function Registrations() {
           </div>
         ) : (
           []
-        )}
+        )} */}
         {/* <div className="w-[335px] md:w-[340px] mx-auto mt-[30px]">
           <PrimaryButton
             btnText={"Invite more users"}

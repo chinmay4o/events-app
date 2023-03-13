@@ -126,8 +126,24 @@ function SideMenu({ eventTitle, organizer }) {
                 eventTitle.slice(1, eventTitle.length)
               : null}
           </p>
-          <i className="fa-solid fa-up-right-from-square absolute right-[50px] mt-1.5 cursor-pointer"></i>
-          <i className="fa-regular fa-copy absolute right-[15px] mt-1.5 cursor-pointer"></i>
+          <i
+            className="fa-solid fa-up-right-from-square absolute right-[50px] mt-1.5 cursor-pointer text-primary"
+            onClick={() =>
+              window.open(
+                `${window.location.origin}/event/${eventsid.params.eventId}`,
+                "_blank"
+              )
+            }
+          ></i>
+
+          <i
+            className="fa-regular fa-copy absolute right-[15px] mt-1.5 cursor-pointer text-primary "
+            onClick={() =>
+              navigator.clipboard.writeText(
+                `${window.location.origin}/event/${singleEvent._id}`
+              )
+            }
+          ></i>
         </div>
 
         <p className="text-[10px] font-[500] relative left-[27px] top-[25px] text-gray-400">

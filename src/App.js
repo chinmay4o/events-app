@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../src/common/layout/Layout";
 import { Provider } from "react-redux";
 import "tailwindcss/tailwind.css";
-import "../src/styles/globals.css";
+import "./styles/globals.css";
 import { useMatch } from "react-router-dom";
 import store from "./redux/store";
 import BottomBar from "./components/bottomBar/BottomBar";
@@ -17,17 +17,22 @@ function App() {
     "/events/:eventId/communications/eventmarketing"
   );
   const settings = useMatch("/events/:eventId/settings");
-  const linkedinAutoPost = useMatch("/events/:eventId/communications/linkedin-marketing");
+  const linkedinAutoPost = useMatch(
+    "/events/:eventId/communications/linkedin-marketing"
+  );
   const login = useMatch("/login");
   return (
     <Provider store={store}>
-      {eventsId || formBuilder || settings || linkedinAutoPost || emailMarketing ? (
+      {eventsId ||
+      formBuilder ||
+      settings ||
+      linkedinAutoPost ||
+      emailMarketing ? (
         <EventHomeLayout>
           <BottomBar />
         </EventHomeLayout>
       ) : (
-        <Layout>
-        {login || eventId ? null : <BottomBar />}</Layout>
+        <Layout>{login || eventId ? null : <BottomBar />}</Layout>
       )}
 
       {/* {All Page Router} */}

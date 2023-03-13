@@ -144,12 +144,12 @@ const Analytics = () => {
   };
 
   return (
-    <div className="w-full md:w-[822px] md:ml-[30px] md:mt-[25px] min-h-[1260px]">
+    <div className="w-full md:w-[85%] md:ml-[0px] md:mt-[25px] min-h-[1260px">
       <p className="font-[600] w-full mx-auto md:w-full text-[21px] pt-2.5 text-[#585858]">
         Analytics
       </p>
 
-      <div className="mt-[20px] grid grid-cols-9 gap-[20px] ">
+      <div className="mt-[20px] flex justify-between">
         <FintechCard10 attendees={attendees.length} />
         <FintechCard11 exhibitors={exhibitors.length} />
         <FintechCard12 speakers={speakers.length} />

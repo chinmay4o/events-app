@@ -11,10 +11,7 @@ const ChooseCategoryEvents = (props) => {
       category.showCheck = false;
       if (index === idx) {
         setEventType(category.name.toLocaleLowerCase());
-        localStorage.setItem(
-          "showtype",
-          JSON.stringify(category.name.toLocaleLowerCase())
-        );
+        localStorage.setItem("showtype", JSON.stringify(category.name));
         category.showCheck = !category.showCheck;
       }
       return category;

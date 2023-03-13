@@ -85,7 +85,17 @@ const Schedule = ({ singleEvent }) => {
                             return (
                               <>
                                 <div className="flex items-center text-[13px] font-medium text-[#1C1C1E] mb-2">
-                                  <div class="w-[25px] h-[25px] rounded-full bg-primary flex items-center justify-center mr-2 text-white text-sm font-medium">
+                                  <div
+                                    className={`w-[25px] h-[25px] rounded-full bg-${
+                                      [
+                                        "red",
+                                        "green",
+                                        "blue",
+                                        "yellow",
+                                        "indigo",
+                                      ][Math.floor(Math.random() * 5)]
+                                    }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
+                                  >
                                     {singleEvent.speakers[i].firstName.slice(
                                       0,
                                       1

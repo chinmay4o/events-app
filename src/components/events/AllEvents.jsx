@@ -50,7 +50,10 @@ function AllEvents() {
         All Events
       </div>
       <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 gap-x-11 h-[60px]">
-        <form className="flex items-center my-4 w-full md:w-[335px]">
+        <form
+          className="flex items-center my-4 w-full md:w-[335px]"
+          onSubmit={(event) => event.preventDefault()}
+        >
           <label htmlFor="simple-search" className="sr-only">
             Search
           </label>

@@ -74,14 +74,24 @@ function Speakers() {
                 <>
                   <div className="my-4 flex justify-between">
                     <div className="flex items-center">
-                      <img
-                        src={
-                          speaker.profilePicture
-                            ? speaker.profilePicture
-                            : "/svgs/profile.svg"
-                        }
-                        className="rounded-full w-[50px] h-[50px] object-cover"
-                      />
+                      {speaker.profilePicture ? (
+                        <img
+                          src={speaker.profilePicture}
+                          className="rounded-full w-[50px] h-[50px] object-cover"
+                        />
+                      ) : (
+                        <div
+                          className={`sm:w-[50px] sm:h-[50px] w-[50px] h-[50px] rounded-full bg-${
+                            ["red", "green", "blue", "yellow", "indigo"][
+                              Math.floor(Math.random() * 5)
+                            ]
+                          }-500 flex items-center justify-center mr-2 text-white text-lg font-medium uppercase`}
+                        >
+                          {speaker.firstName.slice(0, 1)}
+                          {speaker.lastName.slice(0, 1)}
+                        </div>
+                      )}
+
                       <div className="pl-2.5 w-[197px]">
                         <div className="text-[14px] font-semibold py-1">
                           {speaker.firstName} {speaker.lastName}
@@ -147,7 +157,7 @@ function Speakers() {
                   </p>
                 </div>
 
-                <div className="w-[335px] md:w-[335px]">
+                <div className="w-[335px] md:w-[250px]">
                   <Primarybtn
                     onClick={() => {
                       setOpen(true);

@@ -721,7 +721,7 @@ body {
   font: inherit;
   font-size: 14px;
   box-sizing: content-box;
-  -moz-appearance: textfield;
+  /* -moz-appearance: textfield; */
 }
 .react-date-picker__inputGroup__input::-webkit-outer-spin-button,
 .react-date-picker__inputGroup__input::-webkit-inner-spin-button {
@@ -759,7 +759,7 @@ body {
   display: inherit;
 }
 .react-date-picker__calendar {
-  width: 350px;
+  width: 300px;
   max-width: 100vw;
   z-index: 1;
 }
@@ -889,6 +889,6 @@ body {
   background-color: #e6e6e6;
 }
 
-.react-date-picker__clear-button__icon{
+.react-date-picker__clear-button__icon {
   display: none !important;
 }

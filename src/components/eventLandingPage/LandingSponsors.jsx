@@ -22,13 +22,19 @@ const LandingSponsors = ({ singleEvent }) => {
       {sponsorAndExhibitors?.length > 0 ? (
         sponsorAndExhibitors.map((sponsorAndExhibitor, key) => (
           <div className="mymd:w-[292px] mymd:h-[184px] bg-[#F5F5F5] rounded-xl mb-3 p-[20px] h-[128px]">
-            {singleEvent.organizer?.profilePicture ? (
+            {sponsorAndExhibitor.profilePicture ? (
               <img
                 src={sponsorAndExhibitor.profilePicture}
                 className="rounded-full mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] object-cover "
               />
             ) : (
-              <div class="mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] rounded-full bg-primary flex items-center justify-center mr-2 text-white mymd:text-3xl text-lg font-medium">
+              <div
+                class={`mymd:w-[45px] mymd:h-[45px] w-[40px] h-[40px] rounded-full bg-${
+                  ["red", "green", "blue", "yellow", "indigo"][
+                    Math.floor(Math.random() * 5)
+                  ]
+                }-500 flex items-center justify-center mr-2 text-white mymd:text-2xl text-lg font-medium uppercase`}
+              >
                 {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
                   .filter((ele, id) => {
                     return ele.eventId.toString() === eventsid.params.eventId;

@@ -27,7 +27,7 @@ function EventHome() {
     if (window.innerWidth) setisMobile(window.innerWidth <= 768);
   }, []);
   return (
-    <div className="w-full md:w-[422px] md:ml-[30px] md:mt-[25px]">
+    <div className="w-full md:w-[422px] md:ml-[0px] md:mt-[25px]">
       <div className="py-0 pb-[25px]">
         <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] md:w-[314px] font-[600]">
@@ -221,11 +221,21 @@ function EventHome() {
                 <>
                   <p className="text-[#1C1C1E] w-[335px] md:w-[422px] text-opacity-60 font-normal text-[13px]">
                     <span className="font-bold">Address</span>:{" "}
-                    {singleEvent.location?.addressLine1},
+                    {singleEvent.location?.pincode ? (
+                      <>
+                        {singleEvent.location?.addressLine1},{" "}
+                        {singleEvent.location?.pincode},{" "}
+                        {singleEvent.location?.city},{" "}
+                        {singleEvent.location?.state}
+                      </>
+                    ) : (
+                      singleEvent.location?.addressLine1
+                    )}
+                    {/* {singleEvent.location?.addressLine1},
                     {singleEvent.location?.addressLine2},
                     {singleEvent.location?.state},{" "}
                     {singleEvent.location?.pincode},{" "}
-                    {singleEvent.location?.city}
+                    {singleEvent.location?.city} */}
                     <a
                       onClick={() => {
                         window.open(singleEvent.location?.landmark, "_blank");

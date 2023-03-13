@@ -8,7 +8,7 @@ function Settings() {
   const navigate = useNavigate();
   const singleEvent = useSelector((state) => state.eventData);
   return (
-    <div className="w-full md:w-[375px] md:ml-[30px] md:mt-[27px]">
+    <div className="w-full md:w-[375px] md:ml-[0px] md:mt-[27px]">
       {/* <div className="flex w-[375px] md:w-[375px] mx-auto">
       <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
         {event.title}

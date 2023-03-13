@@ -71,14 +71,28 @@ function Sponsors() {
               <>
                 <div className="my-4 flex justify-between">
                   <div className="flex items-center">
-                    <img
-                      src={
-                        sponsorAndExhibitor.profilePicture
-                          ? sponsorAndExhibitor.profilePicture
-                          : "/svgs/profile.svg"
-                      }
-                      className="rounded-full w-[50px] h-[50px] object-cover"
-                    />
+                    {sponsorAndExhibitor?.profilePicture ? (
+                      <img
+                        src={sponsorAndExhibitor.profilePicture}
+                        className="rounded-full mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] object-cover "
+                      />
+                    ) : (
+                      <div
+                        class={`mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] rounded-full bg-${
+                          ["red", "green", "blue", "yellow", "indigo"][
+                            Math.floor(Math.random() * 5)
+                          ]
+                        }-500 flex items-center justify-center mr-2 text-white mymd:text-2xl text-lg font-medium uppercase`}
+                      >
+                        {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
+                          .filter((ele, id) => {
+                            return (
+                              ele.eventId.toString() === eventsid.params.eventId
+                            );
+                          })[0]
+                          .companyName.charAt(0)}
+                      </div>
+                    )}
                     <div className="pl-2.5 w-[197px]">
                       <div className="text-[14px] font-semibold py-1">
                         {

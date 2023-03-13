@@ -112,7 +112,10 @@ function CheckinAttendees({ setEventTitle }) {
 
   return (
     <div>
-      <form className="flex items-center my-4">
+      <form
+        className="flex items-center my-4 "
+        onSubmit={(event) => event.preventDefault()}
+      >
         <label htmlFor="simple-search" className="sr-only">
           Search
         </label>

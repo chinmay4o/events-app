@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "tailwindcss/tailwind.css";
-import "../src/styles/globals.css";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Events from "./pages/events/Events";

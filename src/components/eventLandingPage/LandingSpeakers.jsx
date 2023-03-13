@@ -15,7 +15,13 @@ const LandingSpeakers = ({ singleEvent }) => {
                     className="rounded-full sm:w-[40px] sm:h-[40px] w-[40px] h-[40px] object-cover mr-3"
                   />
                 ) : (
-                  <div class="sm:w-[40px] sm:h-[40px] w-[40px] h-[40px] rounded-full bg-primary flex items-center justify-center mr-2 text-white text-lg font-medium">
+                  <div
+                    className={`sm:w-[40px] sm:h-[40px] w-[40px] h-[40px] rounded-full bg-${
+                      ["red", "green", "blue", "yellow", "indigo"][
+                        Math.floor(Math.random() * 5)
+                      ]
+                    }-500 flex items-center justify-center mr-2 text-white text-lg font-medium uppercase`}
+                  >
                     {speakerData.firstName.slice(0, 1)}
                     {speakerData.lastName.slice(0, 1)}
                   </div>
