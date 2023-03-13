@@ -135,7 +135,7 @@ const Linkedin = () => {
   return (
     <>
       <div
-        className="bg-[#066093] w-[230px] cursor-pointer flex items-center rounded-[5px] gap-x-2 text-white text-md font-medium"
+        className="bg-[#066093] w-[220px] cursor-pointer flex items-center rounded-[5px] gap-x-2 text-white text-md font-medium"
         onClick={linkedInLogin}
       >
         <div className="w-12 h-10 bg-[#0b78b7] rounded-tl-lg rounded-bl-lg grid place-items-center">

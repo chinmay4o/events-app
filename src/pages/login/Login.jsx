@@ -47,16 +47,22 @@ function Login() {
     <>
       {/* {loading && <Loader />} */}
       <div
-        className={`grid justify-center content-center w-full sm:max-w-[1280px] mx-auto h-[calc(100vh-58px)]`}
+        className={`grid justify-center content-center w-full sm:max-w-[1280px] mx-auto h-[calc(100vh-120px)]`}
       >
         <Card>
           <form
             className="max-w-[340px] flex flex-col gap-[20px]"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <p className="text-[22px] font-[700] block text-left mb-[10px]">
+            <p className="text-[22px] font-[700] block text-left mb-[10px] text-center">
               Login to Warpbay!!
             </p>
+            <div className="grid grid-cols-1 gap-[20px] w-full place-items-center">
+              <Linkedin />
+              <Google />
+            </div>
+            <div className="border-[1px] border-gray-300 w-full"></div>
+
             <div>
               <TextInput
                 type="text"
@@ -83,11 +89,11 @@ function Login() {
               className="primary_submit"
               disabled={loading}
             />
-            <div className="border-[1px] border-gray-300 w-full"></div>
-            <div className="grid grid-cols-1 gap-[20px] w-full place-items-center">
+            {/* <div className="border-[1px] border-gray-300 w-full"></div> */}
+            {/* <div className="grid grid-cols-1 gap-[20px] w-full place-items-center">
               <Google />
               <Linkedin />
-            </div>
+            </div> */}
             <p className="text-[13px] font-[500]">
               By continuing you agree to the{" "}
               <span className="text-[#a55eea]">Term of Service</span> and{" "}

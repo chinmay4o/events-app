@@ -11,18 +11,21 @@ const ChooseCategoryEvents = (props) => {
       category.showCheck = false;
       if (index === idx) {
         setEventType(category.name.toLocaleLowerCase());
+        localStorage.setItem(
+          "showtype",
+          JSON.stringify(category.name.toLocaleLowerCase())
+        );
         category.showCheck = !category.showCheck;
       }
       return category;
     });
     setCategories(allCategories);
   };
-
   return (
     <>
-      <div className="grid justify-center content-center w-full sm:max-w-[1280px] mx-auto h-screen">
+      <div className="grid justify-center content-center w-full sm:max-w-[1280px] mx-auto h-full">
         <Card>
-          <div className="w-[340px] flex flex-col gap-[20px] md:pt-[40px] md:pb-[40px]">
+          <div className="w-[340px] flex flex-col gap-[20px]">
             <div className="flex justify-start flex-col">
               <p className="text-[23px] font-[600] mb-[15px]">
                 Which type your event falls into?
@@ -32,12 +35,21 @@ const ChooseCategoryEvents = (props) => {
             <div className="grid grid-cols-1 gap-[20px] w-full mt-[20px]">
               {categories.map((event, index) => (
                 <div
-                  className="w-[150px] h-[100px] rounded-sm cursor-pointer relative mx-auto"
+                  className="w-[340px] h-[50px] rounded-sm cursor-pointer relative mx-auto border pl-5 py-3 text-[15px] text-[#747B84] shadow"
                   key={index}
                   onClick={() => selectImage(index)}
                 >
                   <div className="relative">
-                    <img src={event.image} alt={event.name} />
+                    <div className="">{event.name}</div>
+
+                    {event.showCheck && (
+                      <img
+                        src="/svgs/check.svg"
+                        alt="check"
+                        className="absolute top-1 right-2 h-5 w-5 drop-shadow-lg"
+                      />
+                    )}
+                    {/* <img src={event.image} alt={event.name} />
                     <span className="absolute top-[75px] text-center h-[35px] w-[150px] bg-white pt-[4px] font-[600] text-[13px] text-[#3b3b3b]">
                       {event.name}
                     </span>
@@ -47,7 +59,7 @@ const ChooseCategoryEvents = (props) => {
                         alt="check"
                         className="absolute top-2 right-2 h-5 w-5 drop-shadow-lg"
                       />
-                    )}
+                    )} */}
                   </div>
                 </div>
               ))}

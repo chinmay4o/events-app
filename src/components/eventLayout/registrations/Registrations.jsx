@@ -6,6 +6,7 @@ import AttendeeCSVUpload from "./BulkUploadAttendee";
 import { useMatch } from "react-router-dom";
 import Modal from "../../../common/modals/Modal";
 import PrimaryButton from "../../../common/buttons/PrimaryButton";
+import PaginationClassic from "../../../common/pagination/PaginationClassic";
 
 function Registrations() {
   const eventsid = useMatch("/events/:eventId");
@@ -102,9 +103,9 @@ function Registrations() {
     link.click();
     document.body.removeChild(link);
   };
-  let badgeImg;
+  console.log(registrations);
   return (
-    <div className="md:ml-[0px] md:mt-[25px] md:w-[800px]">
+    <div className="md:ml-[0px] md:mt-[25px] md:w-[900px]">
       <div className="py-0">
         {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
@@ -186,7 +187,7 @@ function Registrations() {
           </div> */}
         </div>
 
-        <div className="flex flex-row items-center w-[340px] md:w-[780px] mt-2  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <div className="flex flex-row items-center w-[340px] md:w-[900px] mt-2  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
           <ul className="flex flex-wrap -mb-px">
             <li className="mr-2" onClick={() => setTab("Registered")}>
               <a
@@ -248,9 +249,9 @@ function Registrations() {
           </button> */}
         </div>
 
-        <div className="overflow-y-auto w-[335px] md:w-full min-h-[270px] max-h-[360px] scrollbar">
+        <div className="overflow-y-auto w-[335px] md:w-full min-h-[270px] scrollbar">
           {tab === "Registered" && registrations && registrations.length > 0 ? (
-            <table className="table-auto md:w-[770px]">
+            <table className="table-auto md:w-[900px]">
               <thead className="">
                 <tr className="">
                   <th className="text-[12px] font-[500] text-left leading-[45px] w-[200px]">
@@ -335,7 +336,18 @@ function Registrations() {
                                   className="text-[12px] font-[400] relative left-[0px]"
                                   id={ind}
                                 >
-                                  <p className="bg-primary rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]">
+                                  <p
+                                    className={`${
+                                      ele.highestRole === "attendee"
+                                        ? "bg-[#2D9CDB]"
+                                        : ele.highestRole === "speaker"
+                                        ? "bg-[#27AE60]"
+                                        : ele.highestRole === "organiser"
+                                        ? "bg-[#F2994A]"
+                                        : "bg-primary"
+                                    } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
+                                  >
+                                    {console.log(ele.highestRole)}
                                     {ele.highestRole.charAt(0).toUpperCase() +
                                       ele.highestRole.slice(
                                         1,
@@ -409,12 +421,13 @@ function Registrations() {
                               </button>
                             </div>
                           </div>
-
-                          <i
-                            className="fa-regular fa-id-badge text-slate-500 cursor-pointer"
+                          <img
+                            src="/svgs/IDCard.svg"
+                            alt="IDCard"
                             onMouseEnter={() => showBadge(index)}
                             onMouseLeave={() => hideBadge(index)}
-                          ></i>
+                            className="ml-[30px] cursor-pointer"
+                          />
                         </td>
                       </tr>
                     </>
@@ -486,7 +499,7 @@ function Registrations() {
             </Modal>
           </div>
         </div>
-        {/* {(registrations && registrations.length > 0) || next ? (
+        {(registrations && registrations.length > 0) || next ? (
           <div className="mt-8">
             <PaginationClassic
               onClick={async () => {
@@ -498,7 +511,7 @@ function Registrations() {
           </div>
         ) : (
           []
-        )} */}
+        )}
         {/* <div className="w-[335px] md:w-[340px] mx-auto mt-[30px]">
           <PrimaryButton
             btnText={"Invite more users"}

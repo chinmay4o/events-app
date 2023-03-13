@@ -10,7 +10,7 @@ import TextInput from "../../../common/inputElements/TextInput";
 const EventAddressDetails = (props) => {
   const [apiStatus, setApiStatus] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [eventType, seteventType] = useState();
   const [event, setEvent] = useState({
     title: "Globoil India 2022",
     startDate: "",
@@ -81,7 +81,10 @@ const EventAddressDetails = (props) => {
       props.setStep(5);
     }
   }
-
+  useEffect(() => {
+    const eventType = JSON.parse(localStorage.getItem("showtype"));
+    seteventType(eventType);
+  }, []);
   return (
     <>
       <div className="grid  justify-center content-center w-full sm:max-w-[1280px] mx-auto min-h-screen]">
@@ -99,14 +102,42 @@ const EventAddressDetails = (props) => {
             <div></div>
             <div></div>
             <div></div>
+
             <TextInput
               type="text"
               id="pincode"
-              label="Pincode"
+              label="Event Type"
               register={register}
               maxLength={6}
               required
             />
+
+            <TextInput
+              type="text"
+              id="pincode"
+              label="Address Title"
+              register={register}
+              maxLength={6}
+              required
+            />
+
+            <TextInput
+              type="text"
+              id="pincode"
+              label="Google Location"
+              register={register}
+              maxLength={6}
+              required
+            />
+
+            {/* <TextInput
+              type="text"
+              id="pincode"
+              label="Pincode"
+              register={register}
+             maxLength={6}
+              required
+            /> 
 
             <TextInput
               type="text"
@@ -146,7 +177,7 @@ const EventAddressDetails = (props) => {
               label="State"
               register={register}
               required
-            />
+            /> */}
 
             {/* <p className="text-[13px] font-normal	text-[#A55EEA] mb-[15px] -mt-[20px]">
               <span className="inline-block w-[283px]">

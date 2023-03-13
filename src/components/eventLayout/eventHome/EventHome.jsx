@@ -69,7 +69,7 @@ function EventHome() {
         </div>
         {showEventContent ? (
           <>
-            <div className="w-[335px] md:w-[422px] mx-auto md:mx-0 pt-2.5 font-normal text-[14px] text-[#4F4F4F]">
+            <div className="w-[335px] md:w-[422px] mx-auto md:mx-0 pt-0 font-normal text-[14px] text-[#4F4F4F] flex items-center">
               <a
                 onClick={() =>
                   window.open(
@@ -77,9 +77,9 @@ function EventHome() {
                     "_blank"
                   )
                 }
-                className="cursor-pointer w-[130px] h-[30px] bg-[#e7e7e7] py-[4px] px-[8px] rounded-[8px] text-[12px] font-[600] text-[#000] tracking-wide	"
+                className="cursor-pointer w-[120px] h-[30px] bg-gray-200 py-[6px] px-[8px] rounded-[10px] text-[12px] font-[600] text-[#000] tracking-wide text-center"
               >
-                visit live <i className="fa-solid fa-up-right-from-square"></i>
+                Event Page <i className="fa-solid fa-up-right-from-square"></i>
               </a>
               <a
                 className="text-[15px] font-[600] text-primary p-3 cursor-pointer"
@@ -92,7 +92,7 @@ function EventHome() {
                 <i className="fa-regular fa-copy"></i>
               </a>
             </div>
-            <div className="w-[335px] md:w-[422px] mx-auto md:mx-0 flex my-5 flex-wrap">
+            <div className="w-[335px] md:w-[422px] mx-auto md:mx-0 flex my-2 flex-wrap">
               {singleEvent.eventTag?.length > 0 ? (
                 <>
                   {singleEvent.eventTag.map((tag, index) => {

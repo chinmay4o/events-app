@@ -111,20 +111,25 @@ function SideMenu({ eventTitle, organizer }) {
             ></path>
           </svg>
         </button> */}
-        <p
-          className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px] hover:underline	cursor-pointer"
-          onClick={() =>
-            window.open(
-              `${window.location.origin}/event/${eventsid.params.eventId}`,
-              "_blank"
-            )
-          }
-        >
-          {eventTitle
-            ? eventTitle.charAt(0).toUpperCase() +
-              eventTitle.slice(1, eventTitle.length)
-            : null}
-        </p>
+        <div>
+          <p
+            className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px] hover:underline cursor-pointer relative  "
+            onClick={() =>
+              window.open(
+                `${window.location.origin}/event/${eventsid.params.eventId}`,
+                "_blank"
+              )
+            }
+          >
+            {eventTitle
+              ? eventTitle.charAt(0).toUpperCase() +
+                eventTitle.slice(1, eventTitle.length)
+              : null}
+          </p>
+          <i className="fa-solid fa-up-right-from-square absolute right-[50px] mt-1.5 cursor-pointer"></i>
+          <i className="fa-regular fa-copy absolute right-[15px] mt-1.5 cursor-pointer"></i>
+        </div>
+
         <p className="text-[10px] font-[500] relative left-[27px] top-[25px] text-gray-400">
           By {organizer ? organizer : null}
         </p>
