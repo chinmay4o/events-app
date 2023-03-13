@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import styles from "./Button.module.css";
+import styles from "./Primarybtn.module.css";
 
 const PrimaryButton = ({
   btnText,
@@ -7,7 +7,7 @@ const PrimaryButton = ({
   ...props
 }) => {
   return (
-    <button className={styles.primaryButton} onClick={onClick} {...props}>
+    <button className={styles.primary_btn} onClick={onClick} {...props}>
       {btnText}
     </button>
   );

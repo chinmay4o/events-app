@@ -10,22 +10,24 @@ import AllRoutes from "./AllRoutes";
 import EventHomeLayout from "./common/layout/EventHomeLayout";
 
 function App() {
-  const eventsid = useMatch("events/:eventId");
-  const eventid = useMatch("event/:eventId");
-  const formbuilder = useMatch("/events/:eventId/settings/formbuilder");
+  const eventsId = useMatch("events/:eventId");
+  const eventId = useMatch("event/:eventId");
+  const formBuilder = useMatch("/events/:eventId/settings/formbuilder");
   const emailMarketing = useMatch(
     "/events/:eventId/communications/eventmarketing"
   );
   const settings = useMatch("/events/:eventId/settings");
+  const linkedinAutoPost = useMatch("/events/:eventId/communications/linkedin-marketing");
   const login = useMatch("/login");
   return (
     <Provider store={store}>
-      {eventsid || formbuilder || settings || emailMarketing ? (
+      {eventsId || formBuilder || settings || linkedinAutoPost || emailMarketing ? (
         <EventHomeLayout>
           <BottomBar />
         </EventHomeLayout>
       ) : (
-        <Layout>{login || eventid ? null : <BottomBar />}</Layout>
+        <Layout>
+        {login || eventId ? null : <BottomBar />}</Layout>
       )}
 
       {/* {All Page Router} */}

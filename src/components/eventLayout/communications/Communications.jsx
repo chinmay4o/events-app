@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 // import styles from "../Events.module.css";
 import Announcements from "./Announcements";
-import Marketing from "./Marketing";
+import Marketing from "./marketing/Marketing";
 import Notifications from "./Notifications";
 
 function Communications() {
@@ -83,14 +83,6 @@ function Communications() {
       </div>
       <div className="w-[375px] mt-5 mx-auto">
         <div
-          className={`${activeTab !== "notifications-tab" ? "hidden" : ""}`}
-          id="notifications"
-          role="tabpanel"
-          aria-labelledby="notifications-tab"
-        >
-          <Notifications />
-        </div>
-        <div
           className={`${activeTab !== "marketing-tab" ? "hidden" : ""} p-4 `}
           id="marketing"
           role="tabpanel"
@@ -98,6 +90,15 @@ function Communications() {
         >
           <Marketing />
         </div>
+        <div
+          className={`${activeTab !== "notifications-tab" ? "hidden" : ""}`}
+          id="notifications"
+          role="tabpanel"
+          aria-labelledby="notifications-tab"
+        >
+          <Notifications />
+        </div>
+
         <div
           className={`${
             activeTab !== "announcements-tab" ? "hidden" : ""

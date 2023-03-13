@@ -125,7 +125,6 @@ export default function AddSpeaker({
         );
 
         const allSpeakers = await response.json();
-        console.log(response, "responseresponseresponse");
         if (response.status !== 200) {
           alert("Please add again!! some error occurred");
         }

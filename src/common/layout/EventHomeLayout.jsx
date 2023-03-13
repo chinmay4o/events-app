@@ -5,13 +5,18 @@ import DemoEventBar from "../../components/eventLayout/DemoEventBar";
 import EventLayout from "../../components/eventLayout/EventLayout";
 import { useMatch } from "react-router-dom";
 import RegForm from "../../components/eventLayout/settings/RegForm/RegForm";
+import LinkedinAutoPost from "../../components/eventLayout/communications/marketing/LinkedinAutoPost";
 import EmailMarketing from "../../components/eventLayout/communications/emailMarketing/EmailMarketing";
 
 const EventHomeLayout = () => {
-  const emailMarketing = useMatch(
-    "/events/:eventId/communications/eventmarketing"
-  );
   const formBuilder = useMatch("/events/:eventId/settings/formbuilder");
+  const LinkedinPost = useMatch(
+    "/events/:eventId/communications/linkedin-marketing"
+  );
+  const emailMarketing = useMatch(
+    "/events/:eventId/communications/eventMarketing"
+  );
+
   const singleEvent = useSelector((state) => state.eventData);
   return (
     <div className="flex flex-col">
@@ -46,13 +51,17 @@ const EventHomeLayout = () => {
                   : " h-[calc(100vh_-_58px)]"
               }`}
             >
-              {emailMarketing ? (
-                <EmailMarketing />
-              ) : formBuilder ? (
+              {formBuilder ? (
                 <RegForm />
+              ) : LinkedinPost ? (
+                <LinkedinAutoPost />
+              ) : emailMarketing ? (
+                <EmailMarketing />
               ) : (
                 <EventLayout />
               )}
+
+              {/* {props.children} */}
             </div>
           </div>
         </div>

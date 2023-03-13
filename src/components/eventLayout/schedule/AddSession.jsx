@@ -13,6 +13,8 @@ import moment from "moment";
 import throttle from "../../../utils/throttle";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import TimeInput from "../../../common/timeInput/TimeInput";
+import { UPDATE_EVENT } from "../../../redux/constants/eventConstants";
+import { useDispatch } from "react-redux";
 
 export default function AddSession({
   open,
@@ -39,6 +41,9 @@ export default function AddSession({
     reset,
     watch,
   } = useForm({ mode: "onChange" });
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isEdit) {
       const timeStr = new Date(singleSchedule?.startTime)
@@ -114,27 +119,43 @@ export default function AddSession({
       setscheduleTime("");
     }
   }, [event?.speakers, isEdit, open]); //Not good can trigger infinite loop
+
   const onSubmit = async (data) => {
     console.log(data);
     setIsSubmitting(true);
-    if (value1.length === 0) {
-      alert("Please select atleast one speaker");
+    if (
+      new Date(
+        `${moment(dateValue).format("ll")}, ${data.sessionTime}`
+      ).toISOString() < event.startDate
+    ) {
+      alert("Please select valid time!");
       setIsSubmitting(false);
-    } else if (!data.sessionTime) {
+    }  else if (!data.sessionTime) {
       alert("Please select time for the session");
       setIsSubmitting(false);
     } else {
       let scheduleCopy = event.schedule || [];
       if (scheduleCopy && scheduleCopy.length > 0) {
         if (singleSchedule.sessionName !== "" && isEdit) {
-          let newData = {
-            ...data,
-            _id: singleSchedule._id,
-            speakers: data.speakers.map((sp) => sp.value),
-            startTime: new Date(
-              `${moment(dateValue).format("ll")}, ${data.sessionTime}`
-            ).toISOString(),
-          };
+          let newData;
+          if (value1.length !== 0) { // removing speakers array if its not present
+            newData = {
+              ...data,
+              _id: singleSchedule._id,
+              speakers: data.speakers.map((speaker) => speaker.value),
+              startTime: new Date(
+                `${moment(dateValue).format("ll")}, ${data.sessionTime}`
+              ).toISOString(),
+            };
+          } else {
+            newData = {
+              ...data,
+              _id: singleSchedule._id,
+              startTime: new Date(
+                `${moment(dateValue).format("ll")}, ${data.sessionTime}`
+              ).toISOString(),
+            };
+          }
           let newscheduleCopy = scheduleCopy[
             scheduleCopy.length - 1
           ].sessions.filter((item) => {
@@ -149,7 +170,7 @@ export default function AddSession({
           scheduleCopy[scheduleCopy.length - 1].sessions.push({
             sessionName: data.sessionName,
             sessionDescription: data.sessionDescription,
-            speakers: data.speakers.map((sp) => sp.value),
+            speakers: data.speakers.length > 0 ? data.speakers.map((speaker) => speaker.value) : [],
             sessionTags: data.sessionTags.split(","),
             onlineSessionUrl: data.onlineSessionUrl,
             venueName: data.venueName,
@@ -167,7 +188,7 @@ export default function AddSession({
             {
               sessionName: data.sessionName,
               sessionDescription: data.sessionDescription,
-              speakers: data.speakers.map((sp) => sp.value),
+              speakers: data.speakers.length > 0 ? data.speakers.map((speaker) => speaker.value) : [],
               sessionTags: data.sessionTags.split(","),
               venueName: data.venueName,
               startTime: new Date(
@@ -177,6 +198,7 @@ export default function AddSession({
           ],
         };
       }
+
       try {
         const updatedEvent = await patchAuthenticatedRequest(
           `/event/${event._id}`,
@@ -190,8 +212,15 @@ export default function AddSession({
         updatedSchedule.forEach((day) => {
           allSessions = [...allSessions, ...day.sessions];
         });
-        // console.log(allSessions);
         setSchedule(allSessions);
+
+        dispatch({
+          type: UPDATE_EVENT,
+          payload: {
+            schedule: updatedEvent.data.savedEventConfig.schedule,
+          },
+        });
+
         setOpen(false);
         setIsEdit(false);
         setSingleSchedule({
@@ -207,6 +236,7 @@ export default function AddSession({
         setValue1([]);
         setIsSubmitting(false);
       } catch (err) {
+        console.log(err, "error from schedule");
         // scheduleCopy = [];
         setOpen(false);
         setIsSubmitting(false);
@@ -357,7 +387,17 @@ export default function AddSession({
                                 onChange={(value) => setDateValue(value)}
                                 value={dateValue}
                                 minDate={new Date(event.startDate)}
+                                // minDate={new Date(
+                                //   event.startDate
+                                // ).toLocaleDateString("en-IN", {
+                                //   timeZone: "Asia/Kolkata",
+                                // })}
                                 maxDate={new Date(event.endDate)}
+                                // maxDate={new Date(
+                                //   event.endDate
+                                // ).toLocaleDateString("en-IN", {
+                                //   timeZone: "Asia/Kolkata",
+                                // })}
                                 format="dMMMy"
                               />
                             </div>
@@ -379,9 +419,10 @@ export default function AddSession({
                               id={"selectSpeaker"}
                               options={options}
                               value={value1}
-                              onChange={(o) => {
-                                setValue("speakers", o);
-                                setValue1(o);
+                              onChange={(event) => {
+                                console.log(event);
+                                setValue("speakers", event);
+                                setValue1(event);
                               }}
                             />
                           </div>

@@ -10,6 +10,19 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import ProgressBar from "../../../common/progressBar/ProgressBar";
 
+function combineDateAndTime(dateString, time) {
+  // Extract date components
+  const date = new Date(dateString);
+  // Extract time components
+  const [hours, minutes, seconds] = time.split(":").map(Number);
+  const milliseconds = 0;
+  date.setHours(hours, minutes, seconds, milliseconds);
+
+  let isoString = date.toISOString();
+  console.log(isoString);
+  return isoString; //in UTC
+}
+
 const EventDescription = (props) => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,15 +44,15 @@ const EventDescription = (props) => {
 
   async function onSubmit(data) {
     setIsSubmitting(true);
+    // console.log({
+    //   startDate: combineDateAndTime(newEvent.startDate, newEvent.startTime),
+    //   endDate: combineDateAndTime(newEvent.endDate, newEvent.endTime),
+    // });
     dispatch(
       createEvent({
         ...newEvent,
-        startDate: new Date(
-          moment(newEvent.startDate).format("ll") + " " + newEvent.startTime
-        ),
-        endDate: new Date(
-          moment(newEvent.endDate).format("ll") + " " + newEvent.endTime
-        ),
+        startDate: combineDateAndTime(newEvent.startDate, newEvent.startTime),
+        endDate: combineDateAndTime(newEvent.endDate, newEvent.endTime),
         location: location,
         shortDescription: data.shortDescription,
       })

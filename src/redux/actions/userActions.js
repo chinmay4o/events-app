@@ -17,7 +17,7 @@ import {
 
 // LOGIN ACTION
 export const login =
-  ({ email, firstName, lastName, mobile, organization, jobTitle }) =>
+  ({ email, firstName, lastName, mobile, organization, jobTitle, linkedinAccessToken}) =>
   async (dispatch, getState) => {
     try {
       dispatch({ type: USER_LOGIN_REQUEST });
@@ -34,6 +34,7 @@ export const login =
             mobile,
             organization,
             jobTitle,
+            "linkedinAccessToken": linkedinAccessToken ? linkedinAccessToken : null
           }),
         }
       );

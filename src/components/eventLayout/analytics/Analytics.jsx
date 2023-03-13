@@ -12,12 +12,12 @@ import FintechCard01 from "./cards/FintechCard01";
 import AnalyticsCard02 from "./cards/AnalyticsCard02";
 import { useMatch } from "react-router-dom";
 
-function getDayWiseRegistrations(arr, eventId = null) {
+function getDayWiseRegistrations(arr, eventId = null, entity) {
   if (arr.length === 0) {
-    return null;
+    return "arr has no elements";
   }
   if (!eventId) {
-    return "cant find event id";
+    return "can't find event id";
   }
   // param is array of attendees with obj inside
   //will have attendee property that property has property named eventSpecificData
@@ -28,6 +28,13 @@ function getDayWiseRegistrations(arr, eventId = null) {
   const resultsArray = [];
 
   for (let i = 0; i < arr.length; i++) {
+    // let ele;
+    // if (entity === "attendees") {
+    //   ele = arr[i].attendees[0].eventSpecificData;
+    // }
+    // if (entity === "exhibitorAndSponsors") {
+    //   ele = arr[i].exhibitorAndSponsors[0].eventSpecificData;
+    // }
     const ele = arr[i].attendee[0].eventSpecificData;
     for (let f = 0; f < ele.length; f++) {
       if (ele[f].eventId === eventId) {
@@ -80,8 +87,8 @@ function getLabels(arr) {
     arrLabels.push(ele.date);
     arrDataPoints.push(ele.registrations);
   }
-  console.log(arrLabels);
-  console.log(arrDataPoints);
+  console.log(arrLabels, "arrLabels");
+  console.log(arrDataPoints, "arrDataPoints");
   return;
 }
 
@@ -98,11 +105,22 @@ const Analytics = () => {
     console.log(singleEvent, "from Analytics");
     getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
     getAttendedAttendees();
+    // if (singleEvent.exhibitorAndSponsor?.length) {
+    //   setExhibitors(singleEvent.exhibitorAndSponsors);
+    // }
   }, []);
 
   useEffect(() => {
-    getDayWiseRegistrations(attendees, singleEvent._id);
+    getDayWiseRegistrations(attendees, singleEvent._id, "attendees");
   }, [attendees]);
+
+  // useEffect(() => {
+  //   getDayWiseRegistrations(
+  //     exhibitors,
+  //     singleEvent._id,
+  //     "exhibitorAndSponsors"
+  //   );
+  // }, [exhibitors]);
 
   const getAllEventAttendees = async (route) => {
     const response = await getRequest(route);

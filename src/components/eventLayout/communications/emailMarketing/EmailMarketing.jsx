@@ -44,14 +44,16 @@ const EmailMarketing = () => {
       </div>
       <div className="font-[600] w-[375px] mx-auto md:w-[800px] text-[19px] text-[#585858] flex justify-between items-center mt-2">
         Scheduled Emails
-        <div
-          className=" mt-0 bg-primary w-[200px] h-[35px] text-center rounded-md cursor-pointer text-white py-[5px]"
-          onClick={() => {
-            setOpen(true);
-            setIsEdit(false);
-          }}
-        >
-          Schedule Email
+        <div className="w-[200px]">
+          <div
+            className="primary_submit"
+            onClick={() => {
+              setOpen(true);
+              setIsEdit(false);
+            }}
+          >
+            Schedule Email
+          </div>
         </div>
       </div>
       {emailDetails?.scheduledEmails?.length >= 1 ? (

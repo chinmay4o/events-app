@@ -101,7 +101,7 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
           <input
             type="checkbox"
             id="radiobtn"
-            className="mr-2 border border-[#EBEEF2] border-2 bg-white checked:bg-primary checked:border-[#EBEEF2] cursor-pointer focus:ring-0"
+            className="mr-2 border border-[#cacaca] border-2 bg-white checked:bg-primary checked:border-[#EBEEF2] cursor-pointer focus:ring-0"
             checked={false}
             onChange={() =>
               navigate(
@@ -109,7 +109,7 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
               )
             }
           />
-          <label htmlFor="radiobtn" className="flex cursor-pointer">
+          <label htmlFor="radiobtn" className="flex cursor-pointer text-[14px] font-[600]">
             Autofill via &nbsp;
             <img src="/svgs/linkedinblue.svg" alt="linkedin" /> &nbsp;Linkedin
           </label>

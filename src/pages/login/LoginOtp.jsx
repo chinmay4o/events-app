@@ -100,6 +100,7 @@ const LoginOtp = () => {
     const regex = /^[0-9\b]+$/;
     const inputChar = e.target.value;
     if (inputChar === "" || (regex.test(inputChar) && inputChar.length <= 1)) {
+    // if (regex.test(inputChar) && inputChar.length <= 1) {
       const index = parseInt(e.target.id.slice(-1)) - 1;
       const newOtp = otp.slice();
       newOtp[index] = e.target.value;
@@ -119,6 +120,7 @@ const LoginOtp = () => {
       }
     }
   };
+
   return (
     <>
       {/* {loadingB && <Loader />} */}
