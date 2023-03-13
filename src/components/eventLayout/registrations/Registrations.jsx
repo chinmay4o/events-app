@@ -69,13 +69,11 @@ function Registrations() {
       },
     });
   };
-
   const getAttendedAttendees = async () => {
     const response = await getRequest(
       `attendee/${eventsid.params.eventId}/attended/?hasAttended=true`
     );
     setAttendedRegistrations(response?.data?.registrations);
-    console.log(response);
   };
 
   const showBadge = (index) => {
@@ -85,7 +83,6 @@ function Registrations() {
   const hideBadge = (index) => {
     targetRef.current[index].style.display = "none";
   };
-  console.log(registrations);
 
   const handleDownload = () => {
     const fields = ["firstName", "lastName", "email", "organization"];
@@ -103,7 +100,6 @@ function Registrations() {
     link.click();
     document.body.removeChild(link);
   };
-  console.log(registrations);
   return (
     <div className="md:ml-[0px] md:mt-[15px] md:w-[900px] pb-12">
       <div className="py-0">
@@ -326,59 +322,109 @@ function Registrations() {
                             </p>
                           </p>
                         </td>
+                        {attendee.attendee[0] === undefined
+                          ? attendee.attendee?.eventSpecificData.map(
+                              (ele, index) => {
+                                if (ele.eventId === eventsid.params.eventId) {
+                                  const xmas95 = new Date(ele.timeStamp);
+                                  const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
+                                  return (
+                                    <td className="text-[12px] font-[400]">
+                                      {ele?.timeStamp
+                                        ? new Intl.DateTimeFormat(
+                                            "en-US",
+                                            optionsFull
+                                          ).format(xmas95)
+                                        : "N/A"}
+                                    </td>
+                                  );
+                                }
+                              }
+                            )
+                          : attendee.attendee[0]?.eventSpecificData.map(
+                              (ele, index) => {
+                                if (ele.eventId === eventsid.params.eventId) {
+                                  const xmas95 = new Date(ele.timeStamp);
+                                  const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
+                                  return (
+                                    <td className="text-[12px] font-[400]">
+                                      {ele?.timeStamp
+                                        ? new Intl.DateTimeFormat(
+                                            "en-US",
+                                            optionsFull
+                                          ).format(xmas95)
+                                        : "N/A"}
+                                    </td>
+                                  );
+                                }
+                              }
+                            )}
 
-                        {attendee.attendee[0]?.eventSpecificData.map(
-                          (ele, index) => {
-                            if (ele.eventId === eventsid.params.eventId) {
-                              const xmas95 = new Date(ele.timeStamp);
-                              const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
-                              return (
-                                <td className="text-[12px] font-[400]">
-                                  {ele?.timeStamp
-                                    ? new Intl.DateTimeFormat(
-                                        "en-US",
-                                        optionsFull
-                                      ).format(xmas95)
-                                    : "N/A"}
-                                </td>
-                              );
-                            }
-                          }
-                        )}
-                        {attendee.attendee[0]?.eventSpecificData.map(
-                          (ele, ind) => {
-                            if (ele.eventId === eventsid.params.eventId) {
-                              return (
-                                <td
-                                  className="text-[12px] font-[400] relative left-[0px]"
-                                  id={ind}
-                                >
-                                  <p
-                                    className={`${
-                                      ele.highestRole === "attendee"
-                                        ? "bg-[#2D9CDB]"
-                                        : ele.highestRole === "speaker"
-                                        ? "bg-[#27AE60]"
-                                        : ele.highestRole === "organiser"
-                                        ? "bg-[#F2994A]"
-                                        : "bg-primary"
-                                    } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
-                                  >
-                                    {console.log(ele.highestRole)}
-                                    {ele.highestRole.charAt(0).toUpperCase() +
-                                      ele.highestRole.slice(
-                                        1,
-                                        ele.highestRole.length
-                                      )}
-                                  </p>
-                                </td>
-                              );
-                            }
-                          }
-                        )}
-                        {/* <td className="text-[12px] font-[500]">1961</td> */}
-                        {/* {console.log(eventsid.params.eventId)}
-                        {console.log(attendee.attendee[0]?.eventSpecificData)} */}
+                        {attendee.attendee[0] === undefined
+                          ? attendee.attendee?.eventSpecificData.map(
+                              (ele, ind) => {
+                                if (ele.eventId === eventsid.params.eventId) {
+                                  return (
+                                    <td
+                                      className="text-[12px] font-[400] relative left-[0px]"
+                                      id={ind}
+                                    >
+                                      <p
+                                        className={`${
+                                          ele.highestRole === "attendee"
+                                            ? "bg-[#2D9CDB]"
+                                            : ele.highestRole === "speaker"
+                                            ? "bg-[#27AE60]"
+                                            : ele.highestRole === "organiser"
+                                            ? "bg-[#F2994A]"
+                                            : "bg-primary"
+                                        } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
+                                      >
+                                        {ele.highestRole
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                          ele.highestRole.slice(
+                                            1,
+                                            ele.highestRole.length
+                                          )}
+                                      </p>
+                                    </td>
+                                  );
+                                }
+                              }
+                            )
+                          : attendee.attendee[0]?.eventSpecificData.map(
+                              (ele, ind) => {
+                                if (ele.eventId === eventsid.params.eventId) {
+                                  return (
+                                    <td
+                                      className="text-[12px] font-[400] relative left-[0px]"
+                                      id={ind}
+                                    >
+                                      <p
+                                        className={`${
+                                          ele.highestRole === "attendee"
+                                            ? "bg-[#2D9CDB]"
+                                            : ele.highestRole === "speaker"
+                                            ? "bg-[#27AE60]"
+                                            : ele.highestRole === "organiser"
+                                            ? "bg-[#F2994A]"
+                                            : "bg-primary"
+                                        } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
+                                      >
+                                        {ele.highestRole
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                          ele.highestRole.slice(
+                                            1,
+                                            ele.highestRole.length
+                                          )}
+                                      </p>
+                                    </td>
+                                  );
+                                }
+                              }
+                            )}
 
                         <td className="text-center">
                           <div
@@ -389,35 +435,54 @@ function Registrations() {
                             onMouseEnter={() => showBadge(index)}
                             onMouseLeave={() => hideBadge(index)}
                           >
-                            {attendee.attendee[0]?.eventSpecificData.map(
-                              (items) => {
-                                if (items.eventId === eventsid.params.eventId) {
-                                  return (
-                                    <img
-                                      className="w-[250px] border rounded-t-xl register_img"
-                                      src={items.badgeUrl}
-                                    />
-                                  );
-                                }
-                              }
-                            )}
-                            {/* <img
-                              className="w-[250px] border rounded-t-xl register_img"
-                              src={
-                                attendee.attendee[0]?.eventSpecificData[0]
-                                  .badgeUrl
-                              }
-                            /> */}
+                            {attendee.attendee[0] === undefined
+                              ? attendee.attendee.eventSpecificData.map(
+                                  (items) => {
+                                    if (
+                                      items.eventId === eventsid.params.eventId
+                                    ) {
+                                      return (
+                                        <img
+                                          className="w-[250px] border rounded-t-xl register_img"
+                                          src={items.badgeUrl}
+                                        />
+                                      );
+                                    }
+                                  }
+                                )
+                              : attendee.attendee[0]?.eventSpecificData.map(
+                                  (items) => {
+                                    if (
+                                      items.eventId === eventsid.params.eventId
+                                    ) {
+                                      return (
+                                        <img
+                                          className="w-[250px] border rounded-t-xl register_img"
+                                          src={items.badgeUrl}
+                                        />
+                                      );
+                                    }
+                                  }
+                                )}
+
                             <div className=" flex justify-evenly text-white">
                               <button
                                 onClick={() => {
-                                  var win = window.open("");
-                                  win.document.write(
-                                    '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
-                                      attendee.attendee[0]?.eventSpecificData[0]
-                                        .badgeUrl +
-                                      '" onload="window.print();window.close()" /></body></html>'
-                                  );
+                                  let win = window.open("");
+                                  attendee.attendee[0] === undefined
+                                    ? win.document.write(
+                                        '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
+                                          attendee.attendee
+                                            ?.eventSpecificData[0].badgeUrl +
+                                          '" onload="window.print();window.close()" /></body></html>'
+                                      )
+                                    : win.document.write(
+                                        '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
+                                          attendee.attendee[0]
+                                            ?.eventSpecificData[0].badgeUrl +
+                                          '" onload="window.print();window.close()" /></body></html>'
+                                      );
+
                                   win.focus();
                                 }}
                                 title="ImageName"
