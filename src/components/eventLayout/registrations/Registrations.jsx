@@ -112,14 +112,14 @@ function Registrations() {
     document.body.removeChild(link);
   };
   return (
-    <div className="md:ml-[0px] md:mt-[15px] md:w-[900px] pb-12">
+    <div className="md:ml-[0px] md:mt-[0px] md:w-[900px] pb-12">
       <div className="py-0">
         {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
             {event.title}
           </span>
         </div> */}
-        <div className="font-[600] w-[335px] md:w-full text-[24px] pt-2.5 text-black flex justify-between items-center">
+        <div className="font-[600] w-[335px] md:w-full text-[24px] pt-4 text-black flex justify-between items-center md:sticky md:z-10 md:top-0 bg-white">
           <div>Registrations</div>
           <div className="flex">
             <button
@@ -179,22 +179,22 @@ function Registrations() {
             ></input>
           </div>
         </form>
-        <div className="w-[335px] md:w-[422px] mt-2">
-          {/* <div className="flex justify-between text-[#C5C5C7]">
+        {/* <div className="w-[335px] md:w-[422px] mt-2"> */}
+        {/* <div className="flex justify-between text-[#C5C5C7]">
             <p className="cursor-pointer">
               By Name <img src="/svgs/sort_by_alpha.svg" alt="sort"></img>
             </p>
             <p className="cursor-pointer">By Date</p> 
           </div> */}
-          {/* <div className="mt-2">
+        {/* <div className="mt-2">
             <SecondaryButton
               btnText={"Download registrations"}
               onClick={() => {}}
             />
           </div> */}
-        </div>
+        {/* </div> */}
 
-        <div className="flex flex-row items-center w-[340px] md:w-[900px] mt-2  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 justify-between">
+        <div className="flex flex-row items-center w-[340px] md:w-[900px] mt-0  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 justify-between md:sticky md:z-10 md:top-[59px] bg-white md:pt-2">
           <ul className="flex flex-wrap -mb-px">
             <li className="mr-2" onClick={() => setTab("Registered")}>
               <a
@@ -225,7 +225,12 @@ function Registrations() {
             </li>
           </ul>
           <div className="text-[13px]">
-            Showing {registrations.length} of {total} results
+            Showing{" "}
+            <span className="font-semibold text-[14px]">
+              {registrations.length}
+            </span>{" "}
+            of <span className="font-semibold text-[14px]">{total}</span>{" "}
+            results
           </div>
           {/* <div className="inline text-[#C5C5C7] ">
             <p className="cursor-pointer">
