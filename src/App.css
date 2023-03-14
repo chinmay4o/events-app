@@ -710,6 +710,7 @@ body {
   color: rgb(219, 219, 219);
   white-space: pre;
 }
+
 .react-date-picker__inputGroup__input {
   color: rgb(106, 106, 106);
   min-width: 0.54em;
@@ -721,7 +722,8 @@ body {
   font: inherit;
   font-size: 14px;
   box-sizing: content-box;
-  -moz-appearance: textfield;
+  -moz-appearance: none !important;
+  appearance: none !important;
 }
 .react-date-picker__inputGroup__input::-webkit-outer-spin-button,
 .react-date-picker__inputGroup__input::-webkit-inner-spin-button {
