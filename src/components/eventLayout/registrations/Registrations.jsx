@@ -266,278 +266,299 @@ function Registrations() {
 
         <div className="overflow-y-auto w-[335px] md:w-full min-h-[270px] scrollbar">
           {tab === "Registered" && registrations && registrations.length > 0 ? (
-            <table className="table-auto md:w-[900px]">
-              <thead className="">
-                <tr className="">
-                  <th className="text-[12px] font-[500] text-left leading-[45px] w-[200px]">
-                    User
-                  </th>
-                  <th className="text-[12px] font-[500] text-left leading-[45px] w-[230px]">
-                    Contact Info
-                  </th>
-                  <th className="text-[12px] font-[500] text-left leading-[45px] w-[195px]">
-                    Registration date
-                  </th>
-                  <th className="text-[12px] font-[500] text-left leading-[45px] w-[100px]">
-                    Role
-                  </th>
-                  <th className="text-[12px] font-[500] leading-[45px] text-center w-[90px]">
-                    Badge
-                  </th>
-                </tr>
-              </thead>
+            <>
+              <table className="table-auto md:w-[900px]">
+                <thead className="">
+                  <tr className="">
+                    <th className="text-[12px] font-[500] text-left leading-[45px] w-[200px]">
+                      User
+                    </th>
+                    <th className="text-[12px] font-[500] text-left leading-[45px] w-[230px]">
+                      Contact Info
+                    </th>
+                    <th className="text-[12px] font-[500] text-left leading-[45px] w-[195px]">
+                      Registration date
+                    </th>
+                    <th className="text-[12px] font-[500] text-left leading-[45px] w-[100px]">
+                      Role
+                    </th>
+                    <th className="text-[12px] font-[500] leading-[45px] text-center w-[90px]">
+                      Badge
+                    </th>
+                  </tr>
+                </thead>
 
-              <tbody className="">
-                {registrations.map((attendee, index) => {
-                  return (
-                    <>
-                      <tr className="h-[55px] border-b">
-                        <td className="text-[12px] font-[500]]">
-                          <div className="grid grid-cols-[45px_1fr] gap-[1px]">
-                            {attendee.profilePicture ? (
-                              <img
-                                src={attendee.profilePicture}
-                                className="w-[32px] h-[32px] rounded-[50%] object-cover"
-                              />
-                            ) : (
-                              <div
-                                className={`sm:w-[32px] sm:h-[32px] w-[32px] h-[32px] rounded-full bg-${
-                                  ["red", "green", "blue", "yellow", "indigo"][
-                                    Math.floor(Math.random() * 5)
-                                  ]
-                                }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
-                              >
-                                {attendee.firstName.slice(0, 1)}
-                                {attendee.lastName.slice(0, 1)}
-                              </div>
-                            )}
-                            {/* <img
+                <tbody className="">
+                  {registrations.map((attendee, index) => {
+                    return (
+                      <>
+                        <tr className="h-[55px] border-b">
+                          <td className="text-[12px] font-[500]]">
+                            <div className="grid grid-cols-[45px_1fr] gap-[1px]">
+                              {attendee.profilePicture ? (
+                                <img
+                                  src={attendee.profilePicture}
+                                  className="w-[32px] h-[32px] rounded-[50%] object-cover"
+                                />
+                              ) : (
+                                <div
+                                  className={`sm:w-[32px] sm:h-[32px] w-[32px] h-[32px] rounded-full bg-${
+                                    [
+                                      "red",
+                                      "green",
+                                      "blue",
+                                      "yellow",
+                                      "indigo",
+                                    ][Math.floor(Math.random() * 5)]
+                                  }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
+                                >
+                                  {attendee.firstName.slice(0, 1)}
+                                  {attendee.lastName.slice(0, 1)}
+                                </div>
+                              )}
+                              {/* <img
                               src={`${
                                 attendee.profilePicture || "/svgs/profile.svg"
                               }`}
                               className="w-[32px] h-[32px] rounded-[50%] object-cover"
                             /> */}
-                            <p className="text-[12px] font-[400] grid grid-rows-2">
-                              <p>
-                                {attendee.firstName.charAt(0).toUpperCase() +
-                                  attendee.firstName.slice(
-                                    1,
-                                    attendee.firstName.length
-                                  )}{" "}
-                                {attendee.lastName}
+                              <p className="text-[12px] font-[400] grid grid-rows-2">
+                                <p>
+                                  {attendee.firstName.charAt(0).toUpperCase() +
+                                    attendee.firstName.slice(
+                                      1,
+                                      attendee.firstName.length
+                                    )}{" "}
+                                  {attendee.lastName}
+                                </p>
+                                <p className="text-[10px] text-slate-500">
+                                  {attendee.jobTitle && attendee.jobTitle},{" "}
+                                  {attendee.organization &&
+                                    attendee.organization}
+                                </p>
                               </p>
-                              <p className="text-[10px] text-slate-500">
-                                {attendee.jobTitle && attendee.jobTitle},{" "}
-                                {attendee.organization && attendee.organization}
-                              </p>
-                            </p>
-                          </div>
-                        </td>
-                        <td className="text-[12px] font-[500]">
-                          <p className="text-[12px] font-[400] grid grid-rows-2">
-                            <p>{attendee.email && attendee.email}</p>
-                            <p className="text-[10px] text-slate-500">
-                              {attendee.mobile && attendee.mobile}
-                            </p>
-                          </p>
-                        </td>
-                        {attendee.attendee[0] === undefined
-                          ? attendee.attendee?.eventSpecificData.map(
-                              (ele, index) => {
-                                if (ele.eventId === eventsId.params.eventId) {
-                                  const xmas95 = new Date(ele.timeStamp);
-                                  const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
-                                  return (
-                                    <td className="text-[12px] font-[400]">
-                                      {ele?.timeStamp
-                                        ? new Intl.DateTimeFormat(
-                                            "en-US",
-                                            optionsFull
-                                          ).format(xmas95)
-                                        : "N/A"}
-                                    </td>
-                                  );
-                                }
-                              }
-                            )
-                          : attendee.attendee[0]?.eventSpecificData.map(
-                              (ele, index) => {
-                                if (ele.eventId === eventsId.params.eventId) {
-                                  const xmas95 = new Date(ele.timeStamp);
-                                  const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
-                                  return (
-                                    <td className="text-[12px] font-[400]">
-                                      {ele?.timeStamp
-                                        ? new Intl.DateTimeFormat(
-                                            "en-US",
-                                            optionsFull
-                                          ).format(xmas95)
-                                        : "N/A"}
-                                    </td>
-                                  );
-                                }
-                              }
-                            )}
-
-                        {attendee.attendee[0] === undefined
-                          ? attendee.attendee?.eventSpecificData.map(
-                              (ele, ind) => {
-                                if (ele.eventId === eventsId.params.eventId) {
-                                  return (
-                                    <td
-                                      className="text-[12px] font-[400] relative left-[0px]"
-                                      id={ind}
-                                    >
-                                      <p
-                                        className={`${
-                                          ele.highestRole === "attendee"
-                                            ? "bg-[#2D9CDB]"
-                                            : ele.highestRole === "speaker"
-                                            ? "bg-[#27AE60]"
-                                            : ele.highestRole === "organiser"
-                                            ? "bg-[#F2994A]"
-                                            : "bg-primary"
-                                        } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
-                                      >
-                                        {ele.highestRole
-                                          .charAt(0)
-                                          .toUpperCase() +
-                                          ele.highestRole.slice(
-                                            1,
-                                            ele.highestRole.length
-                                          )}
-                                      </p>
-                                    </td>
-                                  );
-                                }
-                              }
-                            )
-                          : attendee.attendee[0]?.eventSpecificData.map(
-                              (ele, ind) => {
-                                if (ele.eventId === eventsId.params.eventId) {
-                                  return (
-                                    <td
-                                      className="text-[12px] font-[400] relative left-[0px]"
-                                      id={ind}
-                                    >
-                                      <p
-                                        className={`${
-                                          ele.highestRole === "attendee"
-                                            ? "bg-[#2D9CDB]"
-                                            : ele.highestRole === "speaker"
-                                            ? "bg-[#27AE60]"
-                                            : ele.highestRole === "organiser"
-                                            ? "bg-[#F2994A]"
-                                            : "bg-primary"
-                                        } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
-                                      >
-                                        {ele.highestRole
-                                          .charAt(0)
-                                          .toUpperCase() +
-                                          ele.highestRole.slice(
-                                            1,
-                                            ele.highestRole.length
-                                          )}
-                                      </p>
-                                    </td>
-                                  );
-                                }
-                              }
-                            )}
-
-                        <td className="text-center">
-                          <div
-                            ref={(element) => {
-                              targetRef.current[index] = element;
-                            }}
-                            className="absolute z-10 inline-block px-3 py-1 shadow-s ml-10 mt-0 bg-transparent hidden bottom-[20px] "
-                            onMouseEnter={() => showBadge(index)}
-                            onMouseLeave={() => hideBadge(index)}
-                          >
-                            {attendee.attendee[0] === undefined
-                              ? attendee.attendee.eventSpecificData.map(
-                                  (items) => {
-                                    if (
-                                      items.eventId === eventsId.params.eventId
-                                    ) {
-                                      return (
-                                        <img
-                                          className="w-[250px] border rounded-t-xl register_img"
-                                          src={items.badgeUrl}
-                                        />
-                                      );
-                                    }
-                                  }
-                                )
-                              : attendee.attendee[0]?.eventSpecificData.map(
-                                  (items) => {
-                                    if (
-                                      items.eventId === eventsId.params.eventId
-                                    ) {
-                                      return (
-                                        <img
-                                          className="w-[250px] border rounded-t-xl register_img"
-                                          src={items.badgeUrl}
-                                        />
-                                      );
-                                    }
-                                  }
-                                )}
-
-                            <div className=" flex justify-evenly text-white">
-                              <button
-                                onClick={() => {
-                                  let win = window.open("");
-                                  attendee.attendee[0] === undefined
-                                    ? win.document.write(
-                                        '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
-                                          attendee.attendee
-                                            ?.eventSpecificData[0].badgeUrl +
-                                          '" onload="window.print();window.close()" /></body></html>'
-                                      )
-                                    : win.document.write(
-                                        '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
-                                          attendee.attendee[0]
-                                            ?.eventSpecificData[0].badgeUrl +
-                                          '" onload="window.print();window.close()" /></body></html>'
-                                      );
-
-                                  win.focus();
-                                }}
-                                title="ImageName"
-                                className="w-[100%] bg-primary h-[30px] mr-2 rounded-bl-lg"
-                              >
-                                Print
-                              </button>
-                              <button
-                                className="w-[100%] bg-primary h-[30px] rounded-br-lg"
-                                onClick={() =>
-                                  window.open(
-                                    `${attendee.attendee[0]?.eventSpecificData[0].badgeUrl}`,
-                                    "_blank"
-                                  )
-                                }
-                              >
-                                Preview
-                              </button>
                             </div>
-                          </div>
-                          <img
-                            src="/svgs/IDCard.svg"
-                            alt="IDCard"
-                            onMouseEnter={() => showBadge(index)}
-                            onMouseLeave={() => hideBadge(index)}
-                            className="ml-[30px] cursor-pointer"
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-              </tbody>
-            </table>
-          ) : // </table>
-          tab === "Attended" &&
+                          </td>
+                          <td className="text-[12px] font-[500]">
+                            <p className="text-[12px] font-[400] grid grid-rows-2">
+                              <p>{attendee.email && attendee.email}</p>
+                              <p className="text-[10px] text-slate-500">
+                                {attendee.mobile && attendee.mobile}
+                              </p>
+                            </p>
+                          </td>
+                          {attendee.attendee[0] === undefined
+                            ? attendee.attendee?.eventSpecificData.map(
+                                (ele, index) => {
+                                  if (ele.eventId === eventsId.params.eventId) {
+                                    const xmas95 = new Date(ele.timeStamp);
+                                    const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
+                                    return (
+                                      <td className="text-[12px] font-[400]">
+                                        {ele?.timeStamp
+                                          ? new Intl.DateTimeFormat(
+                                              "en-US",
+                                              optionsFull
+                                            ).format(xmas95)
+                                          : "N/A"}
+                                      </td>
+                                    );
+                                  }
+                                }
+                              )
+                            : attendee.attendee[0]?.eventSpecificData.map(
+                                (ele, index) => {
+                                  if (ele.eventId === eventsId.params.eventId) {
+                                    const xmas95 = new Date(ele.timeStamp);
+                                    const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
+                                    return (
+                                      <td className="text-[12px] font-[400]">
+                                        {ele?.timeStamp
+                                          ? new Intl.DateTimeFormat(
+                                              "en-US",
+                                              optionsFull
+                                            ).format(xmas95)
+                                          : "N/A"}
+                                      </td>
+                                    );
+                                  }
+                                }
+                              )}
+
+                          {attendee.attendee[0] === undefined
+                            ? attendee.attendee?.eventSpecificData.map(
+                                (ele, ind) => {
+                                  if (ele.eventId === eventsId.params.eventId) {
+                                    return (
+                                      <td
+                                        className="text-[12px] font-[400] relative left-[0px]"
+                                        id={ind}
+                                      >
+                                        <p
+                                          className={`${
+                                            ele.highestRole === "attendee"
+                                              ? "bg-[#2D9CDB]"
+                                              : ele.highestRole === "speaker"
+                                              ? "bg-[#27AE60]"
+                                              : ele.highestRole === "organiser"
+                                              ? "bg-[#F2994A]"
+                                              : "bg-primary"
+                                          } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
+                                        >
+                                          {ele.highestRole
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                            ele.highestRole.slice(
+                                              1,
+                                              ele.highestRole.length
+                                            )}
+                                        </p>
+                                      </td>
+                                    );
+                                  }
+                                }
+                              )
+                            : attendee.attendee[0]?.eventSpecificData.map(
+                                (ele, ind) => {
+                                  if (ele.eventId === eventsId.params.eventId) {
+                                    return (
+                                      <td
+                                        className="text-[12px] font-[400] relative left-[0px]"
+                                        id={ind}
+                                      >
+                                        <p
+                                          className={`${
+                                            ele.highestRole === "attendee"
+                                              ? "bg-[#2D9CDB]"
+                                              : ele.highestRole === "speaker"
+                                              ? "bg-[#27AE60]"
+                                              : ele.highestRole === "organiser"
+                                              ? "bg-[#F2994A]"
+                                              : "bg-primary"
+                                          } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
+                                        >
+                                          {ele.highestRole
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                            ele.highestRole.slice(
+                                              1,
+                                              ele.highestRole.length
+                                            )}
+                                        </p>
+                                      </td>
+                                    );
+                                  }
+                                }
+                              )}
+
+                          <td className="text-center">
+                            <div
+                              ref={(element) => {
+                                targetRef.current[index] = element;
+                              }}
+                              className="absolute z-10 inline-block px-3 py-1 shadow-s ml-10 mt-0 bg-transparent hidden bottom-[20px] "
+                              onMouseEnter={() => showBadge(index)}
+                              onMouseLeave={() => hideBadge(index)}
+                            >
+                              {attendee.attendee[0] === undefined
+                                ? attendee.attendee.eventSpecificData.map(
+                                    (items) => {
+                                      if (
+                                        items.eventId ===
+                                        eventsId.params.eventId
+                                      ) {
+                                        return (
+                                          <img
+                                            className="w-[250px] border rounded-t-xl register_img"
+                                            src={items.badgeUrl}
+                                          />
+                                        );
+                                      }
+                                    }
+                                  )
+                                : attendee.attendee[0]?.eventSpecificData.map(
+                                    (items) => {
+                                      if (
+                                        items.eventId ===
+                                        eventsId.params.eventId
+                                      ) {
+                                        return (
+                                          <img
+                                            className="w-[250px] border rounded-t-xl register_img"
+                                            src={items.badgeUrl}
+                                          />
+                                        );
+                                      }
+                                    }
+                                  )}
+
+                              <div className=" flex justify-evenly text-white">
+                                <button
+                                  onClick={() => {
+                                    let win = window.open("");
+                                    attendee.attendee[0] === undefined
+                                      ? win.document.write(
+                                          '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
+                                            attendee.attendee
+                                              ?.eventSpecificData[0].badgeUrl +
+                                            '" onload="window.print();window.close()" /></body></html>'
+                                        )
+                                      : win.document.write(
+                                          '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
+                                            attendee.attendee[0]
+                                              ?.eventSpecificData[0].badgeUrl +
+                                            '" onload="window.print();window.close()" /></body></html>'
+                                        );
+
+                                    win.focus();
+                                  }}
+                                  title="ImageName"
+                                  className="w-[100%] bg-primary h-[30px] mr-2 rounded-bl-lg"
+                                >
+                                  Print
+                                </button>
+                                <button
+                                  className="w-[100%] bg-primary h-[30px] rounded-br-lg"
+                                  onClick={() =>
+                                    window.open(
+                                      `${attendee.attendee[0]?.eventSpecificData[0].badgeUrl}`,
+                                      "_blank"
+                                    )
+                                  }
+                                >
+                                  Preview
+                                </button>
+                              </div>
+                            </div>
+                            <img
+                              src="/svgs/IDCard.svg"
+                              alt="IDCard"
+                              onMouseEnter={() => showBadge(index)}
+                              onMouseLeave={() => hideBadge(index)}
+                              className="ml-[30px] cursor-pointer"
+                            />
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+              {registrations.length >= total ||
+              (searchValue.value !== "" && searchValue.value !== " ") ? (
+                <></>
+              ) : (
+                <div
+                  className="text-center mt-3 cursor-pointer text-primary mx-auto"
+                  onClick={async () => {
+                    await getAllEventAttendees();
+                  }}
+                >
+                  Load More...
+                </div>
+              )}
+            </>
+          ) : tab === "Attended" &&
             attendedRegistrations &&
             attendedRegistrations.length > 0 ? (
             attendedRegistrations.map((attendee, index) => {
@@ -610,19 +631,6 @@ function Registrations() {
             </Modal>
           </div>
         </div>
-        {registrations.length >= total ||
-        (searchValue.value !== "" && searchValue.value !== " ") ? (
-          <></>
-        ) : (
-          <div
-            className="text-center mt-3 cursor-pointer text-primary"
-            onClick={async () => {
-              await getAllEventAttendees();
-            }}
-          >
-            Load More...
-          </div>
-        )}
 
         {/* {(registrations && registrations.length > 0) || next ? (
           <div className="mt-8">

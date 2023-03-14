@@ -330,34 +330,51 @@ const LandingPage = ({ singleEvent }) => {
             >
               Schedule
             </div>
-            <div
-              onClick={() => {
-                navigate(`/event/${eventsId.params.eventId}?tab=${"speakers"}`);
-              }}
-              style={
-                searchParams.get("tab") === "speakers" ? { color: "black" } : {}
-              }
-              className={
-                searchParams.get("tab") === "speakers" &&
-                "font-[600] underline underline-offset-8 decoration-black decoration-2"
-              }
-            >
-              Speakers
-            </div>
-            <div
-              onClick={() => {
-                navigate(`/event/${eventsId.params.eventId}?tab=${"sponsors"}`);
-              }}
-              style={
-                searchParams.get("tab") === "sponsors" ? { color: "black" } : {}
-              }
-              className={
-                searchParams.get("tab") === "sponsors" &&
-                "font-[600] underline underline-offset-8 decoration-black decoration-2"
-              }
-            >
-              Sponsors
-            </div>
+            {singleEvent.speakers.length === 0 ? (
+              <></>
+            ) : (
+              <div
+                onClick={() => {
+                  navigate(
+                    `/event/${eventsId.params.eventId}?tab=${"speakers"}`
+                  );
+                }}
+                style={
+                  searchParams.get("tab") === "speakers"
+                    ? { color: "black" }
+                    : {}
+                }
+                className={
+                  searchParams.get("tab") === "speakers" &&
+                  "font-[600] underline underline-offset-8 decoration-black decoration-2"
+                }
+              >
+                Speakers
+              </div>
+            )}
+            {singleEvent.exhibitorAndSponsors.length === 0 ? (
+              <></>
+            ) : (
+              <div
+                onClick={() => {
+                  navigate(
+                    `/event/${eventsId.params.eventId}?tab=${"sponsors"}`
+                  );
+                }}
+                style={
+                  searchParams.get("tab") === "sponsors"
+                    ? { color: "black" }
+                    : {}
+                }
+                className={
+                  searchParams.get("tab") === "sponsors" &&
+                  "font-[600] underline underline-offset-8 decoration-black decoration-2"
+                }
+              >
+                Sponsors
+              </div>
+            )}
+
             <div
               onClick={() => {
                 navigate(`/event/${eventsId.params.eventId}?tab=${"contact"}`);
