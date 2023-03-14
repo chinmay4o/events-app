@@ -50,10 +50,7 @@ const AllRoutes = () => {
         path="/events/:eventId/settings/formbuilder"
         element={<FormBuilder />}
       />
-      {/* <Route
-        path="/events/:eventId/communications/linkedin-marketing"
-        element={<LinkedinAutoPost />}
-      /> */}
+      <Route path="/events/:eventId/communications/linkedin-marketing" />
 
       <Route path="/events/:eventId/communications/eventmarketing" />
       <Route

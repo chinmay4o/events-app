@@ -15,7 +15,7 @@ function Communications() {
           {event.title}
         </span>
       </div> */}
-      <div className="font-[600] w-[375px] mx-auto md:w-[375px] text-[19px] pt-2.5 text-[#585858]">
+      <div className="font-[600] w-[375px] mx-auto md:w-[375px] text-[24px] pt-2.5 text-black">
         Communications
       </div>
       <div className="w-[375px] mt-5 mx-auto border-b border-gray-200 dark:border-gray-700">

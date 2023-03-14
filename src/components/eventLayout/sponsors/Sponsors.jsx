@@ -54,7 +54,7 @@ function Sponsors() {
             <img src="/svgs/Settings.svg" alt="edit" className="cursor-pointer" />
           </div>
         </div> */}
-        <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+        <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[20px] pt-2.5 text-black md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
           <div>Sponsors/ Exhibitors</div>
           <div className="w-[335px] md:w-[200px]">
             <PrimaryButton

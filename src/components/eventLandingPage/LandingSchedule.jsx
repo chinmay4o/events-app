@@ -35,7 +35,7 @@ const Schedule = ({ singleEvent }) => {
                   </div>
                 </div>
                 <div className="grid grid-cols-[90px_1fr_60px]">
-                  <div className=" text-[14.5px] text-base font-semibold py-1 text-[#000000]">
+                  <div className=" text-[14.5px] font-semibold py-1 text-[#000000]">
                     {new Date(session.startTime).toLocaleDateString("en-UK", {
                       month: "short",
                       day: "numeric",

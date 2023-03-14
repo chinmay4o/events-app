@@ -50,7 +50,7 @@ function Speakers() {
             {event.title}
           </span>
         </div> */}
-          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-3 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[24px] pt-3 text-black md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
             <div>Speakers</div>
             {speakers && speakers.length > 0 ? (
               <div className="w-[335px] md:w-[230px]">

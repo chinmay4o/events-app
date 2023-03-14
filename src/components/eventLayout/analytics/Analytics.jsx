@@ -145,7 +145,7 @@ const Analytics = () => {
 
   return (
     <div className="w-full md:w-[85%] md:ml-[0px] md:mt-[25px] min-h-[1260px">
-      <p className="font-[600] w-full mx-auto md:w-full text-[21px] pt-2.5 text-[#585858]">
+      <p className="font-[600] w-full mx-auto md:w-full text-[24px] pt-2.5 text-black">
         Analytics
       </p>
 

@@ -14,7 +14,7 @@ function Settings() {
         {event.title}
       </span>
     </div> */}
-      <div className="font-[600] w-[375px] mx-auto md:w-[375px] text-[19px] pt-2.5 text-[#585858]">
+      <div className="font-[600] w-[375px] mx-auto md:w-[375px] text-[24px] pt-2.5 text-black">
         Event Setup
       </div>
       <div className="my-4 w-[375px] mx-auto pb-[40px] cursor-pointer">

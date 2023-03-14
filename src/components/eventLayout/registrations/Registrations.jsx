@@ -50,14 +50,23 @@ function Registrations() {
 
   const getAllEventAttendees = async (route) => {
     const response = await getRequest(route || next);
-
     if (
       registrations.length === 0 &&
       (searchValue.value === "" || searchValue.value === " ")
     ) {
-      setRegistrations(response.data.attendees);
+      const allAttendees = [...registrations, ...response.data.attendees];
+      const uniqueData = allAttendees.filter(
+        (value, index, self) =>
+          self.findIndex((t) => t.email === value.email) === index
+      );
+      setRegistrations(uniqueData);
     } else {
-      setRegistrations(response.data.attendees);
+      const allAttendees = [...registrations, ...response.data.attendees];
+      const uniqueData = allAttendees.filter(
+        (value, index, self) =>
+          self.findIndex((t) => t.email === value.email) === index
+      );
+      setRegistrations(uniqueData);
     }
 
     setNext(response?.data?.next);
@@ -84,6 +93,8 @@ function Registrations() {
     targetRef.current[index].style.display = "none";
   };
 
+  console.log(total);
+
   const handleDownload = () => {
     const fields = ["firstName", "lastName", "email", "organization"];
     const headerRow = fields.join(",");
@@ -108,7 +119,7 @@ function Registrations() {
             {event.title}
           </span>
         </div> */}
-        <div className="font-[600] w-[335px] md:w-full text-[19px] pt-2.5 text-[#585858] flex justify-between items-center">
+        <div className="font-[600] w-[335px] md:w-full text-[24px] pt-2.5 text-black flex justify-between items-center">
           <div>Registrations</div>
           <div className="flex">
             <button
@@ -183,7 +194,7 @@ function Registrations() {
           </div> */}
         </div>
 
-        <div className="flex flex-row items-center w-[340px] md:w-[900px] mt-2  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <div className="flex flex-row items-center w-[340px] md:w-[900px] mt-2  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 justify-between">
           <ul className="flex flex-wrap -mb-px">
             <li className="mr-2" onClick={() => setTab("Registered")}>
               <a
@@ -213,6 +224,9 @@ function Registrations() {
               </a>
             </li>
           </ul>
+          <div className="text-[13px]">
+            Showing {registrations.length} of {total} results
+          </div>
           {/* <div className="inline text-[#C5C5C7] ">
             <p className="cursor-pointer">
               By Name{" "}
@@ -591,14 +605,28 @@ function Registrations() {
             </Modal>
           </div>
         </div>
+        {registrations.length >= total ||
+        (searchValue.value !== "" && searchValue.value !== " ") ? (
+          <></>
+        ) : (
+          <div
+            className="text-center mt-3 cursor-pointer text-primary"
+            onClick={async () => {
+              await getAllEventAttendees();
+            }}
+          >
+            Load More...
+          </div>
+        )}
+
         {/* {(registrations && registrations.length > 0) || next ? (
           <div className="mt-8">
             <PaginationClassic
               onClick={async () => {
                 await getAllEventAttendees();
               }}
-              page={next ? next[next.indexOf("page=") + 5] : "1"}
-              total={total}
+              // page={next ? next[next.indexOf("page=") + 5] : "1"}
+              // total={total}
             />
           </div>
         ) : (
