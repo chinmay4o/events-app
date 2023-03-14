@@ -133,7 +133,7 @@ const EventAddressDetails = (props) => {
             <div></div>
             <div></div>
             <div></div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <Select
                 multiple
                 register={register}
@@ -162,16 +162,16 @@ const EventAddressDetails = (props) => {
               id="landmark"
               required
               register={register}
-            />
+            /> */}
 
-            {/* <TextInput
+            <TextInput
               type="text"
               id="pincode"
               label="Pincode"
               register={register}
-             maxLength={6}
+              maxLength={6}
               required
-            /> 
+            />
 
             <TextInput
               type="text"
@@ -211,7 +211,7 @@ const EventAddressDetails = (props) => {
               label="State"
               register={register}
               required
-            /> */}
+            />
 
             {/* <p className="text-[13px] font-normal	text-[#A55EEA] mb-[15px] -mt-[20px]">
               <span className="inline-block w-[283px]">

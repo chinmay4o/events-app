@@ -38,7 +38,6 @@ export default function EditEvent({
   });
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (singleEvent.title) {
       setProfilePicture(singleEvent.coverImage);
@@ -232,6 +231,7 @@ export default function EditEvent({
                           <div className="mb-[42px]"></div>
 
                           <p className="text-[13px] font-[500] mt-[22px]"></p>
+
                           <TextInput
                             type="text"
                             id="pincode"

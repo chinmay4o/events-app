@@ -243,9 +243,7 @@ export default function AddEmailSchedule({
                     <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                       <div className="px-4 sm:px-6">
                         <Dialog.Title className="text-[22px] pb-[25px] font-[600] text-gray-900">
-                          {!isEdit
-                            ? "Create New Email Campaign"
-                            : "Edit Campaign"}
+                          {!isEdit ? "Schedule Email" : "Edit Email"}
                         </Dialog.Title>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
@@ -307,7 +305,7 @@ export default function AddEmailSchedule({
                                 htmlFor="startDate"
                                 className="text-[12px] text-[#9c9c9c] absolute -top-[18px] left-[5px]"
                               >
-                                Campaign Date
+                                Scheduled Date
                               </label>
                               <DatePicker
                                 onChange={(value) => setDateValue(value)}
@@ -324,7 +322,7 @@ export default function AddEmailSchedule({
                               value={scheduleTime}
                               setValue={setValue}
                               id={"campaignTime"}
-                              label={"Campaign Time"}
+                              label={"Scheduled Time"}
                               isHalfWidth={false}
                             />
                           </div>
@@ -341,9 +339,7 @@ export default function AddEmailSchedule({
                             <input
                               disabled={isSubmitting}
                               value={
-                                isSubmitting
-                                  ? "Loading..."
-                                  : "Schedule Campaign"
+                                isSubmitting ? "Loading..." : "Schedule Email"
                               }
                               type="submit"
                               className="primary_submit"

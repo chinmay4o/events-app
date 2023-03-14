@@ -231,11 +231,6 @@ function EventHome() {
                     ) : (
                       singleEvent.location?.addressLine1
                     )}
-                    {/* {singleEvent.location?.addressLine1},
-                    {singleEvent.location?.addressLine2},
-                    {singleEvent.location?.state},{" "}
-                    {singleEvent.location?.pincode},{" "}
-                    {singleEvent.location?.city} */}
                     <a
                       onClick={() => {
                         window.open(singleEvent.location?.landmark, "_blank");

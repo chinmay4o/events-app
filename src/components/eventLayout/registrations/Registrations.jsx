@@ -93,8 +93,6 @@ function Registrations() {
     targetRef.current[index].style.display = "none";
   };
 
-  console.log(total);
-
   const handleDownload = () => {
     const fields = ["firstName", "lastName", "email", "organization"];
     const headerRow = fields.join(",");
@@ -111,6 +109,8 @@ function Registrations() {
     link.click();
     document.body.removeChild(link);
   };
+
+  console.log(registrations);
   return (
     <div className="md:ml-[0px] md:mt-[0px] md:w-[900px] pb-12">
       <div className="py-0">
