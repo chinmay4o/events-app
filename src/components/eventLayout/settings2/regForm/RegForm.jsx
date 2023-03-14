@@ -12,7 +12,7 @@ import { FormControl } from "./FormControl";
 function RegForm() {
   const [regForm, setRegForm] = useState({});
   const [inputType, setInputType] = useState("text");
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   const formMethods = useForm();
   const {
     handleSubmit,
@@ -63,12 +63,12 @@ function RegForm() {
     setRegForm(regFormCopy);
     if (regForm) {
       patchRequest(
-        `event/${eventsid.params.eventId}/additionalForm`,
+        `event/${eventsId.params.eventId}/additionalForm`,
         regFormCopy
       );
     } else {
       postRequest(
-        `event/${eventsid.params.eventId}/additionalForm`,
+        `event/${eventsId.params.eventId}/additionalForm`,
         regFormCopy
       );
     }
@@ -81,15 +81,15 @@ function RegForm() {
   useEffect(() => {
     const getAdditionalForm = async () => {
       const response = await getRequest(
-        `/event/${eventsid.params.eventId}/additionalForm`
+        `/event/${eventsId.params.eventId}/additionalForm`
       );
       console.log(response, "response");
       setRegForm(response.data[0]?.form);
     };
-    if (eventsid.params.eventId) {
+    if (eventsId.params.eventId) {
       getAdditionalForm();
     }
-  }, [eventsid]);
+  }, [eventsId]);
 
   return (
     <div className="m-7 pl-2 w-[700px]">

@@ -58,7 +58,7 @@ export default function EditEvent({
   }, [open]);
 
   const navigate = useNavigate();
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     setEventLocation((prev) => {
@@ -91,7 +91,7 @@ export default function EditEvent({
 
     axios
       .patch(
-        `${process.env.REACT_APP_SERVER_URL}/event/${eventsid.params.eventId}`,
+        `${process.env.REACT_APP_SERVER_URL}/event/${eventsId.params.eventId}`,
         {
           ...data,
           coverImage: profilePicture,
@@ -105,7 +105,7 @@ export default function EditEvent({
       )
       .then(function (response) {
         console.log(response);
-        dispatch(getSingleEvent({ eventId: eventsid.params.eventId }));
+        dispatch(getSingleEvent({ eventId: eventsId.params.eventId }));
         setOpen(false);
         reset({
           title: "",

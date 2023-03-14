@@ -19,7 +19,7 @@ function index() {
   const [searchedRegistrations, setSearchedRegistrations] = useState([]);
   const [attendedRegistrations, setAttendedRegistrations] = useState([]);
   const [registrations, setRegistrations] = useState([]);
-  const [next, setNext] = useState(`/attendee/${eventsid.params.eventId}`);
+  const [next, setNext] = useState(`/attendee/${eventsId.params.eventId}`);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [tab, setTab] = useState("Registered");
@@ -29,17 +29,17 @@ function index() {
 
   // UseEffect for initial registrations fetching
   useEffect(() => {
-    if (eventsid.params.eventId && !isBulkUpload && event?.title) {
-      getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+    if (eventsId.params.eventId && !isBulkUpload && event?.title) {
+      getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     }
-  }, [eventsid, isBulkUpload, event?.title]);
+  }, [eventsId, isBulkUpload, event?.title]);
 
   //UseEffect for search related functionality
   useEffect(() => {
     async function fetchData() {
       setNext(null);
       const data = await getRequest(
-        `/attendee/${eventsid.params.eventId}/search/attendee?name=${searchValue.value}`
+        `/attendee/${eventsId.params.eventId}/search/attendee?name=${searchValue.value}`
       );
       setRegistrations([...data.data.registrations.attendees]);
       console.log([...data.data.registrations.attendees]);
@@ -48,7 +48,7 @@ function index() {
     if (searchValue.value) {
       fetchData();
     } else if (searchValue.value === "" || searchValue.value === " ") {
-      getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+      getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     }
   }, [searchValue.value]);
 
@@ -76,7 +76,7 @@ function index() {
 
   const getAttendedAttendees = async () => {
     const response = await getRequest(
-      `attendee/${eventsid.params.eventId}/attended/?hasAttended=true`
+      `attendee/${eventsId.params.eventId}/attended/?hasAttended=true`
     );
     setAttendedRegistrations(response?.data?.registrations);
     console.log(response);
@@ -124,7 +124,7 @@ function index() {
                   setSearch(e.target.value);
                 } else {
                   setRegistrations([]);
-                  getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+                  getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
                 }
               }}
             ></input>

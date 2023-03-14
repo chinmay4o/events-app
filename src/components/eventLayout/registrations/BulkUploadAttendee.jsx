@@ -18,7 +18,7 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
   const [hasIgnoredColumns, setHasIgnoredColumns] = useState(false);
   const [importedData, setImportedData] = useState({});
   const [recipients, setRecipients] = useState([]);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   //   const { setImportedData } = useContext(GlobalContext);
   useEffect(() => {
     if (parseError) {
@@ -146,7 +146,7 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
           },
           eventSpecificData: {
             bio: recipient.bio,
-            eventId: eventsid.params.eventId,
+            eventId: eventsId.params.eventId,
             eventSpecificRole: "attendee",
           },
         },
@@ -366,7 +366,7 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
               if (recipients.length > 0) {
                 try {
                   const response = await patchRequest(
-                    `/event/${eventsid.params.eventId}/bulkRegister/attendee`,
+                    `/event/${eventsId.params.eventId}/bulkRegister/attendee`,
                     recipients
                   );
                   if (response) {

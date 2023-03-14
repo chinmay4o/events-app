@@ -61,7 +61,7 @@ export default function AddSpeaker({
   // }, [open]);
 
   const dispatch = useDispatch();
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const onChange = (e) => {
     console.log("first-e.target.files[0]", e.target.files[0]);
     const formData = new FormData();
@@ -95,7 +95,7 @@ export default function AddSpeaker({
       try {
         const response = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/event/${
-            eventsid.params.eventId
+            eventsId.params.eventId
           }/${isEdit ? "editSpeaker" : "registerSpeaker"}`,
           {
             method: isEdit ? "PATCH" : "POST",
@@ -115,7 +115,7 @@ export default function AddSpeaker({
                   profilePicture: profilePicture,
                 },
                 eventSpecificData: {
-                  eventId: eventsid.params.eventId,
+                  eventId: eventsId.params.eventId,
                   eventSpecificRole: "speaker",
                   bio: data.bio,
                 },

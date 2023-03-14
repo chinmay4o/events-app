@@ -98,12 +98,12 @@ const Analytics = () => {
   const [speakers, setSpeakers] = useState([]);
   const [attendedRegistrations, setAttendedRegistrations] = useState([]);
   const singleEvent = useSelector((state) => state.eventData);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log(singleEvent, "from Analytics");
-    getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+    getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     getAttendedAttendees();
     // if (singleEvent.exhibitorAndSponsor?.length) {
     //   setExhibitors(singleEvent.exhibitorAndSponsors);
@@ -137,7 +137,7 @@ const Analytics = () => {
 
   const getAttendedAttendees = async () => {
     const response = await getRequest(
-      `attendee/${eventsid.params.eventId}/attended/?hasAttended=true`
+      `attendee/${eventsId.params.eventId}/attended/?hasAttended=true`
     );
     setAttendedRegistrations(response?.data?.registrations);
     console.log(response, "response.attended");

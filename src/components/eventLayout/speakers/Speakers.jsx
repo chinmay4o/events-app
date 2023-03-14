@@ -16,7 +16,7 @@ function Speakers() {
   const [isEdit, setIsEdit] = useState(false);
   const [singleSpeaker, setSingleSpeaker] = useState({});
   const [isBulkUpload, setIsBulkUpload] = useState(false);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
 
   const event = useSelector((state) => state.eventData);
   const searchValue = useSelector((state) => state.searchSpeaker);
@@ -24,7 +24,7 @@ function Speakers() {
   useEffect(() => {
     async function fetchData() {
       const data = await getRequest(
-        `/attendee/${eventsid.params.eventId}/search/speaker?name=${searchValue.value}`
+        `/attendee/${eventsId.params.eventId}/search/speaker?name=${searchValue.value}`
       );
       setSpeakers([...data.data.registrations.speakers]);
     }
@@ -109,7 +109,7 @@ function Speakers() {
                         onClick={() => {
                           let bio = "";
                           speaker.speaker.eventSpecificData.find((ele) => {
-                            if (ele.eventId === eventsid.params.eventId) {
+                            if (ele.eventId === eventsId.params.eventId) {
                               bio = ele.bio;
                             }
                           });

@@ -14,7 +14,7 @@ import PaginationClassic from "../../../../common/pagination/PaginationClassic";
 
 function CheckinAttendees({ setEventTitle }) {
   const location = useLocation();
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
@@ -22,7 +22,7 @@ function CheckinAttendees({ setEventTitle }) {
   const [total, setTotal] = useState(10);
   const [registrations, setRegistrations] = useState([]);
   const [filteredRegistrations, setFilteredRegistrations] = useState([]);
-  const [next, setNext] = useState(`/attendee/${eventsid.params.eventId}`);
+  const [next, setNext] = useState(`/attendee/${eventsId.params.eventId}`);
   const debouncedSearch = useDebounce(search, 700);
   const [searchParams] = useSearchParams();
   const tab = searchParams.get("tab");
@@ -32,25 +32,25 @@ function CheckinAttendees({ setEventTitle }) {
       setNext(null);
       setShowSearchResults(true);
       const data = await getRequest(
-        `/attendee/${eventsid.params.eventId}/search/attendee?name=${debouncedSearch}`
+        `/attendee/${eventsId.params.eventId}/search/attendee?name=${debouncedSearch}`
       );
       setRegistrations([...data.data.registrations.attendees]);
     }
     // setLoading(false);
-    if (eventsid.params.eventId) {
+    if (eventsId.params.eventId) {
       if (debouncedSearch.length > 0) {
         fetchData();
       } else {
-        getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+        getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
       }
     }
   }, [debouncedSearch]);
 
   useEffect(() => {
-    if (eventsid.params.eventId) {
-      getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+    if (eventsId.params.eventId) {
+      getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     }
-  }, [eventsid]);
+  }, [eventsId]);
 
   useEffect(() => {
     const tabs = ["Attended", "NotAttended", "CheckedIn", "CheckedOut"];
@@ -105,7 +105,7 @@ function CheckinAttendees({ setEventTitle }) {
   const getFilteredAttendees = async (query) => {
     setShowSearchResults(false);
     const response = await getRequest(
-      `attendee/${eventsid.params.eventId}/attended/?${query}`
+      `attendee/${eventsId.params.eventId}/attended/?${query}`
     );
     setFilteredRegistrations(response?.data?.registrations);
   };
@@ -165,7 +165,7 @@ function CheckinAttendees({ setEventTitle }) {
               onClick={() => {
                 navigate(
                   `/events/${
-                    eventsid.params.eventId
+                    eventsId.params.eventId
                   }/registrations?tab=${"ViewAll"}`
                 );
               }}
@@ -183,7 +183,7 @@ function CheckinAttendees({ setEventTitle }) {
               onClick={() => {
                 navigate(
                   `/events/${
-                    eventsid.params.eventId
+                    eventsId.params.eventId
                   }/registrations?tab=${"Attended"}`
                 );
               }}
@@ -201,7 +201,7 @@ function CheckinAttendees({ setEventTitle }) {
               onClick={() => {
                 navigate(
                   `/events/${
-                    eventsid.params.eventId
+                    eventsId.params.eventId
                   }/registrations?tab=${"NotAttended"}`
                 );
               }}
@@ -219,7 +219,7 @@ function CheckinAttendees({ setEventTitle }) {
               onClick={() => {
                 navigate(
                   `/events/${
-                    eventsid.params.eventId
+                    eventsId.params.eventId
                   }/registrations?tab=${"CheckedIn"}`
                 );
               }}
@@ -237,7 +237,7 @@ function CheckinAttendees({ setEventTitle }) {
               onClick={() => {
                 navigate(
                   `/events/${
-                    eventsid.params.eventId
+                    eventsId.params.eventId
                   }/registrations?tab=${"CheckedOut"}`
                 );
               }}

@@ -18,7 +18,7 @@ function Sponsors() {
   const [sponsorAndExhibitors, setSponsorAndExhibitors] = useState([]);
 
   const event = useSelector((state) => state.eventData);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -87,7 +87,7 @@ function Sponsors() {
                         {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
                           .filter((ele, id) => {
                             return (
-                              ele.eventId.toString() === eventsid.params.eventId
+                              ele.eventId.toString() === eventsId.params.eventId
                             );
                           })[0]
                           .companyName.charAt(0)}
@@ -100,7 +100,7 @@ function Sponsors() {
                             (ele, id) => {
                               return (
                                 ele.eventId.toString() ===
-                                eventsid.params.eventId
+                                eventsId.params.eventId
                               );
                             }
                           )[0].companyName
@@ -112,7 +112,7 @@ function Sponsors() {
                             (ele, id) => {
                               return (
                                 ele.eventId.toString() ===
-                                eventsid.params.eventId
+                                eventsId.params.eventId
                               );
                             }
                           )[0].industry

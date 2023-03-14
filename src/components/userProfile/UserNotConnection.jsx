@@ -8,7 +8,7 @@ const UserNotConnection = ({ connection, savedUser }) => {
   const [showModal, setShowModal] = useState(false);
   const [isRequestSent, setIsRequestSent] = useState(false);
   const [user, setUser] = useState();
-  const eventsid = useMatch("userprofile/*");
+  const eventsId = useMatch("userprofile/*");
   const navigate = useNavigate();
   useEffect(() => {
     setUser(connection);
@@ -23,12 +23,12 @@ const UserNotConnection = ({ connection, savedUser }) => {
   }, [connection, savedUser?._id]);
 
   const addConnection = async () => {
-    if (eventsid.params.uid === savedUser?._id) {
+    if (eventsId.params.uid === savedUser?._id) {
       alert("You can not send connection request to yourself!");
-    } else if (eventsid.params.uid) {
+    } else if (eventsId.params.uid) {
       try {
         const res = await postAuthenticatedRequest("/user/send-request", {
-          connectionUserId: eventsid.params.uid,
+          connectionUserId: eventsId.params.uid,
         });
         setShowModal(true);
       } catch (err) {

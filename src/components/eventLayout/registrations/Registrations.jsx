@@ -9,14 +9,14 @@ import PrimaryButton from "../../../common/buttons/PrimaryButton";
 import PaginationClassic from "../../../common/pagination/PaginationClassic";
 
 function Registrations() {
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const [isBulkUpload, setIsBulkUpload] = useState(false);
   const [search, setSearch] = useState("");
   const [total, setTotal] = useState(0);
   const [searchedRegistrations, setSearchedRegistrations] = useState([]);
   const [attendedRegistrations, setAttendedRegistrations] = useState([]);
   const [registrations, setRegistrations] = useState([]);
-  const [next, setNext] = useState(`/attendee/${eventsid.params.eventId}`);
+  const [next, setNext] = useState(`/attendee/${eventsId.params.eventId}`);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [tab, setTab] = useState("Registered");
@@ -26,17 +26,17 @@ function Registrations() {
   const targetRef = useRef([]);
   // UseEffect for initial registrations fetching
   useEffect(() => {
-    if (eventsid.params.eventId && !isBulkUpload && event?.title) {
-      getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+    if (eventsId.params.eventId && !isBulkUpload && event?.title) {
+      getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     }
-  }, [eventsid, isBulkUpload, event?.title]);
+  }, [eventsId, isBulkUpload, event?.title]);
 
   //UseEffect for search related functionality
   useEffect(() => {
     async function fetchData() {
       setNext(null);
       const data = await getRequest(
-        `/attendee/${eventsid.params.eventId}/search/attendee?name=${searchValue.value}`
+        `/attendee/${eventsId.params.eventId}/search/attendee?name=${searchValue.value}`
       );
       setRegistrations([...data.data.registrations.attendees]);
     }
@@ -44,7 +44,7 @@ function Registrations() {
     if (searchValue.value) {
       fetchData();
     } else if (searchValue.value === "" || searchValue.value === " ") {
-      getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+      getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     }
   }, [searchValue.value]);
 
@@ -80,7 +80,7 @@ function Registrations() {
   };
   const getAttendedAttendees = async () => {
     const response = await getRequest(
-      `attendee/${eventsid.params.eventId}/attended/?hasAttended=true`
+      `attendee/${eventsId.params.eventId}/attended/?hasAttended=true`
     );
     setAttendedRegistrations(response?.data?.registrations);
   };
@@ -173,7 +173,7 @@ function Registrations() {
                   setSearch(e.target.value);
                 } else {
                   setRegistrations([]);
-                  getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+                  getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
                 }
               }}
             ></input>
@@ -344,7 +344,7 @@ function Registrations() {
                         {attendee.attendee[0] === undefined
                           ? attendee.attendee?.eventSpecificData.map(
                               (ele, index) => {
-                                if (ele.eventId === eventsid.params.eventId) {
+                                if (ele.eventId === eventsId.params.eventId) {
                                   const xmas95 = new Date(ele.timeStamp);
                                   const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
                                   return (
@@ -362,7 +362,7 @@ function Registrations() {
                             )
                           : attendee.attendee[0]?.eventSpecificData.map(
                               (ele, index) => {
-                                if (ele.eventId === eventsid.params.eventId) {
+                                if (ele.eventId === eventsId.params.eventId) {
                                   const xmas95 = new Date(ele.timeStamp);
                                   const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
                                   return (
@@ -382,7 +382,7 @@ function Registrations() {
                         {attendee.attendee[0] === undefined
                           ? attendee.attendee?.eventSpecificData.map(
                               (ele, ind) => {
-                                if (ele.eventId === eventsid.params.eventId) {
+                                if (ele.eventId === eventsId.params.eventId) {
                                   return (
                                     <td
                                       className="text-[12px] font-[400] relative left-[0px]"
@@ -414,7 +414,7 @@ function Registrations() {
                             )
                           : attendee.attendee[0]?.eventSpecificData.map(
                               (ele, ind) => {
-                                if (ele.eventId === eventsid.params.eventId) {
+                                if (ele.eventId === eventsId.params.eventId) {
                                   return (
                                     <td
                                       className="text-[12px] font-[400] relative left-[0px]"
@@ -458,7 +458,7 @@ function Registrations() {
                               ? attendee.attendee.eventSpecificData.map(
                                   (items) => {
                                     if (
-                                      items.eventId === eventsid.params.eventId
+                                      items.eventId === eventsId.params.eventId
                                     ) {
                                       return (
                                         <img
@@ -472,7 +472,7 @@ function Registrations() {
                               : attendee.attendee[0]?.eventSpecificData.map(
                                   (items) => {
                                     if (
-                                      items.eventId === eventsid.params.eventId
+                                      items.eventId === eventsId.params.eventId
                                     ) {
                                       return (
                                         <img

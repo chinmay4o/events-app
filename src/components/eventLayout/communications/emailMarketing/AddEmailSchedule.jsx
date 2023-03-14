@@ -28,7 +28,7 @@ export default function AddEmailSchedule({
   const [dateValue, setDateValue] = useState(new Date());
   const [attendeesEmail, setAttendeesEmail] = useState([]);
   const [scheduleTime, setscheduleTime] = useState("");
-  const eventsid = useMatch("/events/:eventId/*");
+  const eventsId = useMatch("/events/:eventId/*");
   const [registrations, setRegistrations] = useState([]);
   const searchValue = useSelector((state) => state.searchRegistration);
   const [accessToken, setAccessToken] = useState("");
@@ -136,7 +136,7 @@ export default function AddEmailSchedule({
       try {
         const response = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/event/${
-            eventsid.params.eventId
+            eventsId.params.eventId
           }/${"scheduleEmail"}`,
           {
             method: "POST",
@@ -171,7 +171,7 @@ export default function AddEmailSchedule({
   useEffect(() => {
     async function fetchData() {
       const data = await getRequest(
-        `/attendee/${eventsid.params.eventId}/search/attendee?name=${searchValue.value}`
+        `/attendee/${eventsId.params.eventId}/search/attendee?name=${searchValue.value}`
       );
       setRegistrations([...data.data.registrations.attendees]);
     }

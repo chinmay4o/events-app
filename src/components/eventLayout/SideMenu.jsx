@@ -18,7 +18,7 @@ function SideMenu({ eventTitle, organizer }) {
 
   const [searchParams] = useSearchParams();
   // const { eventId } = useParams();
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   const navigate = useNavigate();
   const navbarContent = [
     {
@@ -116,7 +116,7 @@ function SideMenu({ eventTitle, organizer }) {
             className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px] hover:underline cursor-pointer relative  "
             onClick={() =>
               window.open(
-                `${window.location.origin}/event/${eventsid.params.eventId}`,
+                `${window.location.origin}/event/${eventsId.params.eventId}`,
                 "_blank"
               )
             }
@@ -130,7 +130,7 @@ function SideMenu({ eventTitle, organizer }) {
             className="fa-solid fa-up-right-from-square absolute right-[50px] mt-1.5 cursor-pointer text-primary"
             onClick={() =>
               window.open(
-                `${window.location.origin}/event/${eventsid.params.eventId}`,
+                `${window.location.origin}/event/${eventsId.params.eventId}`,
                 "_blank"
               )
             }
@@ -194,7 +194,7 @@ function SideMenu({ eventTitle, organizer }) {
                 <a
                   onClick={() => {
                     navigate(
-                      `/events/${eventsid.params.eventId}?show=${navbar.pathName}`
+                      `/events/${eventsId.params.eventId}?show=${navbar.pathName}`
                     );
                   }}
                   className={`flex cursor-pointer text-[#9a9a9a] items-center pl-5 py-3.5 text-[11px] font-[500] border-b border-[#C5C5C766] border-opacity-40 ${
@@ -225,7 +225,7 @@ function SideMenu({ eventTitle, organizer }) {
             <a
               onClick={() => {
                 window.open(
-                  `${window.location.origin}/events/${eventsid.params.eventId}/registrations?tab=ViewAll`,
+                  `${window.location.origin}/events/${eventsId.params.eventId}/registrations?tab=ViewAll`,
                   "_blank"
                 );
               }}

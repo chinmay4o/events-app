@@ -6,7 +6,7 @@ const LandingSponsors = ({ singleEvent }) => {
   console.log(singleEvent);
   const [sponsorAndExhibitors, setSponsorAndExhibitors] = useState([]);
   const event = useSelector((state) => state.eventData);
-  const eventsid = useMatch("/event/:eventId");
+  const eventsId = useMatch("/event/:eventId");
   useEffect(() => {
     if (event.exhibitorAndSponsors) {
       setSponsorAndExhibitors(event.exhibitorAndSponsors);
@@ -37,7 +37,7 @@ const LandingSponsors = ({ singleEvent }) => {
               >
                 {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
                   .filter((ele, id) => {
-                    return ele.eventId.toString() === eventsid.params.eventId;
+                    return ele.eventId.toString() === eventsId.params.eventId;
                   })[0]
                   .companyName.charAt(0)}
               </div>
@@ -47,7 +47,7 @@ const LandingSponsors = ({ singleEvent }) => {
               {
                 sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData.filter(
                   (ele, id) => {
-                    return ele.eventId.toString() === eventsid.params.eventId;
+                    return ele.eventId.toString() === eventsId.params.eventId;
                   }
                 )[0].companyName
               }
@@ -56,7 +56,7 @@ const LandingSponsors = ({ singleEvent }) => {
               {
                 sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData.filter(
                   (ele, id) => {
-                    return ele.eventId.toString() === eventsid.params.eventId;
+                    return ele.eventId.toString() === eventsId.params.eventId;
                   }
                 )[0].industry
               }

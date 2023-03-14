@@ -19,7 +19,7 @@ const LandingPage = ({ singleEvent }) => {
   const [copied, setCopied] = useState("");
   const xmas95 = new Date(singleEvent.startDate);
   const optionmymdonth = { month: "long" };
-  const eventsid = useMatch("/event/:eventId");
+  const eventsId = useMatch("/event/:eventId");
   const [searchParams] = useSearchParams();
   const [googleCal, setGoogleCal] = useState(false);
   const [eventStatus, setEventStatus] = useState("upcoming");
@@ -283,7 +283,7 @@ const LandingPage = ({ singleEvent }) => {
           <div className={styles.modules_bar} id="module">
             <div
               onClick={() => {
-                navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
+                navigate(`/event/${eventsId.params.eventId}?tab=${"register"}`);
               }}
               style={
                 searchParams.get("tab") === "register" ||
@@ -304,7 +304,7 @@ const LandingPage = ({ singleEvent }) => {
             </div>
             <div
               onClick={() => {
-                navigate(`/event/${eventsid.params.eventId}?tab=${"about"}`);
+                navigate(`/event/${eventsId.params.eventId}?tab=${"about"}`);
               }}
               style={
                 searchParams.get("tab") === "about" ? { color: "black" } : {}
@@ -318,7 +318,7 @@ const LandingPage = ({ singleEvent }) => {
             </div>
             <div
               onClick={() => {
-                navigate(`/event/${eventsid.params.eventId}?tab=${"schedule"}`);
+                navigate(`/event/${eventsId.params.eventId}?tab=${"schedule"}`);
               }}
               style={
                 searchParams.get("tab") === "schedule" ? { color: "black" } : {}
@@ -332,7 +332,7 @@ const LandingPage = ({ singleEvent }) => {
             </div>
             <div
               onClick={() => {
-                navigate(`/event/${eventsid.params.eventId}?tab=${"speakers"}`);
+                navigate(`/event/${eventsId.params.eventId}?tab=${"speakers"}`);
               }}
               style={
                 searchParams.get("tab") === "speakers" ? { color: "black" } : {}
@@ -346,7 +346,7 @@ const LandingPage = ({ singleEvent }) => {
             </div>
             <div
               onClick={() => {
-                navigate(`/event/${eventsid.params.eventId}?tab=${"sponsors"}`);
+                navigate(`/event/${eventsId.params.eventId}?tab=${"sponsors"}`);
               }}
               style={
                 searchParams.get("tab") === "sponsors" ? { color: "black" } : {}
@@ -360,7 +360,7 @@ const LandingPage = ({ singleEvent }) => {
             </div>
             <div
               onClick={() => {
-                navigate(`/event/${eventsid.params.eventId}?tab=${"contact"}`);
+                navigate(`/event/${eventsId.params.eventId}?tab=${"contact"}`);
               }}
               style={
                 searchParams.get("tab") === "contact" ? { color: "black" } : {}
@@ -537,7 +537,7 @@ const LandingPage = ({ singleEvent }) => {
             type="submit"
             className="bg-primary w-[170px] h-[40px] text-white font-bold text-mymd rounded mymd:mr-4"
             onClick={() => {
-              navigate(`/event/${eventsid.params.eventId}?tab=${"register"}`);
+              navigate(`/event/${eventsId.params.eventId}?tab=${"register"}`);
             }}
           >
             Register
