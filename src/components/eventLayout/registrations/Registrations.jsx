@@ -55,12 +55,14 @@ function Registrations() {
       (searchValue.value === "" || searchValue.value === " ")
     ) {
       const allAttendees = [...registrations, ...response.data.attendees];
+      //fix later
       const uniqueData = allAttendees.filter(
         (value, index, self) =>
           self.findIndex((t) => t.email === value.email) === index
       );
       setRegistrations(uniqueData);
     } else {
+      //fix later
       const allAttendees = [...registrations, ...response.data.attendees];
       const uniqueData = allAttendees.filter(
         (value, index, self) =>

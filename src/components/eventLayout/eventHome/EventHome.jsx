@@ -221,16 +221,9 @@ function EventHome() {
                 <>
                   <p className="text-[#1C1C1E] w-[335px] md:w-[422px] text-opacity-60 font-normal text-[13px]">
                     <span className="font-bold">Address</span>:{" "}
-                    {singleEvent.location?.pincode ? (
-                      <>
-                        {singleEvent.location?.addressLine1},{" "}
-                        {singleEvent.location?.pincode},{" "}
-                        {singleEvent.location?.city},{" "}
-                        {singleEvent.location?.state}
-                      </>
-                    ) : (
-                      singleEvent.location?.addressLine1
-                    )}
+                    {singleEvent.location?.addressLine1},{" "}
+                    {singleEvent.location?.pincode},{" "}
+                    {singleEvent.location?.city}, {singleEvent.location?.state}
                     <a
                       onClick={() => {
                         window.open(singleEvent.location?.landmark, "_blank");

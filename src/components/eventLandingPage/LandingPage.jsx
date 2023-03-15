@@ -236,15 +236,9 @@ const LandingPage = ({ singleEvent }) => {
                 alt="location"
                 className="mr-1 h-[24px]"
               />
-              {singleEvent.location?.pincode ? (
-                <>
-                  {singleEvent.location?.addressLine1},{" "}
-                  {singleEvent.location?.pincode}, {singleEvent.location?.city},{" "}
-                  {singleEvent.location?.state}
-                </>
-              ) : (
-                singleEvent.location?.addressLine1
-              )}
+              {singleEvent.location?.addressLine1},{" "}
+              {singleEvent.location?.pincode}, {singleEvent.location?.city},{" "}
+              {singleEvent.location?.state}
             </span>
           </div>
           <div className="mymd:hidden flex text-primary justify-around h-10 mt-4 font-bold text-xs">
