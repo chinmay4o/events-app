@@ -23,7 +23,7 @@ const LandingPage = ({ singleEvent }) => {
   const [searchParams] = useSearchParams();
   const [googleCal, setGoogleCal] = useState(false);
   const [eventStatus, setEventStatus] = useState("upcoming");
-  console.log(searchParams.get("tab"));
+
   const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
   const optionsWeekDay = { weekday: "long" }; // imp gets Friday, November 18, 2022
 

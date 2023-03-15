@@ -42,7 +42,6 @@ function index() {
         `/attendee/${eventsId.params.eventId}/search/attendee?name=${searchValue.value}`
       );
       setRegistrations([...data.data.registrations.attendees]);
-      console.log([...data.data.registrations.attendees]);
     }
     // setLoading(false);
     if (searchValue.value) {

@@ -100,7 +100,6 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
 
     // Check that email and name are provided
     const areMandatoryFieldsProvided = recipients.every((recipient) => {
-      console.log(recipient, "recipient");
       const { firstName, lastName, email } = recipient;
       return firstName.length && lastName.length && email.length;
     });
@@ -160,7 +159,6 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
       skipEmptyLines: "greedy",
       complete: (results) => {
         if (!results.errors.length) {
-          console.log("11", results);
           const parsedHeaders = results.meta.fields || [];
           const parsedData = results.data;
           const headerValidity = checkHeaderValidity(parsedHeaders);
@@ -169,14 +167,13 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
             // setHeaders(acceptedHeaders);
 
             // Check if any columns in uploaded csv were ignored
-            console.log(parsedHeaders, "parsedHeaders");
+
             parsedHeaders.length > 9 //To be updated when any other field is added
               ? setHasIgnoredColumns(true)
               : setHasIgnoredColumns(false);
 
             const validatedRecipients = validateRecipients(parsedData);
 
-            console.log(validatedRecipients, "validatedRecipients");
             if (validatedRecipients) {
               setRecipients(validatedRecipients);
               setImportedData(validatedRecipients);

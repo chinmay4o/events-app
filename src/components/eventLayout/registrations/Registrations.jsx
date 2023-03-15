@@ -109,7 +109,6 @@ function Registrations() {
     link.click();
     document.body.removeChild(link);
   };
-
   console.log(registrations);
   return (
     <div className="md:ml-[0px] md:mt-[0px] md:w-[900px] pb-12">
@@ -119,7 +118,7 @@ function Registrations() {
             {event.title}
           </span>
         </div> */}
-        <div className="font-[600] w-[335px] md:w-full text-[24px] pt-4 text-black flex justify-between items-center md:sticky md:z-10 md:top-0 bg-white">
+        <div className="font-[600] w-[335px] md:w-full text-[24px] pt-5 text-black flex justify-between items-center md:sticky md:z-10 md:top-0 bg-white">
           <div>Registrations</div>
           <div className="flex">
             <button
@@ -194,7 +193,7 @@ function Registrations() {
           </div> */}
         {/* </div> */}
 
-        <div className="flex flex-row items-center w-[340px] md:w-[900px] mt-0  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 justify-between md:sticky md:z-10 md:top-[59px] bg-white md:pt-2">
+        <div className="flex flex-row items-center w-[340px] md:w-[900px] mt-0  text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 justify-between md:sticky md:z-10 md:top-[63px] bg-white md:pt-2">
           <ul className="flex flex-wrap -mb-px">
             <li className="mr-2" onClick={() => setTab("Registered")}>
               <a
@@ -512,12 +511,56 @@ function Registrations() {
 
                                     win.focus();
                                   }}
-                                  title="ImageName"
                                   className="w-[100%] bg-primary h-[30px] mr-2 rounded-bl-lg"
                                 >
                                   Print
                                 </button>
-                                <button
+                                {attendee.attendee[0] === undefined
+                                  ? attendee.attendee.eventSpecificData.map(
+                                      (items) => {
+                                        if (
+                                          items.eventId ===
+                                          eventsId.params.eventId
+                                        ) {
+                                          return (
+                                            <button
+                                              className="w-[100%] bg-primary h-[30px] rounded-br-lg"
+                                              onClick={() =>
+                                                window.open(
+                                                  `${items.badgeUrl}`,
+                                                  "_blank"
+                                                )
+                                              }
+                                            >
+                                              Preview
+                                            </button>
+                                          );
+                                        }
+                                      }
+                                    )
+                                  : attendee.attendee[0]?.eventSpecificData.map(
+                                      (items) => {
+                                        if (
+                                          items.eventId ===
+                                          eventsId.params.eventId
+                                        ) {
+                                          return (
+                                            <button
+                                              className="w-[100%] bg-primary h-[30px] rounded-br-lg"
+                                              onClick={() =>
+                                                window.open(
+                                                  `${items.badgeUrl}`,
+                                                  "_blank"
+                                                )
+                                              }
+                                            >
+                                              Preview
+                                            </button>
+                                          );
+                                        }
+                                      }
+                                    )}
+                                {/* <button
                                   className="w-[100%] bg-primary h-[30px] rounded-br-lg"
                                   onClick={() =>
                                     window.open(
@@ -527,7 +570,7 @@ function Registrations() {
                                   }
                                 >
                                   Preview
-                                </button>
+                                </button> */}
                               </div>
                             </div>
                             <img

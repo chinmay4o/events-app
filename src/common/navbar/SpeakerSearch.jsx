@@ -8,7 +8,6 @@ const SpeakerSearch = () => {
   const debouncedSearch = useDebounce(search, 700);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("debouncedSearch");
     dispatch({
       type: SEARCH_SPEAKER_VALUE,
       payload: {
@@ -48,7 +47,6 @@ const SpeakerSearch = () => {
           placeholder="Search"
           required={true}
           onChange={(e) => {
-            console.log(e.target.value);
             setSearch(e.target.value);
           }}
         ></input>

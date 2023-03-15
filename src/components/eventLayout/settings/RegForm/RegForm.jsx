@@ -55,7 +55,6 @@ function RegForm() {
           value: option.toLowerCase(),
         };
       });
-      console.log(options, "optionsArray", optionsArray);
     }
     console.log(
       "🚀 ~ file: index.tsx:35 ~ onSubmit ~ regFormCopy",
@@ -97,7 +96,6 @@ function RegForm() {
       const response = await getRequest(
         `/event/${eventsId.params.eventId}/additionalForm`
       );
-      console.log(response, "response");
       setRegForm(response.data[0]?.form);
     };
     if (eventsId.params.eventId) {

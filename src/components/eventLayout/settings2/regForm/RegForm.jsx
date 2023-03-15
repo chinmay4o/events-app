@@ -45,7 +45,6 @@ function RegForm() {
           value: option.toLowerCase(),
         };
       });
-      console.log(options, "optionsArray", optionsArray);
     }
     regFormCopy?.push({
       label: data.name,
@@ -119,7 +118,6 @@ function RegForm() {
             onClick={() => {
               const value = getValues("type"); // { page_title: "someValue", test1: "test1-input", ... }
               setInputType(value);
-              console.log(value);
             }}
           >
             <option value="text">Text</option>

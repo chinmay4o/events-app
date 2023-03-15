@@ -24,12 +24,6 @@ function CheckinAnalytics() {
   });
 
   useEffect(() => {
-    console.log(
-      eventsId.params.eventId,
-      options,
-      "eventsId.params.eventId && options"
-    );
-
     if (eventsId.params.eventId && options) {
       getAttendeeStats();
     }

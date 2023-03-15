@@ -12,6 +12,7 @@ const EmailMarketing = () => {
   const [deletEmail, setDeleteEmail] = useState("");
   const [singleEmail, setsingleEmail] = useState([]);
   const [defaultEmail, setdefaultEmail] = useState(false);
+  const [speakerInvite, setSpeakerInvite] = useState(false);
   const event = useSelector((state) => state.eventData);
   const targetRef = useRef([]);
   const now = new Date().getTime();
@@ -45,14 +46,10 @@ const EmailMarketing = () => {
   const hideInfo = (index) => {
     targetRef.current[index].style.display = "none";
   };
+
   return (
-    <div className="w-full md:w-[375px] md:ml-[30px] md:mt-[27px] pb-[200px]">
-      <div className="flex w-[375px] md:w-[375px] mx-auto">
-        <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
-          {emailDetails.title}
-        </span>
-      </div>
-      <div className="font-[600] w-[375px] mx-auto md:w-[800px] text-[19px] text-[#585858] flex justify-between items-center mt-2">
+    <div className="w-full md:w-[375px] md:ml-[0px] md:mt-[27px] pb-[200px]">
+      <div className="font-[600] w-[375px] mx-auto md:w-[800px] text-[24px] text-[#585858] flex justify-between items-center mt-2">
         Scheduled Emails
         <div className="w-[200px]">
           <div
@@ -291,7 +288,46 @@ const EmailMarketing = () => {
             );
           })}
       </div>
-
+      <div className="mt-5 text-[20px] text-[#585858] font-[600]">
+        Speaker Invite
+      </div>
+      <div className="border w-[800px] min-h-[130px] mt-5 rounded-lg scrollbar-hide">
+        <div className="flex border-b h-[70px] items-center px-4">
+          <div>
+            <img src="/svgs/clock.svg" />
+          </div>
+          <div className=" w-full ml-4">
+            <div className="flex items-center">
+              <img src="/svgs/calender.svg" className="mr-2" />
+              <span className="text-[15px]">
+                You are invited as a speaker at {event?.title}
+              </span>
+            </div>
+            <p className="text-[13px] mt-1.5 text-gray-500">
+              <div className="flex">
+                To: Registered -&nbsp;
+                <div className="text-green-600 font-medium	">
+                  Sent:&nbsp; As soon as added
+                </div>
+              </div>
+            </p>
+          </div>
+          <div
+            className="cursor-pointer relative"
+            onMouseEnter={() => setSpeakerInvite(true)}
+            onMouseLeave={() => setSpeakerInvite(false)}
+          >
+            <img src="/svgs/info.svg" />
+            {speakerInvite ? (
+              <div className="absolute z-20 bg-gray-700 h-[70px] text-[12px] w-[150px] p-2 ml-5 rounded-md	text-white text-center">
+                The email is sent as soon as speaker in added.
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+      </div>
       <AddEmailSchedule
         open={open}
         setOpen={setOpen}

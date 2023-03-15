@@ -75,7 +75,6 @@ function getDayWiseRegistrations(arr, eventId = null, entity) {
       // }
     }
   }
-  console.log(resultsArray);
   return getLabels(resultsArray);
 }
 
@@ -87,8 +86,6 @@ function getLabels(arr) {
     arrLabels.push(ele.date);
     arrDataPoints.push(ele.registrations);
   }
-  console.log(arrLabels, "arrLabels");
-  console.log(arrDataPoints, "arrDataPoints");
   return;
 }
 
@@ -102,7 +99,6 @@ const Analytics = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(singleEvent, "from Analytics");
     getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     getAttendedAttendees();
     // if (singleEvent.exhibitorAndSponsor?.length) {

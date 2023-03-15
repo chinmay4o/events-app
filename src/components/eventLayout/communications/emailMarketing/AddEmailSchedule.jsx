@@ -97,7 +97,6 @@ export default function AddEmailSchedule({
   }, [event?._id, open]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     setIsSubmitting(true);
     if (value1.length === 0) {
       alert("Please select atleast one option");
@@ -152,7 +151,7 @@ export default function AddEmailSchedule({
         );
 
         const allEmails = await response.json();
-        console.log(allEmails.savedEventConfig);
+
         if (response.status !== 200) {
           alert("Please add again!! some error occurred");
         }

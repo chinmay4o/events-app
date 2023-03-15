@@ -14,7 +14,6 @@ function index2() {
   const [schedule, setSchedule] = useState([]);
   const [singleSchedule, setSingleSchedule] = useState({});
   const [isEdit, setIsEdit] = useState(false);
-  console.log(schedule, "process.env.API_ENDPOINT");
   const event = useSelector((state) => state.eventData);
 
   const dispatch = useDispatch();
@@ -41,13 +40,11 @@ function index2() {
   // }, []);
   useEffect(() => {
     const schedule = event.schedule;
-    console.log(event.schedule, " event.schedule- event.schedule");
     let allSessions = [];
     if (schedule?.length > 0) {
       schedule.forEach((day) => {
         allSessions = [...allSessions, ...day.sessions];
       });
-      console.log(allSessions, "allSessions");
 
       setSchedule(allSessions);
     }
@@ -121,16 +118,9 @@ function index2() {
                       alt="delete"
                       className="w-6 h-6 cursor-pointer"
                       onClick={async () => {
-                        console.log(session, "session-session");
-                        console.log(
-                          event.schedule[0].sessions,
-                          "event.schedule[0].sessionssession-session"
-                        );
-
                         const newSchedule = event.schedule[0].sessions.filter(
                           (ele, index) => ele._id !== session._id
                         );
-                        console.log(newSchedule, "newSchedule");
                         let scheduleCopy = [];
 
                         scheduleCopy[0] = {

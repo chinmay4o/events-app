@@ -3,20 +3,14 @@ import { useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
 
 const LandingSponsors = ({ singleEvent }) => {
-  console.log(singleEvent);
   const [sponsorAndExhibitors, setSponsorAndExhibitors] = useState([]);
   const event = useSelector((state) => state.eventData);
   const eventsId = useMatch("/event/:eventId");
   useEffect(() => {
     if (event.exhibitorAndSponsors) {
       setSponsorAndExhibitors(event.exhibitorAndSponsors);
-      console.log(
-        event.exhibitorAndSponsors,
-        "event.sponsorAndExhibitors-event.sponsorAndExhibitors"
-      );
     }
   }, [event.exhibitorAndSponsors]);
-  console.log(singleEvent);
   return (
     <div className="mymd:flex justify-between flex-wrap w-full">
       {sponsorAndExhibitors?.length > 0 ? (
