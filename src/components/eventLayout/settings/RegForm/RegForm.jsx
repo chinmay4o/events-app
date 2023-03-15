@@ -14,7 +14,7 @@ import { FormControl } from "./FormControl";
 function RegForm() {
   const [regForm, setRegForm] = useState({});
   const [inputType, setInputType] = useState("text");
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   const [open, setOpen] = useState(false);
   const formMethods = useForm();
   const {
@@ -55,7 +55,6 @@ function RegForm() {
           value: option.toLowerCase(),
         };
       });
-      console.log(options, "optionsArray", optionsArray);
     }
     console.log(
       "🚀 ~ file: index.tsx:35 ~ onSubmit ~ regFormCopy",
@@ -77,12 +76,12 @@ function RegForm() {
     setRegForm(regFormCopy);
     if (regForm) {
       patchRequest(
-        `event/${eventsid.params.eventId}/additionalForm`,
+        `event/${eventsId.params.eventId}/additionalForm`,
         regFormCopy
       );
     } else {
       postRequest(
-        `event/${eventsid.params.eventId}/additionalForm`,
+        `event/${eventsId.params.eventId}/additionalForm`,
         regFormCopy
       );
     }
@@ -95,15 +94,14 @@ function RegForm() {
   useEffect(() => {
     const getAdditionalForm = async () => {
       const response = await getRequest(
-        `/event/${eventsid.params.eventId}/additionalForm`
+        `/event/${eventsId.params.eventId}/additionalForm`
       );
-      console.log(response, "response");
       setRegForm(response.data[0]?.form);
     };
-    if (eventsid.params.eventId) {
+    if (eventsId.params.eventId) {
       getAdditionalForm();
     }
-  }, [eventsid]);
+  }, [eventsId]);
 
   return (
     <div className="w-full md:w-[340px] h-screen ml-0 md:ml-[30px] mt-5 md:mt-[30px]">

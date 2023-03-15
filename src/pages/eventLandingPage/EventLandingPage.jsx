@@ -8,11 +8,11 @@ import { useMatch, useNavigate } from "react-router-dom";
 function EventLandingPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const eventsid = useMatch("event/:eventId/*");
+  const eventsId = useMatch("event/:eventId/*");
   const singleEvent = useSelector((state) => state.eventData);
 
   useEffect(() => {
-    dispatch(getSingleEvent({ eventId: eventsid.params.eventId }));
+    dispatch(getSingleEvent({ eventId: eventsId.params.eventId }));
     return () => {};
   }, []);
 

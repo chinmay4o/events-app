@@ -12,7 +12,7 @@ const LandingHost = ({ singleEvent }) => {
             className="rounded-full sm:w-[40px] sm:h-[40px] w-[26x] h-[26px] mr-2"
           />
         ) : (
-          <div class="w-[40px] h-[40px] rounded-full bg-primary flex items-center justify-center mr-2 text-white text-lg font-medium">
+          <div class="w-[40px] h-[40px] rounded-full bg-primary flex items-center justify-center mr-2 text-white text-lg font-medium uppercase">
             {singleEvent.organizer.organization.charAt(0)}
           </div>
         )}

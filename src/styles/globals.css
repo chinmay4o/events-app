@@ -695,7 +695,7 @@ body {
   font: inherit;
   font-size: 14px;
   box-sizing: content-box;
-  -moz-appearance: textfield;
+  /* -moz-appearance: textfield; */
 }
 .react-date-picker__inputGroup__input::-webkit-outer-spin-button,
 .react-date-picker__inputGroup__input::-webkit-inner-spin-button {

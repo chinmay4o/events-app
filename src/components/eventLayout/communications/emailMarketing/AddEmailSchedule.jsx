@@ -28,7 +28,7 @@ export default function AddEmailSchedule({
   const [dateValue, setDateValue] = useState(new Date());
   const [attendeesEmail, setAttendeesEmail] = useState([]);
   const [scheduleTime, setscheduleTime] = useState("");
-  const eventsid = useMatch("/events/:eventId/*");
+  const eventsId = useMatch("/events/:eventId/*");
   const [registrations, setRegistrations] = useState([]);
   const searchValue = useSelector((state) => state.searchRegistration);
   const [accessToken, setAccessToken] = useState("");
@@ -97,7 +97,6 @@ export default function AddEmailSchedule({
   }, [event?._id, open]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     setIsSubmitting(true);
     if (value1.length === 0) {
       alert("Please select atleast one option");
@@ -136,7 +135,7 @@ export default function AddEmailSchedule({
       try {
         const response = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/event/${
-            eventsid.params.eventId
+            eventsId.params.eventId
           }/${"scheduleEmail"}`,
           {
             method: "POST",
@@ -152,7 +151,7 @@ export default function AddEmailSchedule({
         );
 
         const allEmails = await response.json();
-        console.log(allEmails.savedEventConfig);
+
         if (response.status !== 200) {
           alert("Please add again!! some error occurred");
         }
@@ -171,7 +170,7 @@ export default function AddEmailSchedule({
   useEffect(() => {
     async function fetchData() {
       const data = await getRequest(
-        `/attendee/${eventsid.params.eventId}/search/attendee?name=${searchValue.value}`
+        `/attendee/${eventsId.params.eventId}/search/attendee?name=${searchValue.value}`
       );
       setRegistrations([...data.data.registrations.attendees]);
     }
@@ -243,9 +242,7 @@ export default function AddEmailSchedule({
                     <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                       <div className="px-4 sm:px-6">
                         <Dialog.Title className="text-[22px] pb-[25px] font-[600] text-gray-900">
-                          {!isEdit
-                            ? "Create New Email Campaign"
-                            : "Edit Campaign"}
+                          {!isEdit ? "Schedule Email" : "Edit Email"}
                         </Dialog.Title>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
@@ -307,7 +304,7 @@ export default function AddEmailSchedule({
                                 htmlFor="startDate"
                                 className="text-[12px] text-[#9c9c9c] absolute -top-[18px] left-[5px]"
                               >
-                                Campaign Date
+                                Scheduled Date
                               </label>
                               <DatePicker
                                 onChange={(value) => setDateValue(value)}
@@ -324,7 +321,7 @@ export default function AddEmailSchedule({
                               value={scheduleTime}
                               setValue={setValue}
                               id={"campaignTime"}
-                              label={"Campaign Time"}
+                              label={"Scheduled Time"}
                               isHalfWidth={false}
                             />
                           </div>
@@ -341,9 +338,7 @@ export default function AddEmailSchedule({
                             <input
                               disabled={isSubmitting}
                               value={
-                                isSubmitting
-                                  ? "Loading..."
-                                  : "Schedule Campaign"
+                                isSubmitting ? "Loading..." : "Schedule Email"
                               }
                               type="submit"
                               className="primary_submit"

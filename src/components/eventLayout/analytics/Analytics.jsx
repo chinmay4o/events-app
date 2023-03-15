@@ -75,7 +75,6 @@ function getDayWiseRegistrations(arr, eventId = null, entity) {
       // }
     }
   }
-  console.log(resultsArray);
   return getLabels(resultsArray);
 }
 
@@ -87,8 +86,6 @@ function getLabels(arr) {
     arrLabels.push(ele.date);
     arrDataPoints.push(ele.registrations);
   }
-  console.log(arrLabels, "arrLabels");
-  console.log(arrDataPoints, "arrDataPoints");
   return;
 }
 
@@ -98,12 +95,11 @@ const Analytics = () => {
   const [speakers, setSpeakers] = useState([]);
   const [attendedRegistrations, setAttendedRegistrations] = useState([]);
   const singleEvent = useSelector((state) => state.eventData);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(singleEvent, "from Analytics");
-    getAllEventAttendees(`/attendee/${eventsid.params.eventId}`);
+    getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     getAttendedAttendees();
     // if (singleEvent.exhibitorAndSponsor?.length) {
     //   setExhibitors(singleEvent.exhibitorAndSponsors);
@@ -137,19 +133,19 @@ const Analytics = () => {
 
   const getAttendedAttendees = async () => {
     const response = await getRequest(
-      `attendee/${eventsid.params.eventId}/attended/?hasAttended=true`
+      `attendee/${eventsId.params.eventId}/attended/?hasAttended=true`
     );
     setAttendedRegistrations(response?.data?.registrations);
     console.log(response, "response.attended");
   };
 
   return (
-    <div className="w-full md:w-[822px] md:ml-[30px] md:mt-[25px] min-h-[1260px]">
-      <p className="font-[600] w-full mx-auto md:w-full text-[21px] pt-2.5 text-[#585858]">
+    <div className="w-full md:w-[85%] md:ml-[0px] md:mt-[25px] min-h-[1260px">
+      <p className="font-[600] w-full mx-auto md:w-full text-[24px] pt-2.5 text-black">
         Analytics
       </p>
 
-      <div className="mt-[20px] grid grid-cols-9 gap-[20px] ">
+      <div className="mt-[20px] flex justify-between">
         <FintechCard10 attendees={attendees.length} />
         <FintechCard11 exhibitors={exhibitors.length} />
         <FintechCard12 speakers={speakers.length} />

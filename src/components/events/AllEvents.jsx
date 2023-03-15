@@ -7,6 +7,7 @@ import { EVENT_CREATE_DESTROY } from "../../redux/constants/eventConstants";
 import Loader from "../../common/loader/Loader";
 import moment from "moment";
 import { useNavigate } from "react-router";
+import useDebounce from "../../helper/hooks/useDebounce";
 
 function AllEvents() {
   const navigate = useNavigate();
@@ -18,8 +19,23 @@ function AllEvents() {
   const { error, loading, userEvents } = userEventsData;
   const userLogin = useSelector((state) => state.userLogin);
   const { errorA, loadingA, userInfo } = userLogin;
-
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 700);
   const [eventTab, setEventTab] = useState("My Events");
+  const [allEvents, setAllEvents] = useState([]);
+
+  useEffect(() => {
+    let sortedEvents = userEvents;
+    sortedEvents = sortedEvents.filter((event) =>
+      event.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+    );
+    console.log(sortedEvents);
+    setAllEvents(sortedEvents);
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    setAllEvents(userEvents);
+  }, [userEvents]);
 
   useEffect(() => {
     accessToken = localStorage.getItem("accessToken");
@@ -43,14 +59,17 @@ function AllEvents() {
   //   alert("Please Login"); //JWT expired
   //   router.push("/login");
   // }, [error])
-
+  // console.log(userEvents);
   return (
     <div className="w-full md:w-[713px] md:pb-5 md:mt-7 px-[16px] flex flex-col">
       <div className="mx-auto text-[24px] font-bold md:hidden w-full md:w-[335px] mt-6">
         All Events
       </div>
       <div className="grid grid-cols-1 justify-items-center md:grid-cols-2 gap-x-11 h-[60px]">
-        <form className="flex items-center my-4 w-full md:w-[335px]">
+        <form
+          className="flex items-center my-4 w-full md:w-[335px]"
+          onSubmit={(event) => event.preventDefault()}
+        >
           <label htmlFor="simple-search" className="sr-only">
             Search
           </label>
@@ -75,7 +94,11 @@ function AllEvents() {
               id="simple-search"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
               placeholder="Search"
+              autoComplete="off"
               required={true}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             ></input>
           </div>
         </form>
@@ -108,7 +131,7 @@ function AllEvents() {
       </div>
       {eventTab === "My Events" ? (
         <div className="grid grid-cols-1 md:px-0 place-content-center justify-items-center md:grid-cols-2 gap-x-[65px] gap-y-[35px] mt-7 md:mt-[46px]">
-          {userEvents?.length === 0 ? (
+          {allEvents?.length === 0 ? (
             <div className="grid w-full place-items-center h-[350px]">
               <div>
                 <p className="text-[15px] font-[500] text-[#717171] text-center">
@@ -130,7 +153,7 @@ function AllEvents() {
               Loading...
             </h3>
           ) : (
-            userEvents?.map((ele, index) => {
+            allEvents?.map((ele, index) => {
               return (
                 <div
                   key={index}

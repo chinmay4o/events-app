@@ -16,7 +16,7 @@ function Speakers() {
   const [isEdit, setIsEdit] = useState(false);
   const [singleSpeaker, setSingleSpeaker] = useState({});
   const [isBulkUpload, setIsBulkUpload] = useState(false);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
 
   const event = useSelector((state) => state.eventData);
   const searchValue = useSelector((state) => state.searchSpeaker);
@@ -24,7 +24,7 @@ function Speakers() {
   useEffect(() => {
     async function fetchData() {
       const data = await getRequest(
-        `/attendee/${eventsid.params.eventId}/search/speaker?name=${searchValue.value}`
+        `/attendee/${eventsId.params.eventId}/search/speaker?name=${searchValue.value}`
       );
       setSpeakers([...data.data.registrations.speakers]);
     }
@@ -50,7 +50,7 @@ function Speakers() {
             {event.title}
           </span>
         </div> */}
-          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-3 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[24px] pt-3 text-black md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
             <div>Speakers</div>
             {speakers && speakers.length > 0 ? (
               <div className="w-[335px] md:w-[230px]">
@@ -74,14 +74,24 @@ function Speakers() {
                 <>
                   <div className="my-4 flex justify-between">
                     <div className="flex items-center">
-                      <img
-                        src={
-                          speaker.profilePicture
-                            ? speaker.profilePicture
-                            : "/svgs/profile.svg"
-                        }
-                        className="rounded-full w-[50px] h-[50px] object-cover"
-                      />
+                      {speaker.profilePicture ? (
+                        <img
+                          src={speaker.profilePicture}
+                          className="rounded-full w-[50px] h-[50px] object-cover"
+                        />
+                      ) : (
+                        <div
+                          className={`sm:w-[50px] sm:h-[50px] w-[50px] h-[50px] rounded-full bg-${
+                            ["red", "green", "blue", "yellow", "indigo"][
+                              Math.floor(Math.random() * 5)
+                            ]
+                          }-500 flex items-center justify-center mr-2 text-white text-lg font-medium uppercase`}
+                        >
+                          {speaker.firstName.slice(0, 1)}
+                          {speaker.lastName.slice(0, 1)}
+                        </div>
+                      )}
+
                       <div className="pl-2.5 w-[197px]">
                         <div className="text-[14px] font-semibold py-1">
                           {speaker.firstName} {speaker.lastName}
@@ -99,7 +109,7 @@ function Speakers() {
                         onClick={() => {
                           let bio = "";
                           speaker.speaker.eventSpecificData.find((ele) => {
-                            if (ele.eventId === eventsid.params.eventId) {
+                            if (ele.eventId === eventsId.params.eventId) {
                               bio = ele.bio;
                             }
                           });
@@ -147,7 +157,7 @@ function Speakers() {
                   </p>
                 </div>
 
-                <div className="w-[335px] md:w-[335px]">
+                <div className="w-[335px] md:w-[250px]">
                   <Primarybtn
                     onClick={() => {
                       setOpen(true);

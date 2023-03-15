@@ -761,7 +761,7 @@ body {
   display: inherit;
 }
 .react-date-picker__calendar {
-  width: 350px;
+  width: 300px;
   max-width: 100vw;
   z-index: 1;
 }
@@ -891,6 +891,6 @@ body {
   background-color: #e6e6e6;
 }
 
-.react-date-picker__clear-button__icon{
+.react-date-picker__clear-button__icon {
   display: none !important;
 }

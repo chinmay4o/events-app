@@ -3,35 +3,35 @@ import { useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
 
 const LandingSponsors = ({ singleEvent }) => {
-  console.log(singleEvent);
   const [sponsorAndExhibitors, setSponsorAndExhibitors] = useState([]);
   const event = useSelector((state) => state.eventData);
-  const eventsid = useMatch("/event/:eventId");
+  const eventsId = useMatch("/event/:eventId");
   useEffect(() => {
     if (event.exhibitorAndSponsors) {
       setSponsorAndExhibitors(event.exhibitorAndSponsors);
-      console.log(
-        event.exhibitorAndSponsors,
-        "event.sponsorAndExhibitors-event.sponsorAndExhibitors"
-      );
     }
   }, [event.exhibitorAndSponsors]);
-  console.log(singleEvent);
   return (
     <div className="mymd:flex justify-between flex-wrap w-full">
       {sponsorAndExhibitors?.length > 0 ? (
         sponsorAndExhibitors.map((sponsorAndExhibitor, key) => (
           <div className="mymd:w-[292px] mymd:h-[184px] bg-[#F5F5F5] rounded-xl mb-3 p-[20px] h-[128px]">
-            {singleEvent.organizer?.profilePicture ? (
+            {sponsorAndExhibitor.profilePicture ? (
               <img
                 src={sponsorAndExhibitor.profilePicture}
                 className="rounded-full mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] object-cover "
               />
             ) : (
-              <div class="mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] rounded-full bg-primary flex items-center justify-center mr-2 text-white mymd:text-3xl text-lg font-medium">
+              <div
+                class={`mymd:w-[45px] mymd:h-[45px] w-[40px] h-[40px] rounded-full bg-${
+                  ["red", "green", "blue", "yellow", "indigo"][
+                    Math.floor(Math.random() * 5)
+                  ]
+                }-500 flex items-center justify-center mr-2 text-white mymd:text-2xl text-lg font-medium uppercase`}
+              >
                 {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
                   .filter((ele, id) => {
-                    return ele.eventId.toString() === eventsid.params.eventId;
+                    return ele.eventId.toString() === eventsId.params.eventId;
                   })[0]
                   .companyName.charAt(0)}
               </div>
@@ -41,7 +41,7 @@ const LandingSponsors = ({ singleEvent }) => {
               {
                 sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData.filter(
                   (ele, id) => {
-                    return ele.eventId.toString() === eventsid.params.eventId;
+                    return ele.eventId.toString() === eventsId.params.eventId;
                   }
                 )[0].companyName
               }
@@ -50,7 +50,7 @@ const LandingSponsors = ({ singleEvent }) => {
               {
                 sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData.filter(
                   (ele, id) => {
-                    return ele.eventId.toString() === eventsid.params.eventId;
+                    return ele.eventId.toString() === eventsId.params.eventId;
                   }
                 )[0].industry
               }

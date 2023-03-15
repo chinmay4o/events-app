@@ -121,7 +121,6 @@ export default function AddSession({
   }, [event?.speakers, isEdit, open]); //Not good can trigger infinite loop
 
   const onSubmit = async (data) => {
-    console.log(data);
     setIsSubmitting(true);
     if (
       new Date(
@@ -130,7 +129,7 @@ export default function AddSession({
     ) {
       alert("Please select valid time!");
       setIsSubmitting(false);
-    }  else if (!data.sessionTime) {
+    } else if (!data.sessionTime) {
       alert("Please select time for the session");
       setIsSubmitting(false);
     } else {
@@ -138,7 +137,8 @@ export default function AddSession({
       if (scheduleCopy && scheduleCopy.length > 0) {
         if (singleSchedule.sessionName !== "" && isEdit) {
           let newData;
-          if (value1.length !== 0) { // removing speakers array if its not present
+          if (value1.length !== 0) {
+            // removing speakers array if its not present
             newData = {
               ...data,
               _id: singleSchedule._id,
@@ -170,7 +170,10 @@ export default function AddSession({
           scheduleCopy[scheduleCopy.length - 1].sessions.push({
             sessionName: data.sessionName,
             sessionDescription: data.sessionDescription,
-            speakers: data.speakers.length > 0 ? data.speakers.map((speaker) => speaker.value) : [],
+            speakers:
+              data.speakers.length > 0
+                ? data.speakers.map((speaker) => speaker.value)
+                : [],
             sessionTags: data.sessionTags.split(","),
             onlineSessionUrl: data.onlineSessionUrl,
             venueName: data.venueName,
@@ -188,7 +191,10 @@ export default function AddSession({
             {
               sessionName: data.sessionName,
               sessionDescription: data.sessionDescription,
-              speakers: data.speakers.length > 0 ? data.speakers.map((speaker) => speaker.value) : [],
+              speakers:
+                data.speakers.length > 0
+                  ? data.speakers.map((speaker) => speaker.value)
+                  : [],
               sessionTags: data.sessionTags.split(","),
               venueName: data.venueName,
               startTime: new Date(
@@ -420,7 +426,6 @@ export default function AddSession({
                               options={options}
                               value={value1}
                               onChange={(event) => {
-                                console.log(event);
                                 setValue("speakers", event);
                                 setValue1(event);
                               }}

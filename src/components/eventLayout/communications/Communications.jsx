@@ -9,13 +9,13 @@ function Communications() {
   const [activeTab, setActiveTab] = useState("marketing-tab");
   const event = useSelector((state) => state.eventData);
   return (
-    <div className="w-full md:w-[375px] md:ml-[30px] md:mt-[27px]">
-      <div className="flex w-[375px] md:w-[375px] mx-auto">
+    <div className="w-full md:w-[375px] md:ml-[0px] md:mt-[27px]">
+      {/* <div className="flex w-[375px] md:w-[375px] mx-auto">
         <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
           {event.title}
         </span>
-      </div>
-      <div className="font-[600] w-[375px] mx-auto md:w-[375px] text-[19px] pt-2.5 text-[#585858]">
+      </div> */}
+      <div className="font-[600] w-[375px] mx-auto md:w-[375px] text-[24px] pt-2.5 text-black">
         Communications
       </div>
       <div className="w-[375px] mt-5 mx-auto border-b border-gray-200 dark:border-gray-700">

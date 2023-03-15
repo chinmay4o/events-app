@@ -21,7 +21,7 @@ function CSVUpload({ setIsBulkUpload }) {
   const [importedData, setImportedData] = useState({});
   const [recipients, setRecipients] = useState([]);
   const dispatch = useDispatch();
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   //   const { setImportedData } = useContext(GlobalContext);
   useEffect(() => {
     if (parseError) {
@@ -369,7 +369,7 @@ function CSVUpload({ setIsBulkUpload }) {
             if (recipients.length > 0) {
               try {
                 const response = await patchRequest(
-                  `/event/${eventsid.params.eventId}/bulkRegister/speaker`,
+                  `/event/${eventsId.params.eventId}/bulkRegister/speaker`,
                   recipients
                 );
                 console.log(response, "response");
