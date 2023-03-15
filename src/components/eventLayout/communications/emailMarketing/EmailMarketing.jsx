@@ -320,7 +320,7 @@ const EmailMarketing = () => {
             <img src="/svgs/info.svg" />
             {speakerInvite ? (
               <div className="absolute z-20 bg-gray-700 h-[70px] text-[12px] w-[150px] p-2 ml-5 rounded-md	text-white text-center">
-                The email is sent as soon as speaker in added.
+                The email is sent as soon as speaker is added.
               </div>
             ) : (
               <></>
