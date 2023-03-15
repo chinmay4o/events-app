@@ -133,11 +133,11 @@ const LinkedinAutoPost = () => {
           <input type="submit" className="primary_submit" />
         </form>
       </div>
-      <div className="font-[600] w-[380px] ml-[20px] mt-[20px]">
+      {/* <div className="font-[600] w-[380px] ml-[20px] mt-[20px]">
         <button className="secondary_submit" onClick={handleLinkedinPost}>
           Request post
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
