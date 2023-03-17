@@ -111,9 +111,10 @@ function SideMenu({ eventTitle, organizer }) {
             ></path>
           </svg>
         </button> */}
-        <div>
+
+        <div className="">
           <p
-            className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px] hover:underline cursor-pointer relative  "
+            className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[150px] hover:underline cursor-pointer relative"
             onClick={() =>
               window.open(
                 `${window.location.origin}/event/${eventsId.params.eventId}`,
@@ -127,7 +128,7 @@ function SideMenu({ eventTitle, organizer }) {
               : null}
           </p>
           <i
-            className="fa-solid fa-up-right-from-square absolute right-[50px] mt-1.5 cursor-pointer text-primary"
+            className="fa-solid fa-up-right-from-square absolute right-[43px] mt-1 cursor-pointer text-primary ml-2"
             onClick={() =>
               window.open(
                 `${window.location.origin}/event/${eventsId.params.eventId}`,
@@ -137,7 +138,7 @@ function SideMenu({ eventTitle, organizer }) {
           ></i>
 
           <i
-            className="fa-regular fa-copy absolute right-[15px] mt-1.5 cursor-pointer text-primary "
+            className="fa-regular fa-copy absolute right-[13px] mt-1 cursor-pointer text-primary "
             onClick={() =>
               navigator.clipboard.writeText(
                 `${window.location.origin}/event/${singleEvent._id}`

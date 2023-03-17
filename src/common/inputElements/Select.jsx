@@ -98,6 +98,7 @@ export default function Select({
           : value?.label}
       </span>
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           clearOptions();

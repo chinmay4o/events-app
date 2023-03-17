@@ -205,10 +205,21 @@ const LandingPage = ({ singleEvent }) => {
                   alt="calender"
                   className="mr-2"
                 />{" "}
-                {new Date(singleEvent.startDate).getDate()} to{" "}
-                {new Date(singleEvent.endDate).getDate()}{" "}
-                {new Intl.DateTimeFormat("en-US", optionmymdonth).format(
-                  xmas95
+                {singleEvent.startDate === singleEvent.endDate ? (
+                  <>
+                    {new Date(singleEvent.startDate).getDate()}{" "}
+                    {new Intl.DateTimeFormat("en-US", optionmymdonth).format(
+                      xmas95
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {new Date(singleEvent.startDate).getDate()} to{" "}
+                    {new Date(singleEvent.endDate).getDate()}{" "}
+                    {new Intl.DateTimeFormat("en-US", optionmymdonth).format(
+                      xmas95
+                    )}
+                  </>
                 )}
               </span>
               <span className="flex items-center cursor-pointer font-normal">

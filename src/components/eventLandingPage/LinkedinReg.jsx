@@ -122,7 +122,7 @@ const LinkedinReg = ({ setIsRegistered }) => {
           }}
         />
         <label htmlFor="radiobtn" className="flex cursor-pointer">
-          Autofill via &nbsp;
+          Register via &nbsp;
           <img src="/svgs/linkedinblue.svg" alt="linkedin" /> &nbsp;Linkedin
         </label>
       </div>

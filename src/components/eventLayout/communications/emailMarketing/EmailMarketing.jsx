@@ -200,7 +200,7 @@ const EmailMarketing = () => {
                         timeZone: "Asia/Kolkata",
                       })
                     ).getTime() <= now ? (
-                      <div>
+                      <div className="flex w-[80px] justify-end">
                         {deletEmail === email._id ? (
                           <div className="flex w-[70px] justify-between">
                             <img
@@ -210,7 +210,7 @@ const EmailMarketing = () => {
                               onClick={() => handleDelete(email)}
                             />
                             <img
-                              src="/svgs/cross.svg"
+                              src="/svgs/Cross.svg"
                               alt="delete"
                               className="w-6 h-6 cursor-pointer"
                               onClick={() => setDeleteEmail("")}
@@ -256,7 +256,7 @@ const EmailMarketing = () => {
                           onClick={() => handleDelete(email)}
                         />
                         <img
-                          src="/svgs/cross.svg"
+                          src="/svgs/Cross.svg"
                           alt="delete"
                           className="w-6 h-6 cursor-pointer"
                           onClick={() => setDeleteEmail("")}
