@@ -40,6 +40,13 @@ function RegForm() {
   });
 
   function onSubmit(data, error) {
+    const duplicateExists = regForm.some(
+      (field) => field.label.toLowerCase() === data.name.toLowerCase()
+    );
+    if (duplicateExists) {
+      alert("Field with the same label name exists");
+      return;
+    }
     let regFormCopy;
     if (!regForm || Object.entries(regForm).length === 0) {
       regFormCopy = [];
@@ -86,6 +93,7 @@ function RegForm() {
       );
     }
     reset();
+    setInputType("text");
     setOpen(false);
   }
   function onFormSubmit(data, error) {
@@ -103,7 +111,7 @@ function RegForm() {
     }
   }, [eventsId]);
   return (
-    <div className="w-full md:w-[400px] h-screen ml-0 md:ml-[0px] mt-5 md:mt-[30px]">
+    <div className="w-full md:w-[400px] h-screen ml-0 md:ml-[0px] mt-5 md:mt-[30px] ">
       <p className="font-[600] w-[335px] md:w-[400px] mx-auto md:mx-auto text-[19px] text-[#585858] md:ml-8">
         Build Registration Form
       </p>

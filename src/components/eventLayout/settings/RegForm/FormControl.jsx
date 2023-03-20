@@ -14,7 +14,6 @@ export const FormControl = ({
   const { register, setValue } = useFormContext();
   const [multiSelect, setMultiSelect] = useState(false);
   const [multiplValue, setMultiplValue] = useState([]);
-
   switch (inputType) {
     case "text":
       return (
@@ -25,7 +24,7 @@ export const FormControl = ({
               type="text"
               id={fieldName}
               className={`${
-                width ? `w-[${width}]` : "w-full"
+                width ? `w-[${width}]` : "w-[300px]"
               } peer bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
               // placeholder={label}
               {...register(fieldName, config)}
@@ -36,8 +35,8 @@ export const FormControl = ({
             >
               {config.required ? (
                 <>
-                  <span className="text-red-500">*</span>
                   {label}
+                  <span className="text-red-500">*</span>
                 </>
               ) : (
                 label
@@ -56,7 +55,7 @@ export const FormControl = ({
               type="tel"
               id={fieldName}
               className={`${
-                width ? `w-[${width}]` : "w-full"
+                width ? `w-[${width}]` : "w-[300px]"
               } peer bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
               // placeholder={label}
               {...register(fieldName, { ...config })}
@@ -68,8 +67,8 @@ export const FormControl = ({
             >
               {config.required ? (
                 <>
-                  <span className="text-red-500">*</span>
                   {label}
+                  <span className="text-red-500">*</span>
                 </>
               ) : (
                 label
@@ -88,7 +87,7 @@ export const FormControl = ({
               type="email"
               id={fieldName}
               className={`${
-                width ? `w-[${width}]` : "w-full"
+                width ? `w-[${width}]` : "w-[300px]"
               } peer bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
               // placeholder={label}
               {...register(fieldName, config)}
@@ -99,8 +98,8 @@ export const FormControl = ({
             >
               {config.required ? (
                 <>
-                  <span className="text-red-500">*</span>
                   {label}
+                  <span className="text-red-500">*</span>
                 </>
               ) : (
                 label
@@ -119,7 +118,7 @@ export const FormControl = ({
               type="url"
               id={fieldName}
               className={`${
-                width ? `w-[${width}]` : "w-full"
+                width ? `w-[${width}]` : "w-[300px]"
               } peer bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
               // placeholder={label}
               {...register(fieldName, config)}
@@ -130,8 +129,8 @@ export const FormControl = ({
             >
               {config.required ? (
                 <>
-                  <span className="text-red-500">*</span>
                   {label}
+                  <span className="text-red-500">*</span>
                 </>
               ) : (
                 label
@@ -145,15 +144,15 @@ export const FormControl = ({
       return (
         <div className=" flex mb-[30px] items-center w-[400px]">
           <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
-          <div className={`${width ? `w-[${width}]` : "w-full"} relative`}>
+          <div className={`${width ? `w-[${width}]` : "w-[300px]"} relative`}>
             <label
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
               {config.required ? (
                 <>
-                  <span className="text-red-500">*</span>
                   {label}
+                  <span className="text-red-500">*</span>
                 </>
               ) : (
                 label
@@ -164,7 +163,7 @@ export const FormControl = ({
               name={fieldName}
               {...register(fieldName, config)}
               className={`${
-                width ? `w-[${width}]` : "w-full"
+                width ? `w-[${width}]` : "w-[300px]"
               } peer bg-white border border-gray-300 text-gray-900 text-[11px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block px-2.5 py-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
             >
               {options.map((o, index) => (
@@ -203,28 +202,28 @@ export const FormControl = ({
       return (
         <div className=" flex mb-[30px] items-center w-[400px]">
           <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
-          <div className={`${width ? `w-[${width}]` : "w-full"} relative`}>
+          <div className={`${width ? `w-[${width}]` : "w-[300px]"} relative`}>
             <label
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
               {config.required ? (
                 <>
-                  <span className="text-red-500">*</span>
                   {label}
+                  <span className="text-red-500">*</span>
                 </>
               ) : (
                 label
               )}
             </label>
             <div
-              className="selected-options flex flex-wrap items-center gap-2  rounded min-w-[8rem] h-[35px]  bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="selected-options flex flex-wrap items-center gap-2  rounded min-w-[8rem] min-h-[35px] bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500"
               onClick={() => setMultiSelect(!multiSelect)}
             >
               {multiplValue.map((option) => (
                 <div
                   key={option._id}
-                  className="flex items-center bg-white border text-gray-700 rounded px-2 py-0 m-0 text-[14px] h-[25px] "
+                  className="flex items-center bg-white border text-gray-700 rounded px-2 py-0 m-0 text-[14px] h-[25px]  "
                 >
                   {option.label}
                   <button
@@ -303,7 +302,7 @@ export const FormControl = ({
         //         console.log(e.target.value);
         //       }}
         //       className={`${
-        //         width ? `w-[${width}]` : "w-full"
+        //         width ? `w-[${width}]` : "w-[300px]"
         //       } peer bg-white border border-gray-300 text-gray-900 text-[11px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block px-2.5 py-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
         //     >
         //       {options.map((o, index) => (
@@ -326,7 +325,7 @@ export const FormControl = ({
               type="number"
               id={fieldName}
               className={`${
-                width ? `w-[${width}]` : "w-full"
+                width ? `w-[${width}]` : "w-[300px]"
               } peer bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] placeholder-transparent focus:ring-transparent focus:border-primary focus:border-[1.2px] block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white font-medium dark:focus:ring-blue-500 dark:focus:border-blue-500`}
               // placeholder={label}
               {...register(fieldName, config)}
@@ -337,8 +336,8 @@ export const FormControl = ({
             >
               {config.required ? (
                 <>
-                  <span className="text-red-500">*</span>
                   {label}
+                  <span className="text-red-500">*</span>
                 </>
               ) : (
                 label

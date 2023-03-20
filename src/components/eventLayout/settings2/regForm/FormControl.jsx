@@ -240,7 +240,7 @@ export const FormControl = ({
             </label>
 
             <div
-              className="selected-options flex flex-wrap items-center gap-2  rounded min-w-[8rem] h-[35px]  bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg h-[35px] font-medium p-1"
+              className="selected-options flex flex-wrap items-center gap-2  rounded min-w-[8rem] min-h-[35px] bg-white border border-gray-300 text-gray-900 text-[12px] rounded-lg font-medium p-1"
               onClick={() => setMultiSelect(!multiSelect)}
             >
               {multiplValue.map((option) => (
