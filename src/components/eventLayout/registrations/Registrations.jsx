@@ -24,6 +24,7 @@ function Registrations() {
   const event = useSelector((state) => state.eventData);
   const searchValue = useSelector((state) => state.searchRegistration);
   const targetRef = useRef([]);
+  const tableRef = useRef("");
   // UseEffect for initial registrations fetching
   useEffect(() => {
     if (eventsId.params.eventId && !isBulkUpload && event?.title) {
@@ -89,6 +90,27 @@ function Registrations() {
 
   const showBadge = (index) => {
     targetRef.current[index].style.display = "block";
+    const parentElement = targetRef.current[index].getBoundingClientRect();
+    const containerElement = tableRef.current.getBoundingClientRect();
+    const imageBottom = parentElement.top + parentElement.height;
+    console.log("parent", parentElement);
+    console.log(containerElement);
+    if (imageBottom > containerElement.height) {
+      targetRef.current[
+        index
+      ].style.top = `calc(100% - ${parentElement.height}px)`;
+    }
+    // const containerTop = containerElement.top;
+    // const containerBottom = containerElement.bottom;
+    // const imageBottom = parentElement.bottom;
+    // const imageHeight = parentElement.height;
+    // if (imageBottom > containerBottom) {
+    //   targetRef.current[index].style.top = `${
+    //     containerBottom - imageHeight - containerTop
+    //   }px`;
+    // } else if (imageBottom + imageHeight < containerBottom) {
+    //   targetRef.current[index].style.top = `${imageHeight}px`;
+    // }
   };
 
   const hideBadge = (index) => {
@@ -112,6 +134,18 @@ function Registrations() {
     document.body.removeChild(link);
   };
   console.log(registrations);
+
+  // useEffect(() => {
+  //   tableRef.current.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     tableRef.current.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
+  function handleScroll() {
+    const divScrollTop = tableRef.current.scrollTop;
+    console.log(divScrollTop);
+  }
   return (
     <div className="md:ml-[0px] md:mt-[0px] md:w-[900px] pb-12">
       <div className="py-0">
@@ -147,7 +181,7 @@ function Registrations() {
           <label htmlFor="simple-search" className="sr-only">
             Search
           </label>
-          <div className="relative w-full ">
+          <div className=" w-full ">
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
               <svg
                 aria-hidden="true"
@@ -265,7 +299,10 @@ function Registrations() {
           </button> */}
         </div>
 
-        <div className="overflow-y-auto w-[335px] md:w-full min-h-[270px] scrollbar">
+        <div
+          className="overflow-y-auto w-[335px] md:w-full min-h-[270px] scrollbar"
+          ref={tableRef}
+        >
           {tab === "Registered" && registrations && registrations.length > 0 ? (
             <>
               <table className="table-auto md:w-[900px]">
@@ -457,7 +494,7 @@ function Registrations() {
                               ref={(element) => {
                                 targetRef.current[index] = element;
                               }}
-                              className="absolute z-10 inline-block px-3 py-1 shadow-s ml-10 mt-0 bg-transparent hidden bottom-[20px] "
+                              className={`absolute z-20 px-3 py-1 shadow-s ml-10 mt-0 bg-transparent hidden w-[250px]`}
                               onMouseEnter={() => showBadge(index)}
                               onMouseLeave={() => hideBadge(index)}
                             >
@@ -485,7 +522,7 @@ function Registrations() {
                                       ) {
                                         return (
                                           <img
-                                            className="w-[250px] border rounded-t-xl register_img"
+                                            className=" border rounded-t-xl register_img"
                                             src={items.badgeUrl}
                                           />
                                         );

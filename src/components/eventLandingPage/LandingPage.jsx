@@ -18,7 +18,7 @@ const LandingPage = ({ singleEvent }) => {
   const [popup, setPopup] = useState(false);
   const [copied, setCopied] = useState("");
   const xmas95 = new Date(singleEvent.startDate);
-  const optionmymdonth = { month: "long" };
+  const optionmymdonth = { month: "short" };
   const eventsId = useMatch("/event/:eventId");
   const [searchParams] = useSearchParams();
   const [googleCal, setGoogleCal] = useState(false);
@@ -198,17 +198,31 @@ const LandingPage = ({ singleEvent }) => {
               Date & Time
             </span>
             <div>
-              <span className="flex items-center cursor-pointer my-3 font-normal">
+              <span className="flex items-center cursor-pointer my-3 font-normal ">
                 {" "}
                 <img
                   src="/svgs/calender.svg"
                   alt="calender"
                   className="mr-2"
                 />{" "}
-                {new Date(singleEvent.startDate).getDate()} to{" "}
-                {new Date(singleEvent.endDate).getDate()}{" "}
-                {new Intl.DateTimeFormat("en-US", optionmymdonth).format(
-                  xmas95
+                {singleEvent.startDate === singleEvent.endDate ? (
+                  <>
+                    {new Date(singleEvent.startDate).getDate()}{" "}
+                    {new Intl.DateTimeFormat("en-US", optionmymdonth).format(
+                      xmas95
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {new Date(singleEvent.startDate).getDate()}{" "}
+                    {new Intl.DateTimeFormat("en-US", optionmymdonth).format(
+                      new Date(singleEvent.startDate)
+                    )}{" "}
+                    to {new Date(singleEvent.endDate).getDate()}{" "}
+                    {new Intl.DateTimeFormat("en-US", optionmymdonth).format(
+                      new Date(singleEvent.endDate)
+                    )}
+                  </>
                 )}
               </span>
               <span className="flex items-center cursor-pointer font-normal">
@@ -442,7 +456,7 @@ const LandingPage = ({ singleEvent }) => {
                     <div className="text-[16px]">
                       You have successfully registered for {singleEvent?.title}!
                       <br />
-                      Please use this QR code to check-in to the event.
+                      Please use the QR code to check-in to the event.
                     </div>
                   </div>
                   <span
@@ -488,7 +502,7 @@ const LandingPage = ({ singleEvent }) => {
                   <div className="text-[16px]">
                     You have successfully registered for {singleEvent?.title}!
                     <br />
-                    Please use this QR code to check-in to the event.
+                    Please use the QR code to check-in to the event.
                   </div>
                 </div>
                 <span

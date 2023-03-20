@@ -137,7 +137,7 @@ function Schedule() {
                               }}
                             />
                             <img
-                              src="/svgs/cross.svg"
+                              src="/svgs/Cross.svg"
                               alt="delete"
                               className="w-6 h-6 cursor-pointer"
                               onClick={() => setDeleteSession("")}

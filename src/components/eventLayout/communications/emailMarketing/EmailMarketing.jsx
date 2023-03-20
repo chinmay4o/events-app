@@ -200,7 +200,7 @@ const EmailMarketing = () => {
                         timeZone: "Asia/Kolkata",
                       })
                     ).getTime() <= now ? (
-                      <div>
+                      <div className="flex w-[80px] justify-end">
                         {deletEmail === email._id ? (
                           <div className="flex w-[70px] justify-between">
                             <img
@@ -210,7 +210,7 @@ const EmailMarketing = () => {
                               onClick={() => handleDelete(email)}
                             />
                             <img
-                              src="/svgs/cross.svg"
+                              src="/svgs/Cross.svg"
                               alt="delete"
                               className="w-6 h-6 cursor-pointer"
                               onClick={() => setDeleteEmail("")}
@@ -256,7 +256,7 @@ const EmailMarketing = () => {
                           onClick={() => handleDelete(email)}
                         />
                         <img
-                          src="/svgs/cross.svg"
+                          src="/svgs/Cross.svg"
                           alt="delete"
                           className="w-6 h-6 cursor-pointer"
                           onClick={() => setDeleteEmail("")}
@@ -320,7 +320,7 @@ const EmailMarketing = () => {
             <img src="/svgs/info.svg" />
             {speakerInvite ? (
               <div className="absolute z-20 bg-gray-700 h-[70px] text-[12px] w-[150px] p-2 ml-5 rounded-md	text-white text-center">
-                The email is sent as soon as speaker in added.
+                The email is sent as soon as speaker is added.
               </div>
             ) : (
               <></>

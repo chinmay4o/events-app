@@ -90,7 +90,6 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
     window.addEventListener("resize", resizeWindow);
     return () => window.removeEventListener("resize", resizeWindow);
   }, []);
-
   return (
     <div className="w-[100%] mymd:w-full">
       <form
@@ -113,7 +112,7 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
             htmlFor="radiobtn"
             className="flex cursor-pointer text-[14px] font-[600]"
           >
-            Autofill via &nbsp;
+            Register via &nbsp;
             <img src="/svgs/linkedinblue.svg" alt="linkedin" /> &nbsp;Linkedin
           </label>
         </div>

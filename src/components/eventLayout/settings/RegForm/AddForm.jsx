@@ -187,7 +187,7 @@ export default function AddForm({
                               id={"options"}
                               type="text"
                               {...register("options", { required: true })}
-                              placeholder="Enter options separated by ;"
+                              placeholder="Enter options separated by ,"
                               className={`${styles.input} peer focus:ring-transparent	 focus:border-gray-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500`}
                             />
                           ) : (
