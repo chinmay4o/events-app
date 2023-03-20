@@ -40,7 +40,7 @@ function RegForm() {
   });
 
   function onSubmit(data, error) {
-    const duplicateExists = regForm.some(
+    const duplicateExists = regForm?.some(
       (field) => field.label.toLowerCase() === data.name.toLowerCase()
     );
     if (duplicateExists) {

@@ -18,7 +18,7 @@ export const FormControl = ({
     case "text":
       return (
         <div className="flex items-center justify-between mb-[30px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className="relative">
             <input
               type="text"
@@ -33,7 +33,7 @@ export const FormControl = ({
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
-              {config.required ? (
+              {config?.required ? (
                 <>
                   {label}
                   <span className="text-red-500">*</span>
@@ -49,7 +49,7 @@ export const FormControl = ({
     case "phoneNumber":
       return (
         <div className="flex items-center justify-between mb-[30px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className="relative">
             <input
               type="tel"
@@ -65,7 +65,7 @@ export const FormControl = ({
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
-              {config.required ? (
+              {config?.required ? (
                 <>
                   {label}
                   <span className="text-red-500">*</span>
@@ -81,7 +81,7 @@ export const FormControl = ({
     case "email":
       return (
         <div className="flex items-center justify-between mb-[30px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className="relative">
             <input
               type="email"
@@ -96,7 +96,7 @@ export const FormControl = ({
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
-              {config.required ? (
+              {config?.required ? (
                 <>
                   {label}
                   <span className="text-red-500">*</span>
@@ -112,7 +112,7 @@ export const FormControl = ({
     case "url":
       return (
         <div className="flex items-center justify-between mb-[30px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className="relative">
             <input
               type="url"
@@ -127,7 +127,7 @@ export const FormControl = ({
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
-              {config.required ? (
+              {config?.required ? (
                 <>
                   {label}
                   <span className="text-red-500">*</span>
@@ -143,13 +143,13 @@ export const FormControl = ({
     case "select": {
       return (
         <div className=" flex mb-[30px] items-center w-[400px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className={`${width ? `w-[${width}]` : "w-[300px]"} relative`}>
             <label
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
-              {config.required ? (
+              {config?.required ? (
                 <>
                   {label}
                   <span className="text-red-500">*</span>
@@ -201,13 +201,13 @@ export const FormControl = ({
     case "multi-select": {
       return (
         <div className=" flex mb-[30px] items-center w-[400px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className={`${width ? `w-[${width}]` : "w-[300px]"} relative`}>
             <label
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
-              {config.required ? (
+              {config?.required ? (
                 <>
                   {label}
                   <span className="text-red-500">*</span>
@@ -287,7 +287,7 @@ export const FormControl = ({
         </div>
 
         // <div className="flex items-center justify-between mb-[30px]">
-        //   <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+        //   <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
         //   <div className="relative">
         //     <label
         //       htmlFor={fieldName}
@@ -319,7 +319,7 @@ export const FormControl = ({
     case "number":
       return (
         <div className="flex items-center justify-between mb-[30px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className="relative">
             <input
               type="number"
@@ -334,7 +334,7 @@ export const FormControl = ({
               htmlFor={fieldName}
               className="absolute left-2 -top-5 mb-1 text-sm peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-900 peer-placeholder-shown:text-opacity-40 peer-placeholder-shown:top-[10px] peer-placeholder-shown:left-[13px] transition-all peer-focus:-top-5 peer-focus:text-gray-900 peer-focus:text-opacity-40 peer-focus:text-[12.5px] font-medium text-gray-900 text-opacity-40 dark:text-gray-300"
             >
-              {config.required ? (
+              {config?.required ? (
                 <>
                   {label}
                   <span className="text-red-500">*</span>
@@ -350,7 +350,7 @@ export const FormControl = ({
     case "checkbox":
       return (
         <div className="flex items-center justify-between mb-[30px]  w-[365px]">
-          <img src="/svgs/menu.svg" alt="menu" className="w-6 h-6 mr-2" />
+          <img src="/svgs/Menu.svg" alt="menu" className="w-6 h-6 mr-2" />
           <div className="text-[13px] font-[500] text-primary w-[350px] ">
             <input
               type="checkbox"
