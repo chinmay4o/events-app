@@ -1,22 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useMatch, useNavigate } from "react-router-dom";
-import { getSingleEvent } from "../../redux/actions/eventActions";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
-const AttendeeAbout = () => {
-  const dispatch = useDispatch();
+const AttendeeAbout = ({ singleEvent }) => {
   const navigate = useNavigate();
-  const eventsId = useMatch("attendee/:eventId/*");
   const [tab, settab] = useState("");
-  const singleEvent = useSelector((state) => state.eventData);
-  const xmas95 = new Date(singleEvent?.startDate);
-  const optionmymdonth = { month: "short" };
-  useEffect(() => {
-    dispatch(getSingleEvent({ eventId: eventsId.params.eventId }));
-    return () => {};
-  }, []);
-  console.log(singleEvent);
+
   return (
     <div className="w-full min-h-[90vh] bg-[#F5F5F5]">
       <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED]">
