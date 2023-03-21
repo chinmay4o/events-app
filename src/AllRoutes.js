@@ -25,6 +25,9 @@ import EventsID from "./pages/events/EventsID";
 import LinkedIn from "./pages/linkedin/Linkedin";
 import LinkedinAutoPost from "./components/eventLayout/communications/marketing/LinkedinAutoPost";
 import EmailMarketing from "./components/eventLayout/communications/emailMarketing/EmailMarketing";
+import AttendeeEvents from "./pages/attendeeEvents/AttendeeEvents";
+import AttendeeProfile from "./pages/attendeeEvents/AttendeeProfile";
+import AttendeeSingleEvent from "./pages/attendeeEvents/AttendeeSingleEvent";
 
 const AllRoutes = () => {
   const location = useLocation();
@@ -57,6 +60,9 @@ const AllRoutes = () => {
         path="/events/:eventId/registrations"
         element={<Registrations />}
       />
+      <Route path="/attendee" element={<AttendeeEvents />} />
+      <Route path="/attendee/:eventId" element={<AttendeeSingleEvent />} />
+      <Route path="/attendee/profile" element={<AttendeeProfile />} />
 
       {/* {Create event Page Routes} */}
       <Route path="/createvent" element={<EventsCreate />} />
