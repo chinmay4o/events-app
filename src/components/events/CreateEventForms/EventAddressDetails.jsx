@@ -6,11 +6,15 @@ import Navbar from "../../../common/navbar/Navbar";
 import Card from "../../../common/cards/Card";
 import ProgressBar from "../../../common/progressBar/ProgressBar";
 import TextInput from "../../../common/inputElements/TextInput";
+import Select from "../../../common/inputElements/Select";
+import { eventCategories } from "../../../helper/constant";
 
 const EventAddressDetails = (props) => {
   const [apiStatus, setApiStatus] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [eventType, seteventType] = useState();
+  const [value1, setValue1] = useState([]);
+  const [options, setOptions] = useState([]);
   const [event, setEvent] = useState({
     title: "Globoil India 2022",
     startDate: "",
@@ -66,7 +70,11 @@ const EventAddressDetails = (props) => {
   async function onSubmit(data) {
     setIsSubmitting(true);
     console.log(errors);
-
+    if (value1.length === 0) {
+      alert("Please select atleast one Event Type");
+      setIsSubmitting(false);
+      return;
+    }
     dispatch({
       type: CARRY_EVENT,
       payload: {
@@ -81,7 +89,33 @@ const EventAddressDetails = (props) => {
       props.setStep(5);
     }
   }
+  useEffect(() => {
+    const eventType = JSON.parse(localStorage.getItem("showtype"));
+    seteventType(eventType);
+    const eventValue = [
+      {
+        label: eventType,
+        value: "one",
+      },
+    ];
+    setValue1(eventValue);
+    setValue("eventValue", eventValue);
+    console.log(eventType);
+  }, [eventType, eventCategories]);
 
+  console.log(eventCategories);
+  useEffect(() => {
+    if (eventCategories?.length > 0) {
+      const speakerOptions = eventCategories?.map((category) => {
+        return {
+          label: category.name,
+          value: "one",
+        };
+      });
+      setOptions(speakerOptions);
+    }
+  }, [eventCategories]);
+  console.log(value1);
   return (
     <>
       <div className="grid  justify-center content-center w-full sm:max-w-[1280px] mx-auto min-h-screen]">
@@ -99,6 +133,37 @@ const EventAddressDetails = (props) => {
             <div></div>
             <div></div>
             <div></div>
+            {/* <div className="mb-4">
+              <Select
+                multiple
+                register={register}
+                id={"selectSpeaker"}
+                options={options}
+                value={value1}
+                onChange={(event) => {
+                  console.log(event);
+                  setValue("eventType", event);
+                  setValue1(event);
+                }}
+              />
+            </div>
+
+            <TextInput
+              type="text"
+              label="Address"
+              id="addressLine1"
+              register={register}
+              required
+            />
+
+            <TextInput
+              type="url"
+              label="Google Location URL"
+              id="landmark"
+              required
+              register={register}
+            /> */}
+
             <TextInput
               type="text"
               id="pincode"

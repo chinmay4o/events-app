@@ -38,7 +38,6 @@ export default function EditEvent({
   });
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (singleEvent.title) {
       setProfilePicture(singleEvent.coverImage);
@@ -58,7 +57,7 @@ export default function EditEvent({
   }, [open]);
 
   const navigate = useNavigate();
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     setEventLocation((prev) => {
@@ -91,7 +90,7 @@ export default function EditEvent({
 
     axios
       .patch(
-        `${process.env.REACT_APP_SERVER_URL}/event/${eventsid.params.eventId}`,
+        `${process.env.REACT_APP_SERVER_URL}/event/${eventsId.params.eventId}`,
         {
           ...data,
           coverImage: profilePicture,
@@ -105,7 +104,7 @@ export default function EditEvent({
       )
       .then(function (response) {
         console.log(response);
-        dispatch(getSingleEvent({ eventId: eventsid.params.eventId }));
+        dispatch(getSingleEvent({ eventId: eventsId.params.eventId }));
         setOpen(false);
         reset({
           title: "",
@@ -232,6 +231,7 @@ export default function EditEvent({
                           <div className="mb-[42px]"></div>
 
                           <p className="text-[13px] font-[500] mt-[22px]"></p>
+
                           <TextInput
                             type="text"
                             id="pincode"

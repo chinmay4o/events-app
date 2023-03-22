@@ -48,7 +48,7 @@ const LinkedinAutoPost = () => {
       axios
         .post(
           `${process.env.REACT_APP_SERVER_URL}/user/linkedin-auto-post`,
-          { "linkedinURNid": linkedinURNid , "eventId": event._id},
+          { linkedinURNid: linkedinURNid, eventId: event._id },
           {
             headers: {
               "Content-Type": "application/json",
@@ -61,12 +61,11 @@ const LinkedinAutoPost = () => {
         })
         .catch((err) => console.log(err));
     } else {
-      alert("something went wrong! Please try again"); //access-token or urnid not found 
+      alert("something went wrong! Please try again"); //access-token or urnid not found
     }
   }
 
   async function onSubmit(data) {
-    console.log(data, " + data from form");
     setShow(true);
     const timerId = setTimeout(() => {
       setShow(false);
@@ -85,7 +84,6 @@ const LinkedinAutoPost = () => {
         },
       }
     );
-    console.log(updatedEvent, "+ updatedEvent");
     setPostData(updatedEvent.data.savedEvent.linkedinAutoPost[0]);
 
     dispatch({

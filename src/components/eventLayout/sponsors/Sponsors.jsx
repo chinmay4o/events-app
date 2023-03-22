@@ -18,7 +18,7 @@ function Sponsors() {
   const [sponsorAndExhibitors, setSponsorAndExhibitors] = useState([]);
 
   const event = useSelector((state) => state.eventData);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,7 +54,7 @@ function Sponsors() {
             <img src="/svgs/Settings.svg" alt="edit" className="cursor-pointer" />
           </div>
         </div> */}
-        <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+        <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[20px] pt-2.5 text-black md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
           <div>Sponsors/ Exhibitors</div>
           <div className="w-[335px] md:w-[200px]">
             <PrimaryButton
@@ -71,14 +71,28 @@ function Sponsors() {
               <>
                 <div className="my-4 flex justify-between">
                   <div className="flex items-center">
-                    <img
-                      src={
-                        sponsorAndExhibitor.profilePicture
-                          ? sponsorAndExhibitor.profilePicture
-                          : "/svgs/profile.svg"
-                      }
-                      className="rounded-full w-[50px] h-[50px] object-cover"
-                    />
+                    {sponsorAndExhibitor?.profilePicture ? (
+                      <img
+                        src={sponsorAndExhibitor.profilePicture}
+                        className="rounded-full mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] object-cover "
+                      />
+                    ) : (
+                      <div
+                        class={`mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] rounded-full bg-${
+                          ["red", "green", "blue", "yellow", "indigo"][
+                            Math.floor(Math.random() * 5)
+                          ]
+                        }-500 flex items-center justify-center mr-2 text-white mymd:text-2xl text-lg font-medium uppercase`}
+                      >
+                        {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
+                          .filter((ele, id) => {
+                            return (
+                              ele.eventId.toString() === eventsId.params.eventId
+                            );
+                          })[0]
+                          .companyName.charAt(0)}
+                      </div>
+                    )}
                     <div className="pl-2.5 w-[197px]">
                       <div className="text-[14px] font-semibold py-1">
                         {
@@ -86,7 +100,7 @@ function Sponsors() {
                             (ele, id) => {
                               return (
                                 ele.eventId.toString() ===
-                                eventsid.params.eventId
+                                eventsId.params.eventId
                               );
                             }
                           )[0].companyName
@@ -98,7 +112,7 @@ function Sponsors() {
                             (ele, id) => {
                               return (
                                 ele.eventId.toString() ===
-                                eventsid.params.eventId
+                                eventsId.params.eventId
                               );
                             }
                           )[0].industry

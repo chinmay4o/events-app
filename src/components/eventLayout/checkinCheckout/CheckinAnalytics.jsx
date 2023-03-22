@@ -3,7 +3,7 @@ import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import { getRequest } from "../../../utils/API/api.ts";
 
 function CheckinAnalytics() {
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   const navigate = useNavigate();
   const location = useLocation();
   const [options, setOptions] = useState({
@@ -24,20 +24,14 @@ function CheckinAnalytics() {
   });
 
   useEffect(() => {
-    console.log(
-      eventsid.params.eventId,
-      options,
-      "eventsid.params.eventId && options"
-    );
-
-    if (eventsid.params.eventId && options) {
+    if (eventsId.params.eventId && options) {
       getAttendeeStats();
     }
-  }, [eventsid.params.eventId]);
+  }, [eventsId.params.eventId]);
 
   const getAttendeeStats = async () => {
     const response = await getRequest(
-      `attendee/${eventsid.params.eventId}/stats`
+      `attendee/${eventsId.params.eventId}/stats`
     );
 
     const newOptions = { ...options };

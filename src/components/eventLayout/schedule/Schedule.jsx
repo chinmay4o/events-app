@@ -44,17 +44,21 @@ function Schedule() {
             {event.title}
           </span>
         </div> */}
-          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[19px] pt-2.5 text-[#585858] md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
+          <div className="font-[600] w-[335px] mx-auto md:w-[422px] text-[24px] pt-2.5 text-black md:flex items-center justify-between fixed bg-white z-10 min-h-[82px]">
             <div>Schedule</div>
-            <div className="w-[335px] md:w-[230px]">
-              <PrimaryButton
-                btnText={"Add More Sessions"}
-                onClick={() => {
-                  setOpen(true);
-                  setIsEdit(false);
-                }}
-              />
-            </div>
+            {schedule?.length > 0 ? (
+              <div className="w-[335px] md:w-[230px]">
+                <PrimaryButton
+                  btnText={"Add More Sessions"}
+                  onClick={() => {
+                    setOpen(true);
+                    setIsEdit(false);
+                  }}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="mt-5 mb-[30px] overflow-y-auto mx-auto w-[335px] md:w-[422px] scrollbar pt-[75px] absolute pb-[50px]">
             {schedule?.length > 0 ? (
@@ -133,7 +137,7 @@ function Schedule() {
                               }}
                             />
                             <img
-                              src="/svgs/cross.svg"
+                              src="/svgs/Cross.svg"
                               alt="delete"
                               className="w-6 h-6 cursor-pointer"
                               onClick={() => setDeleteSession("")}
@@ -206,7 +210,25 @@ function Schedule() {
                                       />
                                     );
                                   } else {
-                                    return <img src="/svgs/profile.svg" />;
+                                    return (
+                                      <div
+                                        className={`sm:w-[30px] sm:h-[30px] w-[30px] h-[30px] rounded-full bg-${
+                                          [
+                                            "red",
+                                            "green",
+                                            "blue",
+                                            "yellow",
+                                            "indigo",
+                                          ][Math.floor(Math.random() * 5)]
+                                        }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
+                                      >
+                                        {event.speakers[i].firstName.slice(
+                                          0,
+                                          1
+                                        )}
+                                        {event.speakers[i].lastName.slice(0, 1)}
+                                      </div>
+                                    );
                                   }
                                 }
                               }
@@ -247,16 +269,25 @@ function Schedule() {
                   </div>
                 ))
             ) : (
-              <div className="grid w-full place-items-center h-[250px]">
+              <div className="grid w-full h-[250px]">
                 <div>
                   <img
                     src="/svgs/nullState.svg"
                     alt=""
                     className="w-[200px] h-[200px]"
                   />
-                  <p className="text-[15px] font-[500] text-[#717171]  text-center">
+                  <p className="text-[15px] font-[500] text-[#717171]">
                     Nothing here...
                   </p>
+                </div>
+                <div className="w-[335px] md:w-[250px]">
+                  <PrimaryButton
+                    btnText={"Add More Sessions"}
+                    onClick={() => {
+                      setOpen(true);
+                      setIsEdit(false);
+                    }}
+                  />
                 </div>
               </div>
             )}

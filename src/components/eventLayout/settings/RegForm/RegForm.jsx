@@ -14,7 +14,7 @@ import { FormControl } from "./FormControl";
 function RegForm() {
   const [regForm, setRegForm] = useState({});
   const [inputType, setInputType] = useState("text");
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   const [open, setOpen] = useState(false);
   const formMethods = useForm();
   const {
@@ -40,6 +40,13 @@ function RegForm() {
   });
 
   function onSubmit(data, error) {
+    const duplicateExists = regForm?.some(
+      (field) => field.label.toLowerCase() === data.name.toLowerCase()
+    );
+    if (duplicateExists) {
+      alert("Field with the same label name exists");
+      return;
+    }
     let regFormCopy;
     if (!regForm || Object.entries(regForm).length === 0) {
       regFormCopy = [];
@@ -48,14 +55,13 @@ function RegForm() {
     }
     let options = [];
     if (data.type === "select" || data.type === "multi-select") {
-      const optionsArray = data.options.split(";");
+      const optionsArray = data.options.split(",");
       options = optionsArray.map((option) => {
         return {
           label: option,
           value: option.toLowerCase(),
         };
       });
-      console.log(options, "optionsArray", optionsArray);
     }
     console.log(
       "🚀 ~ file: index.tsx:35 ~ onSubmit ~ regFormCopy",
@@ -77,17 +83,18 @@ function RegForm() {
     setRegForm(regFormCopy);
     if (regForm) {
       patchRequest(
-        `event/${eventsid.params.eventId}/additionalForm`,
+        `event/${eventsId.params.eventId}/additionalForm`,
         regFormCopy
       );
     } else {
       postRequest(
-        `event/${eventsid.params.eventId}/additionalForm`,
+        `event/${eventsId.params.eventId}/additionalForm`,
         regFormCopy
       );
     }
-    console.log(data);
     reset();
+    setInputType("text");
+    setOpen(false);
   }
   function onFormSubmit(data, error) {
     console.log(data);
@@ -95,19 +102,17 @@ function RegForm() {
   useEffect(() => {
     const getAdditionalForm = async () => {
       const response = await getRequest(
-        `/event/${eventsid.params.eventId}/additionalForm`
+        `/event/${eventsId.params.eventId}/additionalForm`
       );
-      console.log(response, "response");
       setRegForm(response.data[0]?.form);
     };
-    if (eventsid.params.eventId) {
+    if (eventsId.params.eventId) {
       getAdditionalForm();
     }
-  }, [eventsid]);
-
+  }, [eventsId]);
   return (
-    <div className="w-full md:w-[340px] h-screen ml-0 md:ml-[30px] mt-5 md:mt-[30px]">
-      <p className="font-[600] w-[335px] md:w-[340px] mx-auto md:mx-0 text-[19px] text-[#585858]">
+    <div className="w-full md:w-[400px] h-screen ml-0 md:ml-[0px] mt-5 md:mt-[30px] ">
+      <p className="font-[600] w-[335px] md:w-[400px] mx-auto md:mx-auto text-[19px] text-[#585858] md:ml-8">
         Build Registration Form
       </p>
       <div className="flex w-[335px] md:w-[340px] flex-row place-content-around mx-auto md:mx-0">
@@ -158,7 +163,7 @@ function RegForm() {
                 </button> */}
       </form>
 
-      <div className="w-[335px] md:w-[340px] mx-auto md:mx-0">
+      <div className="w-[335px] md:w-[300px] mx-auto md:mx-0 md:ml-8">
         <PrimaryButton
           btnText={"Add custom fields"}
           onClick={() => {

@@ -11,7 +11,7 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
   const [regForm, setRegForm] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
-  const eventsid = useMatch("/event/:eventId");
+  const eventsId = useMatch("/event/:eventId");
   const navigate = useNavigate();
   const formMethods = useForm();
   const {
@@ -24,15 +24,15 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
   useEffect(() => {
     const getAdditionalForm = async () => {
       const response = await getRequest(
-        `/event/${eventsid.params.eventId}/additionalForm`
+        `/event/${eventsId.params.eventId}/additionalForm`
       );
       setRegForm(response.data[0]?.form);
       // console.log(response.data[0]?.form, "new form");
     };
-    if (eventsid.params.eventId) {
+    if (eventsId.params.eventId) {
       getAdditionalForm();
     }
-  }, [eventsid]);
+  }, [eventsId]);
 
   function onFormSubmit(data, error) {
     let additionalData = {};
@@ -57,7 +57,7 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
         lastName: data.lastName,
         mobile: data.mobile,
         email: data.email,
-        eventId: eventsid.params.eventId,
+        eventId: eventsId.params.eventId,
         jobTitle: data.jobTitle,
         organization: data.organization,
         additionalData: additionalData,
@@ -90,7 +90,6 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
     window.addEventListener("resize", resizeWindow);
     return () => window.removeEventListener("resize", resizeWindow);
   }, []);
-
   return (
     <div className="w-[100%] mymd:w-full">
       <form
@@ -105,12 +104,15 @@ const LandingRegForm = ({ isRegistered, setIsRegistered }) => {
             checked={false}
             onChange={() =>
               navigate(
-                `/event/${eventsid.params.eventId}?tab=${"registerlinkedin"}`
+                `/event/${eventsId.params.eventId}?tab=${"registerlinkedin"}`
               )
             }
           />
-          <label htmlFor="radiobtn" className="flex cursor-pointer text-[14px] font-[600]">
-            Autofill via &nbsp;
+          <label
+            htmlFor="radiobtn"
+            className="flex cursor-pointer text-[14px] font-[600]"
+          >
+            Register via &nbsp;
             <img src="/svgs/linkedinblue.svg" alt="linkedin" /> &nbsp;Linkedin
           </label>
         </div>

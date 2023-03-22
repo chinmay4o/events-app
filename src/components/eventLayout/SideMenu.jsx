@@ -18,7 +18,7 @@ function SideMenu({ eventTitle, organizer }) {
 
   const [searchParams] = useSearchParams();
   // const { eventId } = useParams();
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   const navigate = useNavigate();
   const navbarContent = [
     {
@@ -111,20 +111,42 @@ function SideMenu({ eventTitle, organizer }) {
             ></path>
           </svg>
         </button> */}
-        <p
-          className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[200px] hover:underline	cursor-pointer"
-          onClick={() =>
-            window.open(
-              `${window.location.origin}/event/${eventsid.params.eventId}`,
-              "_blank"
-            )
-          }
-        >
-          {eventTitle
-            ? eventTitle.charAt(0).toUpperCase() +
-              eventTitle.slice(1, eventTitle.length)
-            : null}
-        </p>
+
+        <div className="">
+          <p
+            className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[150px] hover:underline cursor-pointer relative"
+            onClick={() =>
+              window.open(
+                `${window.location.origin}/event/${eventsId.params.eventId}`,
+                "_blank"
+              )
+            }
+          >
+            {eventTitle
+              ? eventTitle.charAt(0).toUpperCase() +
+                eventTitle.slice(1, eventTitle.length)
+              : null}
+          </p>
+          <i
+            className="fa-solid fa-up-right-from-square absolute right-[43px] mt-1 cursor-pointer text-primary ml-2"
+            onClick={() =>
+              window.open(
+                `${window.location.origin}/event/${eventsId.params.eventId}`,
+                "_blank"
+              )
+            }
+          ></i>
+
+          <i
+            className="fa-regular fa-copy absolute right-[13px] mt-1 cursor-pointer text-primary "
+            onClick={() =>
+              navigator.clipboard.writeText(
+                `${window.location.origin}/event/${singleEvent._id}`
+              )
+            }
+          ></i>
+        </div>
+
         <p className="text-[10px] font-[500] relative left-[27px] top-[25px] text-gray-400">
           By {organizer ? organizer : null}
         </p>
@@ -173,7 +195,7 @@ function SideMenu({ eventTitle, organizer }) {
                 <a
                   onClick={() => {
                     navigate(
-                      `/events/${eventsid.params.eventId}?show=${navbar.pathName}`
+                      `/events/${eventsId.params.eventId}?show=${navbar.pathName}`
                     );
                   }}
                   className={`flex cursor-pointer text-[#9a9a9a] items-center pl-5 py-3.5 text-[11px] font-[500] border-b border-[#C5C5C766] border-opacity-40 ${
@@ -204,7 +226,7 @@ function SideMenu({ eventTitle, organizer }) {
             <a
               onClick={() => {
                 window.open(
-                  `${window.location.origin}/events/${eventsid.params.eventId}/registrations?tab=ViewAll`,
+                  `${window.location.origin}/events/${eventsId.params.eventId}/registrations?tab=ViewAll`,
                   "_blank"
                 );
               }}

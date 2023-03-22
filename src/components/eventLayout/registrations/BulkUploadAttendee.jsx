@@ -18,7 +18,7 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
   const [hasIgnoredColumns, setHasIgnoredColumns] = useState(false);
   const [importedData, setImportedData] = useState({});
   const [recipients, setRecipients] = useState([]);
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   //   const { setImportedData } = useContext(GlobalContext);
   useEffect(() => {
     if (parseError) {
@@ -100,7 +100,6 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
 
     // Check that email and name are provided
     const areMandatoryFieldsProvided = recipients.every((recipient) => {
-      console.log(recipient, "recipient");
       const { firstName, lastName, email } = recipient;
       return firstName.length && lastName.length && email.length;
     });
@@ -146,7 +145,7 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
           },
           eventSpecificData: {
             bio: recipient.bio,
-            eventId: eventsid.params.eventId,
+            eventId: eventsId.params.eventId,
             eventSpecificRole: "attendee",
           },
         },
@@ -160,7 +159,6 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
       skipEmptyLines: "greedy",
       complete: (results) => {
         if (!results.errors.length) {
-          console.log("11", results);
           const parsedHeaders = results.meta.fields || [];
           const parsedData = results.data;
           const headerValidity = checkHeaderValidity(parsedHeaders);
@@ -169,14 +167,13 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
             // setHeaders(acceptedHeaders);
 
             // Check if any columns in uploaded csv were ignored
-            console.log(parsedHeaders, "parsedHeaders");
+
             parsedHeaders.length > 9 //To be updated when any other field is added
               ? setHasIgnoredColumns(true)
               : setHasIgnoredColumns(false);
 
             const validatedRecipients = validateRecipients(parsedData);
 
-            console.log(validatedRecipients, "validatedRecipients");
             if (validatedRecipients) {
               setRecipients(validatedRecipients);
               setImportedData(validatedRecipients);
@@ -366,7 +363,7 @@ function AttendeeCSVUpload({ setIsBulkUpload }) {
               if (recipients.length > 0) {
                 try {
                   const response = await patchRequest(
-                    `/event/${eventsid.params.eventId}/bulkRegister/attendee`,
+                    `/event/${eventsId.params.eventId}/bulkRegister/attendee`,
                     recipients
                   );
                   if (response) {

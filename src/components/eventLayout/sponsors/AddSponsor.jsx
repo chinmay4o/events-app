@@ -24,7 +24,7 @@ export default function AddSponsor({
   const [profilePicture, setProfilePicture] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
-  const eventsid = useMatch("/events/:eventId");
+  const eventsId = useMatch("/events/:eventId");
   const {
     register,
     handleSubmit,
@@ -48,7 +48,7 @@ export default function AddSponsor({
       try {
         const response = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/event/${
-            eventsid.params.eventId
+            eventsId.params.eventId
           }/${
             isEdit ? "editExhibitorAndSponsor" : "registerExhibitorAndSponsor"
           }`,
@@ -74,7 +74,7 @@ export default function AddSponsor({
                   industry: data.industry,
                   category: data.category,
                   webLink: data.webLink,
-                  eventId: eventsid.params.eventId,
+                  eventId: eventsId.params.eventId,
                   eventSpecificRole: "exhibitorAndSponsor",
                   bio: data.bio,
                 },
@@ -105,7 +105,7 @@ export default function AddSponsor({
           industry: "",
           category: "",
           webLink: "",
-          eventId: eventsid.params.eventId,
+          eventId: eventsId.params.eventId,
           eventSpecificRole: "exhibitorAndSponsor",
         });
         reset();

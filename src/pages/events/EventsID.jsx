@@ -10,7 +10,7 @@ function EventsId() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, isLoading] = useState(false);
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   useEffect(() => {
     let pp = new Promise(async (resolve, reject) => {
       isLoading(true);
@@ -35,7 +35,7 @@ function EventsId() {
           let verifiedEventOrganizer = undefined;
           verifiedEventOrganizer = data.savedUserConfig?.organizer.events.find(
             (ele, index) => {
-              return ele.toString() === eventsid.params.eventId;
+              return ele.toString() === eventsId.params.eventId;
             }
           );
           if (verifiedEventOrganizer) {
@@ -52,7 +52,7 @@ function EventsId() {
       }
     })
       .then(() => {
-        dispatch(getSingleEvent({ eventId: eventsid.params.eventId }));
+        dispatch(getSingleEvent({ eventId: eventsId.params.eventId }));
         isLoading(false);
       })
       .catch(() => {

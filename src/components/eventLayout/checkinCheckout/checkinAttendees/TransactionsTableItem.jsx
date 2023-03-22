@@ -4,14 +4,14 @@ import { patchRequest } from "../../../../utils/API/api.ts";
 
 function TransactionsTableItem(props) {
   const [btnText, setBtnText] = useState("Check In");
-  const eventsid = useMatch("events/:eventId/*");
+  const eventsId = useMatch("events/:eventId/*");
   useEffect(() => {
     let btnText = "Check In";
     if (props?.showSearchResults) {
       btnText =
         props?.attendee?.attendee?.eventSpecificData.filter(
           (data) =>
-            data.eventId === eventsid.params.eventId &&
+            data.eventId === eventsId.params.eventId &&
             data.isCheckedIn === true
         ).length > 0
           ? "Check Out"
@@ -20,7 +20,7 @@ function TransactionsTableItem(props) {
       btnText =
         props?.attendee?.attendee[0]?.eventSpecificData.filter(
           (data) =>
-            data.eventId === eventsid.params.eventId &&
+            data.eventId === eventsId.params.eventId &&
             data.isCheckedIn === true
         ).length > 0
           ? "Check Out"
@@ -33,13 +33,13 @@ function TransactionsTableItem(props) {
   const checkInAttendee = async (attendeeId) => {
     try {
       const res = await patchRequest(
-        `attendee/${attendeeId}/${eventsid.params.eventId}`,
+        `attendee/${attendeeId}/${eventsId.params.eventId}`,
         {}
       );
       const isCheckedIn =
         res.data.data.eventSpecificData.filter(
           (data) =>
-            data.eventId == eventsid.params.eventId && data.isCheckedIn == true
+            data.eventId == eventsId.params.eventId && data.isCheckedIn == true
         ).length > 0;
       setBtnText(isCheckedIn ? "Check Out" : "Check In");
       console.log(res, "Ressss");
