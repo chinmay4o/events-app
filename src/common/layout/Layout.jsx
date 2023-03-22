@@ -18,7 +18,7 @@ const Layout = () => {
   }, [savedUserConfig?._id]);
   return (
     <>
-      {eventsId || attendeeEvents ? null : <Navbar />}
+      {eventsId ? null : <Navbar />}
       <div
         className={
           eventsId || attendeeEvents

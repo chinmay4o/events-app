@@ -7,28 +7,35 @@ const AttendeeAbout = ({ singleEvent }) => {
   const [tab, settab] = useState("");
 
   return (
-    <div className="w-full min-h-[90vh] bg-[#F5F5F5]">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED]">
+    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px] ">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
-          onClick={() => navigate("/attendee")}
+          onClick={() => navigate("/events")}
         />
-        <span className="ml-2 text-[22px] font-[500]">
+        <p className="ml-2 text-[22px] font-[500] overflow-hidden overflow-ellipsis whitespace-nowrap w-[95%]">
           {singleEvent?.title}
-        </span>
+        </p>
       </div>
-      <div className="mt-[60px] mx-[16px] pt-[16px]">
+      <div className="mt-[60px] mx-[16px] pt-[16px] md:pt-1 md:mt-[120px]">
         <img
           src={singleEvent?.coverImage}
           alt="coverimage"
-          className="h-[194px] w-full rounded-[10px] shadow"
+          className="h-[194px] w-full rounded-[10px] shadow md:hidden"
         />
-        <div className=" w-full">
-          <div className="font-[500] text-[22px] mt-[8px] text-[#121212] ">
-            {singleEvent?.title}
+        <div className="w-full md:hidden">
+          <div className="font-[500] text-[22px] mt-[8px] text-[#121212]">
+            <p className="overflow-hidden overflow-ellipsis whitespace-nowrap  w-[97%]">
+              {singleEvent?.title}
+            </p>
           </div>
           <div className="flex text-[12px] text-[#727374] font-normal mt-[4px]">
+            <img
+              src="/svgs/calender.svg"
+              alt="location"
+              className="h-[16px] mr-[5px] md:h-[21px]"
+            />
             <span>
               {singleEvent.startDate === singleEvent.endDate ? (
                 <>
@@ -68,20 +75,20 @@ const AttendeeAbout = ({ singleEvent }) => {
           </div>
         </div>
 
-        <div className="h-[130px] w-full bg-gradient-to-b from-primary to-[#7F2ECD] p-[16px] rounded-[10px] mt-[24px] shadow cursor-pointer">
-          <span className="text-sm font-[400] text-white">
+        <div className="h-[130px] w-full bg-gradient-to-b from-primary to-[#7F2ECD] p-[16px] rounded-[10px] mt-[24px] shadow cursor-pointer md:w-[414px] md:h-[168px]">
+          <span className="text-sm font-[400] text-white md:text-[16px]">
             Tap to expand your badge
           </span>
-          <div className="flex mt-[10px]">
-            <div className="border h-[64px] w-[64px] rounded-[10px]"></div>
-            <div className="h-[64px] flex flex-col justify-between ml-3">
-              <span className="text-white font-500 text-[16px]">
+          <div className="flex mt-[10px] md:mt-[12px]">
+            <div className="border h-[64px] w-[64px] rounded-[10px] md:w-[96px] md:h-[96px]"></div>
+            <div className="h-[64px] flex flex-col justify-between ml-3 md:h-[96px] md:ml-4">
+              <span className="text-white font-500 text-[16px] md:text-[24px]">
                 Pulkit Madan
               </span>
-              <span className="text-white font-400 text-[12px]">
+              <span className="text-white font-400 text-[12px] md:text-[16px]">
                 Event badge
               </span>
-              <span className="text-white font-400 text-[12px]">
+              <span className="text-white font-400 text-[12px] md:text-[16px]">
                 {" "}
                 {singleEvent.startDate === singleEvent.endDate ? (
                   <>
@@ -107,7 +114,7 @@ const AttendeeAbout = ({ singleEvent }) => {
           </div>
         </div>
 
-        <div className=" w-full flex my-[20px] ">
+        <div className=" w-full flex my-[20px] md:mt-[30px]">
           <span
             className={
               tab === "about" || tab === ""
@@ -140,7 +147,7 @@ const AttendeeAbout = ({ singleEvent }) => {
           </span>
         </div>
         {tab === "about" ? (
-          <div className="text-[#1C1C1E] font-[400] text-sm  whitespace-pre-wrap">
+          <div className="text-[#1C1C1E] font-[400] text-sm  whitespace-pre-wrap md:text-[16px] md:w-[60%]">
             {singleEvent?.shortDescription}
           </div>
         ) : tab === "exhibitors" ? (
@@ -148,7 +155,7 @@ const AttendeeAbout = ({ singleEvent }) => {
         ) : tab === "sponsors" ? (
           <></>
         ) : (
-          <div className="text-[#1C1C1E] font-[400] text-sm  whitespace-pre-wrap">
+          <div className="text-[#1C1C1E] font-[400] text-sm  whitespace-pre-wrap md:text-[16px] md:w-[60%]">
             {singleEvent?.shortDescription}
           </div>
         )}

@@ -5,32 +5,32 @@ const AttendeeSpeakers = ({ singleEvent }) => {
   const navigate = useNavigate();
   console.log(singleEvent);
   return (
-    <div className="w-full min-h-[90vh] bg-[#F5F5F5]">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED]">
+    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[59px]">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
-          onClick={() => navigate("/attendee")}
+          onClick={() => navigate("/events")}
         />
         <span className="ml-2 text-[22px] font-[500]">Speakers</span>
       </div>
-      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px]">
+      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[140px] md:w-[65%] md:flex flex-wrap	justify-between ">
         {singleEvent.speakers && singleEvent.speakers.length > 0 ? (
           singleEvent.speakers.map((speakerData, key) => (
             <>
               <div
                 key={key}
-                className="bg-[#FFFFFF] mb-4 h-[184px] rounded-[10px] p-[16px]"
+                className="bg-[#FFFFFF] mb-4 h-[184px] rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px]"
               >
                 <div className="flex items-center">
                   {speakerData.profilePicture ? (
                     <img
                       src={speakerData.profilePicture}
-                      className="rounded-full sm:w-[40px] sm:h-[40px] w-[40px] h-[40px] object-cover mr-3"
+                      className="rounded-full sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] object-cover mr-3"
                     />
                   ) : (
                     <div
-                      className={`sm:w-[40px] sm:h-[40px] w-[40px] h-[40px] rounded-full bg-${
+                      className={`sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] rounded-full bg-${
                         ["red", "green", "blue", "yellow", "indigo"][
                           Math.floor(Math.random() * 5)
                         ]
@@ -42,7 +42,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                   )}
 
                   <div className="">
-                    <div className="sm:text-[14px] text-[13px] font-[500] pt-[5px] ">
+                    <div className="sm:text-[14px] text-[13px] font-[500] pt-[5px] md:font-semibold">
                       {speakerData.firstName} {speakerData.lastName}
                     </div>
                     <div className="text-[12px] font-medium py-[0px] text-gray-500">
@@ -71,7 +71,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                   )}
                 </div>
                 <div className="mymd:mt-3 mt-0 flex justify-between">
-                  <span className="flex items-center cursor-pointer text-[#0E76A8] text-base font-[500] text-[12px] border h-[32px] w-[160px] justify-center rounded-[4px]">
+                  <span className="flex items-center cursor-pointer text-[#0E76A8] text-[12px] font-[500] text-[12px] border h-[32px] w-[160px] justify-center rounded-[4px] md:w-[140px]">
                     <a
                       href={speakerData.linkedinUrl}
                       className="flex items-center "
@@ -85,7 +85,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                       Visit Linkedin
                     </a>
                   </span>
-                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] border h-[32px] w-[160px] justify-center rounded-[4px] bg-primary">
+                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] border h-[32px] w-[160px] justify-center rounded-[4px] bg-primary md:w-[140px]">
                     <a
                       href={speakerData.linkedinUrl}
                       className="flex items-center "

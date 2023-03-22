@@ -56,11 +56,17 @@ const AttendeeEvents = () => {
             src="/svgs/Notifications.svg"
             className="w-[19px] h-[19px] object-cover cursor-pointer mx-[20px]"
           />
-          <img
-            src="/svgs/profile.svg"
-            className="w-[24px] h-[24px] object-cover cursor-pointer"
-            onClick={() => navigate("/attendee/profile")}
-          />
+          <div
+            className={`sm:w-[40px] sm:h-[40px] w-[24px] h-[24px] rounded-full bg-${
+              ["red", "green", "blue", "yellow", "indigo"][
+                Math.floor(Math.random() * 5)
+              ]
+            }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
+          >
+            PT
+            {/* {speakerData.firstName.slice(0, 1)}
+                      {speakerData.lastName.slice(0, 1)} */}
+          </div>
         </div>
       </div>
       <div className="w-full mt-[60px] pb-[80px] bg-[#F5F5F5]">

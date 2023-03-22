@@ -6,6 +6,7 @@ import AttendeeAttendees from "../../components/attendeeEvent/AttendeeAttendees"
 import AttendeeBottomBar from "../../components/attendeeEvent/AttendeeBottomBar";
 import AttendeeMeetings from "../../components/attendeeEvent/AttendeeMeetings";
 import AttendeeSchedule from "../../components/attendeeEvent/AttendeeSchedule";
+import AttendeeSideMenu from "../../components/attendeeEvent/AttendeeSideMenu";
 import AttendeeSpeakers from "../../components/attendeeEvent/AttendeeSpeakers";
 import { getSingleEvent } from "../../redux/actions/eventActions";
 
@@ -23,6 +24,7 @@ function AttendeeSingleEvent() {
     case "about":
       return (
         <>
+          <AttendeeSideMenu singleEvent={singleEvent} />
           <AttendeeAbout singleEvent={singleEvent} />
           <AttendeeBottomBar />
         </>
@@ -30,6 +32,7 @@ function AttendeeSingleEvent() {
     case "speakers":
       return (
         <>
+          <AttendeeSideMenu singleEvent={singleEvent} />
           <AttendeeSpeakers singleEvent={singleEvent} />
           <AttendeeBottomBar />
         </>
@@ -37,6 +40,7 @@ function AttendeeSingleEvent() {
     case "schedule":
       return (
         <>
+          <AttendeeSideMenu singleEvent={singleEvent} />
           <AttendeeSchedule singleEvent={singleEvent} />
           <AttendeeBottomBar />
         </>
@@ -44,6 +48,7 @@ function AttendeeSingleEvent() {
     case "attendees":
       return (
         <>
+          <AttendeeSideMenu singleEvent={singleEvent} />
           <AttendeeAttendees singleEvent={singleEvent} />
           <AttendeeBottomBar />
         </>
@@ -51,6 +56,7 @@ function AttendeeSingleEvent() {
     case "meetings":
       return (
         <>
+          <AttendeeSideMenu singleEvent={singleEvent} />
           <AttendeeMeetings singleEvent={singleEvent} />
           <AttendeeBottomBar />
         </>
@@ -58,6 +64,7 @@ function AttendeeSingleEvent() {
     default:
       return (
         <>
+          <AttendeeSideMenu />
           <AttendeeAbout singleEvent={singleEvent} />
           <AttendeeBottomBar />
         </>
