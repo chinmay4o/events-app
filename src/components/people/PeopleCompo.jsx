@@ -27,6 +27,7 @@ const PeopleCompo = () => {
     }
     fetch();
   }, []);
+  console.log(event);
   return (
     <div className="w-full md:w-[375px] md:ml-[30px] md:mt-[27px] px-[16px] md:px-[0px]">
       <div className="flex w-full md:w-[375px] mx-auto">

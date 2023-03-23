@@ -4,7 +4,7 @@ import FileInput from "../../common/inputElements/FileInput";
 import TextInput from "../../common/inputElements/TextInput";
 import TextArea from "../../common/inputElements/TextArea";
 
-const AttendeeProfile = () => {
+const AttendeeProfile = ({ settriggerProfile, triggerProfile }) => {
   const {
     register,
     handleSubmit,
@@ -13,12 +13,22 @@ const AttendeeProfile = () => {
   } = useForm();
   return (
     <div>
-      <div className="h-full top-0 bg-[rgba(0,0,0,0.4)] z-20 fixed w-[100%]"></div>
-      <div className="h-[90%] w-full z-30 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll">
+      <div
+        className="h-full top-0 bg-[rgba(0,0,0,0.4)] z-30 fixed w-[100%]"
+        onClick={() => settriggerProfile(false)}
+      ></div>
+      <div
+        className={`h-[90%] w-full md:w-${
+          triggerProfile ? "full" : "0"
+        } z-50 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out`}
+      >
         <div
           className={`max-w-[1440px] w-full mx-auto min-h-[calc(100vh_-_60px)] md:w-[375px] mt-[8px] flex items-center flex-col`}
         >
-          <div className="w-[40px] h-[4px] rounded-[10px] bg-[#C5C5C7] mb-[20px] cursor-pointer"></div>
+          <div
+            className="w-[40px] h-[4px] rounded-[10px] bg-[#C5C5C7] mb-[20px] cursor-pointer"
+            onClick={() => settriggerProfile(false)}
+          ></div>
           <div className="w-full -mt-[10px]">
             <div className="w-full md:w-full p-5 pt-2">
               <div className="flex flex-col gap-y-5">

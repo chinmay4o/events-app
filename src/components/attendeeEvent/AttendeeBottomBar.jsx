@@ -1,11 +1,13 @@
 import React from "react";
 import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 
-const AttendeeBottomBar = () => {
+const AttendeeBottomBar = ({ singleEvent }) => {
   const [searchParams] = useSearchParams();
+
   const navigate = useNavigate();
   console.log(searchParams.get("tab"));
   const eventId = useMatch("/attendee/:eventId/*");
+  console.log(singleEvent);
   return (
     <div className="fixed bottom-0 h-[65px] z-20 w-full items-center flex shadow md:hidden bg-white justify-evenly">
       <span
@@ -14,9 +16,7 @@ const AttendeeBottomBar = () => {
             ? "text-primary"
             : "text-[#C5C5C7]"
         } flex flex-col justify-center items-center  cursor-pointer`}
-        onClick={() =>
-          navigate(`/attendee/${eventId?.params.eventId}?tab=about`)
-        }
+        onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=about`)}
       >
         <img
           src="/svgs/Clipboard.svg"
@@ -32,9 +32,7 @@ const AttendeeBottomBar = () => {
             ? "text-primary"
             : "text-[#C5C5C7]"
         } flex flex-col justify-center items-center  cursor-pointer`}
-        onClick={() =>
-          navigate(`/attendee/${eventId?.params.eventId}?tab=schedule`)
-        }
+        onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=schedule`)}
       >
         <img
           src="/svgs/calender.svg"
@@ -50,9 +48,7 @@ const AttendeeBottomBar = () => {
             ? "text-primary"
             : "text-[#C5C5C7]"
         } flex flex-col justify-center items-center  cursor-pointer`}
-        onClick={() =>
-          navigate(`/attendee/${eventId?.params.eventId}?tab=speakers`)
-        }
+        onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=speakers`)}
       >
         <img
           src="/svgs/Speakers.svg"
@@ -68,9 +64,7 @@ const AttendeeBottomBar = () => {
             ? "text-primary"
             : "text-[#C5C5C7]"
         } flex flex-col justify-center items-center  cursor-pointer`}
-        onClick={() =>
-          navigate(`/attendee/${eventId?.params.eventId}?tab=attendees`)
-        }
+        onClick={() => navigate(`/people/${singleEvent?._id}`)}
       >
         <img
           src="/svgs/People.svg"
@@ -86,9 +80,7 @@ const AttendeeBottomBar = () => {
             ? "text-primary"
             : "text-[#C5C5C7]"
         } flex flex-col justify-center items-center  cursor-pointer`}
-        onClick={() =>
-          navigate(`/attendee/${eventId?.params.eventId}?tab=meetings`)
-        }
+        onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=meetings`)}
       >
         <img
           src="/svgs/Meetings.svg"

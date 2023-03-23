@@ -26,7 +26,6 @@ import LinkedIn from "./pages/linkedin/Linkedin";
 import LinkedinAutoPost from "./components/eventLayout/communications/marketing/LinkedinAutoPost";
 import EmailMarketing from "./components/eventLayout/communications/emailMarketing/EmailMarketing";
 import AttendeeEvents from "./pages/attendeeEvents/AttendeeEvents";
-import AttendeeProfile from "./pages/attendeeEvents/AttendeeProfile";
 import AttendeeSingleEvent from "./pages/attendeeEvents/AttendeeSingleEvent";
 
 const AllRoutes = () => {
@@ -62,7 +61,6 @@ const AllRoutes = () => {
       />
       <Route path="/attendee" element={<AttendeeEvents />} />
       <Route path="/attendee/:eventId" element={<AttendeeSingleEvent />} />
-      <Route path="/attendee/profile" element={<AttendeeProfile />} />
 
       {/* {Create event Page Routes} */}
       <Route path="/createvent" element={<EventsCreate />} />
@@ -81,7 +79,7 @@ const AllRoutes = () => {
       <Route path="/profile/qr" element={<ProfileQR />} />
 
       {/* {People Routes} */}
-      <Route path="/people" element={<People />} />
+      <Route path="/people/:eventId" element={<People />} />
 
       {/* {Notification Routes} */}
       <Route path="/notifications" element={<Notification />} />

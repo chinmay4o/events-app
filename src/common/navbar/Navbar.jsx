@@ -27,7 +27,7 @@ const Navbar = () => {
     return null;
   }
   return (
-    <div className="w-full fixed z-20 bg-white md:border-b-[1px] border-[#efefef] hidden md:block">
+    <div className="w-full fixed z-20 bg-white md:border-b-[1px] border-[#efefef] hidden mymd:block">
       <div
         className={`px-4 md:px-6 w-full md:max-w-[1440px] md:h-[58px] h-[60px] mx-auto flex items-center justify-between`}
       >

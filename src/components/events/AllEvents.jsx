@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Primarybtn from "../../common/buttons/Primarybtn";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserEvents } from "../../redux/actions/userActions";
+import { getUserDetails, getUserEvents } from "../../redux/actions/userActions";
 import { eventsTab, tags } from "../../helper/constant";
 import { EVENT_CREATE_DESTROY } from "../../redux/constants/eventConstants";
 import Loader from "../../common/loader/Loader";
 import moment from "moment";
 import { useNavigate } from "react-router";
 import useDebounce from "../../helper/hooks/useDebounce";
+import AttendeeProfile from "../attendeeEvent/AttendeeProfile";
 
 function AllEvents() {
   const navigate = useNavigate();
@@ -19,10 +20,15 @@ function AllEvents() {
   const { error, loading, userEvents } = userEventsData;
   const userLogin = useSelector((state) => state.userLogin);
   const { errorA, loadingA, userInfo } = userLogin;
+  const userDetails = useSelector((state) => state.userDetails);
+  const { savedUserConfig } = userDetails;
   const [search, setSearch] = useState("");
+  const [mobileSeacrh, setMobileSeacrh] = useState(false);
   const debouncedSearch = useDebounce(search, 700);
   const [eventTab, setEventTab] = useState("My Events");
+  const [triggerProfile, settriggerProfile] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
+
   useEffect(() => {
     let sortedEvents = userEvents;
     sortedEvents = sortedEvents.filter((event) =>
@@ -35,6 +41,12 @@ function AllEvents() {
   useEffect(() => {
     setAllEvents(userEvents);
   }, [userEvents]);
+
+  useEffect(() => {
+    // generateText(prompt);
+    let accessToken = localStorage.getItem("accessToken");
+    dispatch(getUserDetails({ accessToken: accessToken }));
+  }, [savedUserConfig?._id]);
 
   useEffect(() => {
     accessToken = localStorage.getItem("accessToken");
@@ -52,46 +64,100 @@ function AllEvents() {
     });
     // }, 2000);
   }, []); //ReRun
-
   // Run for error in JWT
   // useEffect(() => {
   //   alert("Please Login"); //JWT expired
   //   router.push("/login");
   // }, [error])
-  // console.log(userEvents);
   return (
-    <>
-      <div className="w-full h-[60px] fixed top-0 bg-[#F5F5F5] flex items-center justify-between px-[16px] z-30 md:hidden ">
-        <div className="flex items-center text-[22px] font-[500]">
-          <img src="/svgs/logo.svg" alt="logo" className="w-[30px] mr-[5px]" />{" "}
-          Warpbay
-        </div>
-        <div className="flex items-center">
-          <img
-            src="/svgs/Search.svg"
-            className="w-[20px] h-[20px] object-cover cursor-pointer"
-          />
-          <img
-            src="/svgs/Notifications.svg"
-            className="w-[19px] h-[19px] object-cover cursor-pointer mx-[20px]"
-          />
-          <div
-            className={`sm:w-[40px] sm:h-[40px] w-[24px] h-[24px] rounded-full bg-${
-              ["red", "green", "blue", "yellow", "indigo"][
-                Math.floor(Math.random() * 5)
-              ]
-            }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
-          >
-            PT
-            {/* {speakerData.firstName.slice(0, 1)}
-                      {speakerData.lastName.slice(0, 1)} */}
+    <div className="w-full flex justify-center">
+      {mobileSeacrh ? (
+        <form
+          className="flex items-center w-full md:hidden fixed top-0 z-30 justify-center h-[60px] bg-[#F5F5F5]"
+          onSubmit={(event) => event.preventDefault()}
+        >
+          <div className="relative w-[90%] mt-3">
+            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+              <img src="/svgs/Search.svg" className="h-[19px]" />
+            </div>
+            <input
+              type="text"
+              id="simple-search"
+              className="bg-[#F5F5F5] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 pr-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+              placeholder="Search"
+              autoComplete="off"
+              required={true}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            ></input>
+            <div
+              className="flex absolute inset-y-0 right-0 items-center pr-3  cursor-pointer z-40"
+              onClick={() => {
+                setMobileSeacrh(false);
+                setSearch("");
+              }}
+            >
+              <img src="/svgs/Cross.svg" className="h-[19px] cursor-pointer" />
+            </div>
+          </div>
+        </form>
+      ) : (
+        <div className="w-full h-[60px] fixed top-0 bg-[#F5F5F5] flex items-center justify-between px-[16px] z-30 md:hidden">
+          <div className="flex items-center text-[22px] font-[500]">
+            <img
+              src="/svgs/logo.svg"
+              alt="logo"
+              className="w-[30px] mr-[5px]"
+            />{" "}
+            Warpbay
+          </div>
+          <div className="flex items-center">
+            <img
+              src="/svgs/Search.svg"
+              className="w-[20px] h-[20px] object-cover cursor-pointer"
+              onClick={() => setMobileSeacrh(true)}
+            />
+            <img
+              src="/svgs/Notifications.svg"
+              className="w-[19px] h-[19px] object-cover cursor-pointer mx-[20px]"
+            />
+            {savedUserConfig?.profilePicture ? (
+              <img
+                src={savedUserConfig?.profilePicture}
+                alt=""
+                className=" w-[24px] h-[24px] rounded-full cursor-pointer"
+                onClick={() => settriggerProfile(true)}
+              />
+            ) : (
+              <div
+                onClick={() => settriggerProfile(true)}
+                className={` w-[24px] h-[24px] rounded-full bg-${
+                  ["red", "green", "blue", "yellow", "indigo"][
+                    Math.floor(Math.random() * 5)
+                  ]
+                }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase cursor-pointer`}
+              >
+                {savedUserConfig?.firstName.slice(0, 1)}
+                {savedUserConfig?.lastName.slice(0, 1)}
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      )}
+      {triggerProfile && (
+        <AttendeeProfile
+          settriggerProfile={settriggerProfile}
+          triggerProfile={triggerProfile}
+        />
+      )}
       <div className="w-full md:w-[750px] md:pb-5 md:mt-7 px-[16px] flex flex-col md:bg-white bg-[#F5F5F5]">
         <span className="text-[#727374] text-[12px] block md:hidden my-[12px]">
-          Hello <span className="text-black font-[500] ">Pulkit,</span> here's
-          all your events ...
+          Hello{" "}
+          <span className="text-black font-[500] ">
+            {savedUserConfig?.firstName},
+          </span>{" "}
+          here's all your events ...
         </span>
         <div className="hidden md:grid grid-cols-1 justify-items-center md:grid-cols-2 gap-x-12 h-[60px]">
           <form
@@ -370,7 +436,7 @@ function AllEvents() {
           </div>
         ) : null}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -14,13 +14,13 @@ const AttendeeSpeakers = ({ singleEvent }) => {
         />
         <span className="ml-2 text-[22px] font-[500]">Speakers</span>
       </div>
-      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[140px] md:w-[65%] md:flex flex-wrap	justify-between ">
+      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[140px] md:w-[65%] md:flex flex-wrap justify-between">
         {singleEvent.speakers && singleEvent.speakers.length > 0 ? (
           singleEvent.speakers.map((speakerData, key) => (
             <>
               <div
                 key={key}
-                className="bg-[#FFFFFF] mb-4 h-[184px] rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px]"
+                className="bg-[#FFFFFF] mb-4 h-[200px] rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px]"
               >
                 <div className="flex items-center">
                   {speakerData.profilePicture ? (
@@ -50,13 +50,13 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                     </div>
                   </div>
                 </div>
-                <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 min-h-[70px] ">
+                <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 min-h-[80px]">
                   {speakerData.speaker.eventSpecificData[0].bio.split("")
                     .length > 150 ? (
                     <>
                       {speakerData.speaker.eventSpecificData[0].bio.slice(
                         0,
-                        150
+                        130
                       )}
                       ...
                     </>
@@ -71,7 +71,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                   )}
                 </div>
                 <div className="mymd:mt-3 mt-0 flex justify-between">
-                  <span className="flex items-center cursor-pointer text-[#0E76A8] text-[12px] font-[500] text-[12px] border h-[32px] w-[160px] justify-center rounded-[4px] md:w-[140px]">
+                  <span className="flex items-center cursor-pointer text-[#0E76A8] text-[12px] font-[500] text-[12px] border h-[32px] w-[47%] justify-center rounded-[4px] md:w-[140px]">
                     <a
                       href={speakerData.linkedinUrl}
                       className="flex items-center "
@@ -85,7 +85,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                       Visit Linkedin
                     </a>
                   </span>
-                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] border h-[32px] w-[160px] justify-center rounded-[4px] bg-primary md:w-[140px]">
+                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] border h-[32px] w-[47%] justify-center rounded-[4px] bg-primary md:w-[140px]">
                     <a
                       href={speakerData.linkedinUrl}
                       className="flex items-center "
