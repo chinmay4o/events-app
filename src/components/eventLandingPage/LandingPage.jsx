@@ -29,6 +29,7 @@ const LandingPage = ({ singleEvent }) => {
   const optionsWeekDay = { weekday: "long" }; // imp gets Friday, November 18, 2022
 
   useEffect(() => {
+    console.log(navigator, "navigatior");
     if (popup) {
       document.body.style.overflow = "hidden";
     }
@@ -49,6 +50,11 @@ const LandingPage = ({ singleEvent }) => {
   return (
     <>
       <Helmet>
+        <title>Warpbay - {singleEvent?.title}</title>
+        <link rel="icon" href={`${singleEvent?.coverImage}`} />
+        <meta name="description" content={`${singleEvent?.shortDescription}`} />
+
+        <meta property="og:type" content="website" />
         <meta name="og:title" content={`${singleEvent?.title}`} />
         <meta
           name="og:description"
@@ -56,9 +62,6 @@ const LandingPage = ({ singleEvent }) => {
         />
         <meta name="og:image" content={`${singleEvent?.coverImage}`} />
         <meta property="og:url" content="https://app.warpbay.com" />
-        <title>{singleEvent?.title}</title>
-        <meta name="description" content={`${singleEvent?.shortDescription}`} />
-        <link rel="icon" href={`${singleEvent?.coverImage}`}  />
       </Helmet>
 
       <div className="pt-0 mymd:pt-18 mymd:mb-0 mx-auto mymd:grid place-items-center w-[93vw] mymd:max-w-[1440px] mymd:w-full mb-[100px] ">

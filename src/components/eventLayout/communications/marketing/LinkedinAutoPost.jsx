@@ -8,6 +8,7 @@ import {
 } from "../../../../utils/API/api.ts";
 import { useSelector, useDispatch } from "react-redux";
 import { UPDATE_EVENT } from "../../../../redux/constants/eventConstants";
+import TextArea from "../../../../common/inputElements/TextArea";
 
 const LinkedinAutoPost = () => {
   const [postData, setPostData] = useState({
@@ -109,12 +110,15 @@ const LinkedinAutoPost = () => {
           className="flex flex-col"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <TextInput
+
+          <TextArea
             register={register}
-            label="Description"
             type="text"
             id="description"
+            label="Description"
+            mt="1"
           />
+
           <TextInput
             label="Post Title"
             register={register}
