@@ -151,6 +151,7 @@ function AllEvents() {
         <AttendeeProfile
           settriggerProfile={settriggerProfile}
           triggerProfile={triggerProfile}
+          savedUserConfig={savedUserConfig}
         />
       )}
       {qrscan && <ScanPopup qrscan={qrscan} setQrscan={setQrscan} />}
