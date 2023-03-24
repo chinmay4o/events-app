@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import moment from "moment";
 
 const AttendeeAbout = ({ singleEvent }) => {
   const navigate = useNavigate();
   const [tab, settab] = useState("");
+  const eventsId = useMatch("/attendee/:eventId/*");
 
   return (
     <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px] ">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px]">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
@@ -18,7 +19,7 @@ const AttendeeAbout = ({ singleEvent }) => {
           {singleEvent?.title}
         </p>
       </div>
-      <div className="mt-[60px] mx-[16px] pt-[16px] md:pt-1 md:mt-[120px]">
+      <div className="mt-[60px] mx-[16px] pt-[16px] md:pt-1 md:mt-[120px] pb-[90px]">
         <img
           src={singleEvent?.coverImage}
           alt="coverimage"
@@ -63,15 +64,17 @@ const AttendeeAbout = ({ singleEvent }) => {
             <span className="font-semibold text-[#2ECC71]">Ongoing</span>
           </div>
 
-          <div className="flex text-[12px] text-[#727374] font-normal my-[9px] items-center">
+          <div className="flex text-[12px] text-[#727374] font-normal my-[9px] items-center w-[95%]">
             <img
               src="/svgs/Location.svg"
               alt="location"
               className="h-[18px] w-[18px] mr-[5px] ml-[-3px]"
             />
-            {singleEvent.location?.addressLine1},{" "}
-            {singleEvent.location?.pincode}, {singleEvent.location?.city},{" "}
-            {singleEvent.location?.state}
+            <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+              {singleEvent.location?.addressLine1},{" "}
+              {singleEvent.location?.pincode}, {singleEvent.location?.city},{" "}
+              {singleEvent.location?.state}
+            </p>
           </div>
         </div>
 
@@ -150,10 +153,75 @@ const AttendeeAbout = ({ singleEvent }) => {
           <div className="text-[#1C1C1E] font-[400] text-sm  whitespace-pre-wrap md:text-[16px] md:w-[60%]">
             {singleEvent?.shortDescription}
           </div>
-        ) : tab === "exhibitors" ? (
-          <></>
-        ) : tab === "sponsors" ? (
-          <></>
+        ) : tab === "sponsors" || tab === "exhibitors" ? (
+          <div className="mymd:flex justify-between flex-wrap w-full">
+            {singleEvent?.exhibitorAndSponsors?.length > 0 ? (
+              singleEvent?.exhibitorAndSponsors.map(
+                (sponsorAndExhibitor, key) => (
+                  <div className="mymd:w-[292px] mymd:h-[184px] bg-white rounded-xl mb-3 p-[20px] h-[128px]">
+                    {sponsorAndExhibitor.profilePicture ? (
+                      <img
+                        src={sponsorAndExhibitor.profilePicture}
+                        className="rounded-full mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] object-cover "
+                      />
+                    ) : (
+                      <div
+                        class={`mymd:w-[45px] mymd:h-[45px] w-[40px] h-[40px] rounded-full bg-${
+                          ["red", "green", "blue", "yellow", "indigo"][
+                            Math.floor(Math.random() * 5)
+                          ]
+                        }-500 flex items-center justify-center mr-2 text-white mymd:text-2xl text-lg font-medium uppercase`}
+                      >
+                        {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
+                          .filter((ele, id) => {
+                            return (
+                              ele.eventId.toString() === eventsId.params.eventId
+                            );
+                          })[0]
+                          .companyName.charAt(0)}
+                      </div>
+                    )}
+
+                    <div className="mymd:text-2xl text-base font-medium mymd:mt-[16px] mt-[8px] font-[500]">
+                      {
+                        sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData.filter(
+                          (ele, id) => {
+                            return (
+                              ele.eventId.toString() === eventsId.params.eventId
+                            );
+                          }
+                        )[0].companyName
+                      }
+                    </div>
+                    <div className="mymd:text-base text-[12px] font-[400] text-[#727374] mymd:mt-[14px] mt-[6px]">
+                      {
+                        sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData.filter(
+                          (ele, id) => {
+                            return (
+                              ele.eventId.toString() === eventsId.params.eventId
+                            );
+                          }
+                        )[0].industry
+                      }
+                    </div>
+                  </div>
+                )
+              )
+            ) : (
+              <div className="grid w-full place-items-center h-[250px]">
+                <div>
+                  <img
+                    src="/svgs/nullState.svg"
+                    alt=""
+                    className="w-[200px] h-[200px]"
+                  />
+                  <p className="text-[15px] font-[500] text-[#717171]  text-center">
+                    No Exhibitors or Sponsors available...
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
         ) : (
           <div className="text-[#1C1C1E] font-[400] text-sm  whitespace-pre-wrap md:text-[16px] md:w-[60%]">
             {singleEvent?.shortDescription}

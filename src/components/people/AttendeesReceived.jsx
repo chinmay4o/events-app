@@ -1,11 +1,18 @@
 import React from "react";
 
-const AttendeesReceived = () => {
+const AttendeesReceived = ({
+  settrigger,
+  trigger,
+  isReschedule,
+  setIsReschedule,
+  isCancelled,
+  setisCancelled,
+}) => {
   return (
     <>
       <div
         // key={key}
-        className="bg-[#FFFFFF] mb-4 h-[250px] rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px] mt-3"
+        className="bg-[#FFFFFF] mb-4 rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px] mt-3"
       >
         <div className="flex items-center relative">
           {/* {speakerData.profilePicture ? (
@@ -38,10 +45,9 @@ const AttendeesReceived = () => {
             </div>
           </div>
         </div>
-        <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 min-h-[70px] italic">
-          “Hello Pulkit, I request a brief meeting to discuss some design ideas
-          and to express my admiration for the inspiring work you have done for
-          Warpbay. Thank you.”
+        <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 italic pb-2">
+          Huge has an excellent track record of leading successful technology
+          initiatives, driving innovation, and achieving results at Bavorx
           {/* {speakerData.speaker.eventSpecificData[0].bio.split("")
             .length > 150 ? (
             <>
@@ -74,33 +80,27 @@ const AttendeesReceived = () => {
         </span>
 
         <div className="mymd:mt-3 mt-1 flex justify-between">
-          <span className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]">
-            <a
-              // href={speakerData.linkedinUrl}
-              className="flex items-center "
-              target="_blank"
-            >
-              Cancel
-            </a>
+          <span
+            className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]"
+            onClick={() => {
+              setisCancelled(true);
+              settrigger(true);
+            }}
+          >
+            Cancel
           </span>
 
-          <span className="flex items-center cursor-pointer text-[#1C1C1E] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]">
-            <a
-              // href={speakerData.linkedinUrl}
-              className="flex items-center "
-              target="_blank"
-            >
-              Reschedule
-            </a>
+          <span
+            className="flex items-center cursor-pointer text-[#1C1C1E] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]"
+            onClick={() => {
+              settrigger(true);
+              setIsReschedule(true);
+            }}
+          >
+            Reschedule
           </span>
           <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] h-[32px] w-[30%] justify-center rounded-[4px] bg-primary md:w-[140px]">
-            <a
-              // href={speakerData.linkedinUrl}
-              className="flex items-center "
-              target="_blank"
-            >
-              Accept
-            </a>
+            Accept
           </span>
         </div>
       </div>

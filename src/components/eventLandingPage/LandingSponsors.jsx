@@ -3,18 +3,11 @@ import { useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
 
 const LandingSponsors = ({ singleEvent }) => {
-  const [sponsorAndExhibitors, setSponsorAndExhibitors] = useState([]);
-  const event = useSelector((state) => state.eventData);
   const eventsId = useMatch("/event/:eventId");
-  useEffect(() => {
-    if (event.exhibitorAndSponsors) {
-      setSponsorAndExhibitors(event.exhibitorAndSponsors);
-    }
-  }, [event.exhibitorAndSponsors]);
   return (
     <div className="mymd:flex justify-between flex-wrap w-full">
-      {sponsorAndExhibitors?.length > 0 ? (
-        sponsorAndExhibitors.map((sponsorAndExhibitor, key) => (
+      {singleEvent?.exhibitorAndSponsors?.length > 0 ? (
+        singleEvent?.exhibitorAndSponsors.map((sponsorAndExhibitor, key) => (
           <div className="mymd:w-[292px] mymd:h-[184px] bg-[#F5F5F5] rounded-xl mb-3 p-[20px] h-[128px]">
             {sponsorAndExhibitor.profilePicture ? (
               <img

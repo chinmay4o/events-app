@@ -11,6 +11,9 @@ const Attendees = () => {
   const [activeTab, setActiveTab] = useState("suggested");
   const [attendeesData, setAttendeesData] = useState([]);
   const [trigger, settrigger] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isReschedule, setIsReschedule] = useState(false);
+  const [isCancelled, setisCancelled] = useState(false);
   const event = useSelector((state) => state.eventData);
 
   useEffect(() => {
@@ -23,7 +26,6 @@ const Attendees = () => {
     const response = await getRequest(route);
     setAttendeesData(response.data.attendees);
   };
-
   return (
     <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
       <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[59px]">
@@ -34,8 +36,19 @@ const Attendees = () => {
         />
         <span className="ml-2 text-[22px] font-[500]">Attendees</span>
       </div>
-      {trigger && <BookMeeting trigger={trigger} settrigger={settrigger} />}
-      <div className="mx-[16px]">
+      {trigger && (
+        <BookMeeting
+          trigger={trigger}
+          settrigger={settrigger}
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+          isReschedule={isReschedule}
+          setIsReschedule={setIsReschedule}
+          isCancelled={isCancelled}
+          setisCancelled={setisCancelled}
+        />
+      )}
+      <div className="mx-[16px] mt-[60px]">
         <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-between items-center">
           <div
             onClick={() => setActiveTab("suggested")}
@@ -129,7 +142,7 @@ const Attendees = () => {
                   )}
                 </div> */}
                   <span
-                    className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] border h-[32px] w-[100%] justify-center rounded-[4px] bg-primary md:w-[140px] mt-[25px]"
+                    className="flex items-center cursor-pointer text-white text-[12px] font-[500] h-[32px] w-[100%] justify-center rounded-[4px] bg-primary md:w-[140px] mt-[25px]"
                     onClick={() => settrigger(true)}
                   >
                     <a
@@ -158,9 +171,23 @@ const Attendees = () => {
             </div>
           )
         ) : activeTab === "received" ? (
-          <AttendeesReceived />
+          <AttendeesReceived
+            trigger={trigger}
+            settrigger={settrigger}
+            isReschedule={isReschedule}
+            setIsReschedule={setIsReschedule}
+            isCancelled={isCancelled}
+            setisCancelled={setisCancelled}
+          />
         ) : activeTab === "sent" ? (
-          <AttendeesSent />
+          <AttendeesSent
+            trigger={trigger}
+            settrigger={settrigger}
+            setIsEdit={setIsEdit}
+            isEdit={isEdit}
+            isCancelled={isCancelled}
+            setisCancelled={setisCancelled}
+          />
         ) : (
           <></>
         )}

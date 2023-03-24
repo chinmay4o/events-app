@@ -9,6 +9,7 @@ import moment from "moment";
 import { useNavigate } from "react-router";
 import useDebounce from "../../helper/hooks/useDebounce";
 import AttendeeProfile from "../attendeeEvent/AttendeeProfile";
+import ScanPopup from "../../pages/connections/ScanPopup";
 
 function AllEvents() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function AllEvents() {
   const [eventTab, setEventTab] = useState("My Events");
   const [triggerProfile, settriggerProfile] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
+  const [qrscan, setQrscan] = useState(false);
 
   useEffect(() => {
     let sortedEvents = userEvents;
@@ -151,6 +153,7 @@ function AllEvents() {
           triggerProfile={triggerProfile}
         />
       )}
+      {qrscan && <ScanPopup qrscan={qrscan} setQrscan={setQrscan} />}
       <div className="w-full md:w-[750px] md:pb-5 md:mt-7 px-[16px] flex flex-col md:bg-white bg-[#F5F5F5]">
         <span className="text-[#727374] text-[12px] block md:hidden my-[12px]">
           Hello{" "}
@@ -331,7 +334,7 @@ function AllEvents() {
                         </span>
                       </div>
 
-                      <div className="flex text-[12px] md:text-[14px] text-[#727374] mx-[8px] font-[400] my-[8px] items-center w-[330px] ">
+                      <div className="flex text-[12px] md:text-[14px] text-[#727374] mx-[8px] font-[400] my-[8px] items-center w-[95%]">
                         <img
                           src="/svgs/Location.svg"
                           alt="location"
@@ -435,6 +438,14 @@ function AllEvents() {
             </div>
           </div>
         ) : null}
+      </div>
+      <div className="fixed bottom-0 h-[76px] z-20 w-full rounded-t-[10px] border items-center justify-center flex shadow md:hidden bg-white">
+        <button
+          className="h-[40px] bg-primary w-[90%] m-auto text-white text-[12px] rounded-[4px]"
+          onClick={() => setQrscan(true)}
+        >
+          Scan a badge
+        </button>
       </div>
     </div>
   );

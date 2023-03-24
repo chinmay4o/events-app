@@ -12,7 +12,7 @@ function Events() {
       <div className="flex justify-center flex-col items-center w-full mx-auto bg-white">
         {/* <TopMenu /> */}
         <AllEvents />
-        <ScanIcon />
+        {/* <ScanIcon /> */}
       </div>
     </>
   );

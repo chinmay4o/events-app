@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 const AttendeeSpeakers = ({ singleEvent }) => {
   const navigate = useNavigate();
-  console.log(singleEvent);
   return (
     <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
       <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[59px]">
@@ -20,7 +19,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
             <>
               <div
                 key={key}
-                className="bg-[#FFFFFF] mb-4 h-[200px] rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px]"
+                className="bg-[#FFFFFF] mb-4 rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px]"
               >
                 <div className="flex items-center">
                   {speakerData.profilePicture ? (
@@ -50,7 +49,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                     </div>
                   </div>
                 </div>
-                <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 min-h-[80px]">
+                <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 pb-2">
                   {speakerData.speaker.eventSpecificData[0].bio.split("")
                     .length > 150 ? (
                     <>
@@ -85,7 +84,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                       Visit Linkedin
                     </a>
                   </span>
-                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] border h-[32px] w-[47%] justify-center rounded-[4px] bg-primary md:w-[140px]">
+                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] h-[32px] w-[47%] justify-center rounded-[4px] bg-primary md:w-[140px]">
                     <a
                       href={speakerData.linkedinUrl}
                       className="flex items-center "

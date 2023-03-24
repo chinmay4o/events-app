@@ -3,11 +3,8 @@ import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 
 const AttendeeBottomBar = ({ singleEvent }) => {
   const [searchParams] = useSearchParams();
-
   const navigate = useNavigate();
-  console.log(searchParams.get("tab"));
-  const eventId = useMatch("/attendee/:eventId/*");
-  console.log(singleEvent);
+
   return (
     <div className="fixed bottom-0 h-[65px] z-20 w-full items-center flex shadow md:hidden bg-white justify-evenly">
       <span
@@ -60,11 +57,11 @@ const AttendeeBottomBar = ({ singleEvent }) => {
 
       <span
         className={`${
-          searchParams.get("tab") === "attendees"
+          searchParams.get("tab") === "people"
             ? "text-primary"
             : "text-[#C5C5C7]"
         } flex flex-col justify-center items-center  cursor-pointer`}
-        onClick={() => navigate(`/people/${singleEvent?._id}`)}
+        onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=people`)}
       >
         <img
           src="/svgs/People.svg"

@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BookMeeting from "../../people/BookMeeting";
 import AttendeeContactDetails from "./AttendeeContactDetails";
+import MeetingsNotes from "./MeetingsNotes";
 
 const AttendeeMeetings = ({ singleEvent }) => {
   const navigate = useNavigate();
+  const [trigger, settrigger] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isReschedule, setIsReschedule] = useState(false);
+  const [isCancelled, setisCancelled] = useState(false);
   const [viewContact, setViewContact] = useState(false);
-
+  const [notes, setNotes] = useState(false);
+  if (notes) {
+    return <MeetingsNotes setNotes={setNotes} />;
+  }
   return (
     <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
       <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px] md:relative">
@@ -22,6 +31,19 @@ const AttendeeMeetings = ({ singleEvent }) => {
           viewContact={viewContact}
         />
       )}
+      {trigger && (
+        <BookMeeting
+          trigger={trigger}
+          settrigger={settrigger}
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+          isReschedule={isReschedule}
+          setIsReschedule={setIsReschedule}
+          isCancelled={isCancelled}
+          setisCancelled={setisCancelled}
+        />
+      )}
+
       <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[140px] md:w-[65%] md:flex flex-wrap justify-between">
         {/* {
           singleEvent.speakers.map((speakerData, key) => ( */}
@@ -103,33 +125,30 @@ const AttendeeMeetings = ({ singleEvent }) => {
             </span>
 
             <div className="mymd:mt-3 mt-1 flex justify-between">
-              <span className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]">
-                <a
-                  // href={speakerData.linkedinUrl}
-                  className="flex items-center "
-                  target="_blank"
-                >
-                  Cancel
-                </a>
+              <span
+                className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]"
+                onClick={() => {
+                  setisCancelled(true);
+                  settrigger(true);
+                }}
+              >
+                Cancel
               </span>
 
-              <span className="flex items-center cursor-pointer text-[#1C1C1E] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]">
-                <a
-                  // href={speakerData.linkedinUrl}
-                  className="flex items-center "
-                  target="_blank"
-                >
-                  Reschedule
-                </a>
+              <span
+                className="flex items-center cursor-pointer text-[#1C1C1E] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]"
+                onClick={() => {
+                  settrigger(true);
+                  setIsReschedule(true);
+                }}
+              >
+                Reschedule
               </span>
-              <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] h-[32px] w-[30%] justify-center rounded-[4px] bg-primary md:w-[140px]">
-                <a
-                  // href={speakerData.linkedinUrl}
-                  className="flex items-center "
-                  target="_blank"
-                >
-                  Notes
-                </a>
+              <span
+                className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] h-[32px] w-[30%] justify-center rounded-[4px] bg-primary md:w-[140px]"
+                onClick={() => setNotes(true)}
+              >
+                Notes
               </span>
             </div>
           </div>
