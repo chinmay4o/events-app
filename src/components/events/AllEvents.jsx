@@ -20,21 +20,27 @@ function AllEvents() {
   const userLogin = useSelector((state) => state.userLogin);
   const { errorA, loadingA, userInfo } = userLogin;
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 700);
+  const debouncedSearchValue = useDebounce(search, 700);
   const [eventTab, setEventTab] = useState("My Events");
   const [allEvents, setAllEvents] = useState([]);
 
   useEffect(() => {
-    let sortedEvents = userEvents;
-    sortedEvents = sortedEvents.filter((event) =>
-      event.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+    let filteredEvents = userEvents;
+    filteredEvents = filteredEvents.filter((event) =>
+      event.title.toLowerCase().includes(debouncedSearchValue.toLowerCase())
     );
-    console.log(sortedEvents);
-    setAllEvents(sortedEvents);
-  }, [debouncedSearch]);
+    setAllEvents(filteredEvents);
+  }, [debouncedSearchValue]);
 
   useEffect(() => {
-    setAllEvents(userEvents);
+    setAllEvents((prev) => {
+      let sortedEvents = userEvents.sort((a, b) => {
+        const dateA = new Date(a.startDate);
+        const dateB = new Date(b.startDate);
+        return dateB - dateA ; // Sort in descending order
+      });
+      return sortedEvents;
+    });
   }, [userEvents]);
 
   useEffect(() => {

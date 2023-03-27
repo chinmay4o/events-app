@@ -389,17 +389,34 @@ function Registrations() {
                             ? attendee.attendee?.eventSpecificData.map(
                                 (ele, index) => {
                                   if (ele.eventId === eventsId.params.eventId) {
-                                    const xmas95 = new Date(ele.timeStamp);
-                                    const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
+                                    const options = {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                      timeZone: "Asia/Kolkata",
+                                    };
+                                    const dateString = new Date(ele.timeStamp).toLocaleDateString(
+                                      "en-IN",
+                                      options
+                                    );
+                                    {/* const xmas95 = new Date(ele.timeStamp);
+                                    const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022 */}
                                     return (
-                                      <td className="text-[12px] font-[400]">
+                                      <>
+                                      {/* <td className="text-[12px] font-[400]">
                                         {ele?.timeStamp
                                           ? new Intl.DateTimeFormat(
                                               "en-US",
                                               optionsFull
                                             ).format(xmas95)
                                           : "N/A"}
+                                      </td> */}
+                                      <td className="text-[12px] font-[400]">
+                                        {ele?.timeStamp
+                                          ? dateString
+                                          : "N/A"}
                                       </td>
+                                      </>
                                     );
                                   }
                                 }
