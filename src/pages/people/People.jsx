@@ -3,6 +3,8 @@ import PeopleCompo from "../../components/people/PeopleCompo";
 import ScanIcon from "../../common/scanIcon/ScanIcon";
 import BottomBar from "../../components/bottomBar/BottomBar";
 import UnderConstruction from "../../common/underConstruction/UnderConstruction";
+import AttendeeBottomBar from "../../components/attendeeEvent/AttendeeBottomBar";
+import Attendees from "../../components/people/Attendees";
 
 const People = () => {
   const [width, setWidth] = useState(1024);
@@ -14,10 +16,9 @@ const People = () => {
     <div className="w-full">
       {width <= 768 ? (
         <>
-          {/* <Navbar /> */}
+          {/* <Attendees /> */}
           <PeopleCompo />
-          <ScanIcon />
-          <BottomBar />
+          {/* <AttendeeBottomBar /> */}
         </>
       ) : (
         <div className="">

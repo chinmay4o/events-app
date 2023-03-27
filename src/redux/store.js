@@ -20,6 +20,10 @@ import {
   createEventReducer,
   editEventReducer,
 } from "./reducers/eventReducers";
+import {
+  bookMeetingReducer,
+  cancelMeetingReducer,
+} from "./reducers/meetingReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -31,6 +35,8 @@ const reducer = combineReducers({
   editedEvent: editEventReducer,
   searchSpeaker: speakerSearchReducer,
   searchRegistration: registrationSearchReducer,
+  bookedMeeting: bookMeetingReducer,
+  cancelledMeeting: cancelMeetingReducer,
 });
 
 // const userInfoFromStorage = localStorage.getItem("userInfo")

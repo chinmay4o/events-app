@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import QrScanner from "qr-scanner";
+import { useNavigate } from "react-router-dom";
 
 const ConnectionsScan = (props) => {
   const [data, setData] = useState("Loading");
+  const navigate = useNavigate();
   const [isMobileTablet, setIsMobileTablet] = useState(false);
   const [shouldScan, setShouldScan] = useState(true);
   // const [videoElem, setVideoElem] = useState();
@@ -62,9 +64,7 @@ const ConnectionsScan = (props) => {
 
       <span
         className="go_back_btn md:relative md:top-[130px] fixed top-[80px]"
-        onClick={() => {
-          window.location.href = window.location.origin + "/home";
-        }}
+        onClick={() => navigate("/events")}
       >
         <i className="fa-solid fa-arrow-left"></i> Go Back
       </span>

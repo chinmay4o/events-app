@@ -4,10 +4,11 @@ import UnderConstruction from "../../common/underConstruction/UnderConstruction"
 import TopMenu from "../../components/topMenu/TopMenu";
 import ScanIcon from "../../common/scanIcon/ScanIcon";
 import UserEvents from "../../components/home/UserEvents";
+import AttendeeBottomBar from "../../components/attendeeEvent/AttendeeBottomBar";
 
 const HomeEvents = () => {
   const [width, setWidth] = useState(1024);
-
+  console.log("here");
   useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
@@ -18,7 +19,8 @@ const HomeEvents = () => {
           {/* <Navbar /> */}
           <UserEvents />
           <ScanIcon />
-          <BottomBar />
+          {/* <BottomBar /> */}
+          <AttendeeBottomBar />
         </>
       ) : (
         <>

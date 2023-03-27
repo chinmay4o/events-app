@@ -23,7 +23,7 @@ const Schedule = ({ singleEvent }) => {
           .sort((a, b) => new Date(a.startTime) - new Date(b.startTime))
           .map((session, key) => (
             <div
-              className={`grid w-[100%] relative border-b-[1px] border-b-[#d0d0d0] mb-[20px]`}
+              className={`grid w-[100%] relative border-b-[1px] border-b-[#d0d0d0]`}
             >
               <div className="">
                 <div className="grid grid-cols-[90px_1fr]">
@@ -34,7 +34,7 @@ const Schedule = ({ singleEvent }) => {
                     {session?.sessionName}
                   </div>
                 </div>
-                <div className="grid grid-cols-[90px_1fr_60px]">
+                <div className="grid grid-cols-[90px_1fr_10px]">
                   <div className=" text-[14.5px] font-semibold py-1 text-[#000000]">
                     {new Date(session.startTime).toLocaleDateString("en-UK", {
                       month: "short",
@@ -42,7 +42,7 @@ const Schedule = ({ singleEvent }) => {
                     })}{" "}
                     {session.startTime.substring(0, 4).slice(-2)}
                   </div>
-                  <div className="text-[13px] font-medium py-1 text-gray-500 ">
+                  <div className="text-[13px] font-medium py-1 text-gray-500 text-justify">
                     {session?.sessionDescription.split("").length > 400 ? (
                       <>{session?.sessionDescription.slice(0, 400)}...</>
                     ) : (

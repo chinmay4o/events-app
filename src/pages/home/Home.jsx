@@ -4,15 +4,17 @@ import UnderConstruction from "../../common/underConstruction/UnderConstruction"
 import TopMenu from "../../components/topMenu/TopMenu";
 import ScanIcon from "../../common/scanIcon/ScanIcon";
 import UserHome from "../../components/home/UserHome";
+import AttendeeBottomBar from "../../components/attendeeEvent/AttendeeBottomBar";
 
 const Home = () => {
   return (
     <div className="w-full">
-      <div className="max-w-[450px] mx-auto md:flex">
+      <div className="max-w-[450px] mx-auto md:flex hidden">
         {/* <Navbar /> */}
         <UserHome />
         <ScanIcon />
-        <BottomBar />
+        {/* <BottomBar /> */}
+        <AttendeeBottomBar />
       </div>
       <>
         {/* <Navbar /> */}

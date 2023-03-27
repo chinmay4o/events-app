@@ -47,6 +47,7 @@ const LandingPage = ({ singleEvent }) => {
     setPopup(false);
     setCopied("");
   };
+
   return (
     <>
       <Helmet>
