@@ -1,15 +1,12 @@
 import React from "react";
 
-function TextInput({
-  label,
-  id,
-  placeholder,
-  required,
-  register,
-  ...props
-}) {
+function TextInput({ label, id, placeholder, required, register, ...props }) {
   return (
-    <div className="relative mb-7 mt-[30px]">
+    <div
+      className={`relative mb-7 ${
+        props.mt ? `mt-[${props.mt}]` : `mt-[30px]`
+      } `}
+    >
       <textarea
         rows={7}
         cols={50}
