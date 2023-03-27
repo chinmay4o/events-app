@@ -8,6 +8,7 @@ const FileInput = ({
   setProfilePicture,
   label,
   mb,
+  mt,
 }) => {
   return (
     <label htmlFor="file" className={mb ? `mb-${mb} block` : "mb-[30px] block"}>
