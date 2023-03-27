@@ -26,11 +26,11 @@ const BookMeeting = ({
   const [formattedTime, setformattedTime] = useState([]);
   const dispatch = useDispatch();
   const bookedMeeting = useSelector((state) => state.bookedMeeting);
-
+  console.log(bookedMeeting);
   useEffect(() => {
     if (bookedMeeting.error) {
       alert("Please add again!! some error occurred");
-    } else if (!Array.isArray(bookedMeeting.bookedMeeting)) {
+    } else if (isSuccess) {
       console.log("here");
       setMeetingDetails(
         bookedMeeting.bookedMeeting.meetingRequestSent[
@@ -339,13 +339,14 @@ const BookMeeting = ({
                         alt="location"
                         className=" mr-[8px] md:h-[21px] mt-1"
                       />
-                      {meetingDetails?.mettingMessage.split("").length > 130 ? (
+                      {meetingDetails?.mettingMessage?.split("").length >
+                      130 ? (
                         <>
-                          {meetingDetails?.mettingMessage.slice(0, 130)}
+                          {meetingDetails?.mettingMessage?.slice(0, 130)}
                           ...
                         </>
                       ) : (
-                        <> {meetingDetails?.mettingMessage.slice(0, 130)}</>
+                        <> {meetingDetails?.mettingMessage?.slice(0, 130)}</>
                       )}
                       {/* <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
                         {" "}

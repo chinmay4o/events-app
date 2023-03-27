@@ -98,14 +98,14 @@ const AttendeeSpeakers = ({ singleEvent }) => {
             </>
           ))
         ) : (
-          <div className="grid w-full place-items-center h-[250px]">
+          <div className="grid w-full place-items-center h-[250px] mt-[100px] md:mt-0">
             <div>
               <img
                 src="/svgs/nullState.svg"
                 alt=""
-                className="w-[200px] h-[200px]"
+                className="w-full h-[250px]"
               />
-              <p className="text-[15px] font-[500] text-[#717171]  text-center">
+              <p className="text-[15px] font-[500] text-[#717171] text-center mt-5">
                 Nothing here...
               </p>
             </div>

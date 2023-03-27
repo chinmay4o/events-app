@@ -66,7 +66,6 @@ const Attendees = () => {
     const cancelMeetings = sentMeetings.filter((meeting) => {
       return meeting.meetingID !== meetingData.meetingID;
     });
-    console.log(meetingData);
     setSentMeetings(cancelMeetings);
     dispatch(cancelMeeting({ meetingID: meetingData.meetingID }));
     setsingleAttendee(singleAttendee);

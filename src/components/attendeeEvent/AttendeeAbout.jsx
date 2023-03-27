@@ -20,7 +20,6 @@ const AttendeeAbout = ({ singleEvent }) => {
     dispatch(getUserDetails({ accessToken: accessToken }));
   }, [savedUserConfig?._id]);
   const xmas95 = new Date(singleEvent?.startDate);
-  console.log(xmas95);
   const optionmymdonth = { month: "short" };
 
   return (
