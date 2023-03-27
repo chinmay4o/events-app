@@ -45,6 +45,7 @@ const LandingPage = ({ singleEvent }) => {
     setPopup(false);
     setCopied("");
   };
+
   return (
     <div className="pt-0 mymd:pt-18 mymd:mb-0 mx-auto mymd:grid place-items-center w-[93vw] mymd:max-w-[1440px] mymd:w-full mb-[100px] ">
       {/* {share Popup} */}

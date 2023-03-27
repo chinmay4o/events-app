@@ -16,8 +16,8 @@ const People = () => {
     <div className="w-full">
       {width <= 768 ? (
         <>
-          <Attendees />
-          {/* <PeopleCompo /> */}
+          {/* <Attendees /> */}
+          <PeopleCompo />
           {/* <AttendeeBottomBar /> */}
         </>
       ) : (

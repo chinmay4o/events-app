@@ -92,7 +92,8 @@ function AllEvents() {
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
-            ></input>
+              autoFocus
+            />
             <div
               className="flex absolute inset-y-0 right-0 items-center pr-3  cursor-pointer z-40"
               onClick={() => {
@@ -155,7 +156,7 @@ function AllEvents() {
         />
       )}
       {qrscan && <ScanPopup qrscan={qrscan} setQrscan={setQrscan} />}
-      <div className="w-full md:w-[750px] md:pb-5 md:mt-7 px-[16px] flex flex-col md:bg-white bg-[#F5F5F5]">
+      <div className="w-full md:w-[750px] md:pb-5 md:mt-7 px-[16px] flex flex-col md:bg-white bg-[#F5F5F5] pb-[80px]">
         <span className="text-[#727374] text-[12px] block md:hidden my-[12px]">
           Hello{" "}
           <span className="text-black font-[500] ">

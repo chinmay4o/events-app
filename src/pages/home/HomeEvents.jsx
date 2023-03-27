@@ -8,7 +8,7 @@ import AttendeeBottomBar from "../../components/attendeeEvent/AttendeeBottomBar"
 
 const HomeEvents = () => {
   const [width, setWidth] = useState(1024);
-
+  console.log("here");
   useEffect(() => {
     setWidth(window.innerWidth);
   }, []);

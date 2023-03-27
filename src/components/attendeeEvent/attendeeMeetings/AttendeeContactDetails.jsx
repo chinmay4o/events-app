@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const AttendeeContactDetails = ({ viewContact, setViewContact }) => {
+const AttendeeContactDetails = ({
+  viewContact,
+  setViewContact,
+  meetingDetails,
+}) => {
+  useEffect(() => {
+    function preventBackgroundScroll(event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("scroll", preventBackgroundScroll, {
+      passive: false,
+    });
+
+    return () => {
+      document.body.style.overflow = "visible";
+      document.removeEventListener("scroll", preventBackgroundScroll);
+    };
+  }, []);
   return (
     <div>
       <div
@@ -8,7 +28,7 @@ const AttendeeContactDetails = ({ viewContact, setViewContact }) => {
         onClick={() => setViewContact(false)}
       ></div>
       <div
-        className={`h-[50%] w-full md:w-${
+        className={`h-[450px] w-full md:w-${
           viewContact ? "full" : "0"
         } z-50 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out`}
       >
@@ -25,12 +45,29 @@ const AttendeeContactDetails = ({ viewContact, setViewContact }) => {
                     Contact details
                   </p>
                 </div>
-                <div className="h-[96px] w-[96px] border m-auto rounded-full mt-[30px]"></div>
+                {meetingDetails?.profilePicture ? (
+                  <img
+                    src={meetingDetails?.profilePicture}
+                    className="rounded-full h-[96px] w-[96px]  object-cover  m-auto mt-[30px]"
+                  />
+                ) : (
+                  <div
+                    className={`h-[96px] w-[96px] rounded-full bg-${
+                      ["red", "green", "blue", "yellow", "indigo"][
+                        Math.floor(Math.random() * 5)
+                      ]
+                    }-500 flex items-center justify-center  text-white text-[25px] font-medium uppercase m-auto mt-[30px]`}
+                  >
+                    {meetingDetails?.firstName.slice(0, 1)}
+                    {meetingDetails?.lastName.slice(0, 1)}
+                  </div>
+                )}
+
                 <span className="mt-[10px] text-[#000000] text-[24px] m-auto cursor-pointer font-[500] ">
-                  Rahul Joshi
+                  {meetingDetails?.firstName} {meetingDetails?.lastName}
                 </span>
                 <span className="text-[12px] text-[#4F4F4F] font-[500] m-auto mt-[12px]">
-                  Product Designer, Ream Design
+                  {meetingDetails.jobTitle}, {meetingDetails.organization}
                 </span>
               </div>
             </div>
@@ -44,7 +81,7 @@ const AttendeeContactDetails = ({ viewContact, setViewContact }) => {
               target="_blank"
             >
               <img src="/svgs/Phone.svg" alt="" className="mr-2" />
-              Call Rahul (9988998877)
+              Call {meetingDetails?.firstName} ({meetingDetails.mobile})
             </a>
           </span>
           <span className="flex items-center cursor-pointer text-[#1C1C1E] font-[700] text-[12px] border h-[40px] w-[90%] justify-center rounded-[4px] bg-white md:w-[140px]">
@@ -53,7 +90,7 @@ const AttendeeContactDetails = ({ viewContact, setViewContact }) => {
               className="flex items-center "
               target="_blank"
             >
-              Email Rahul (rahul@email.com)
+              Email {meetingDetails?.firstName} ({meetingDetails.email})
             </a>
           </span>
         </div>

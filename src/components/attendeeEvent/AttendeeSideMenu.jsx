@@ -36,13 +36,13 @@ function AttendeeSideMenu({ singleEvent }) {
     {
       name: "Attendees",
       imageUrl: <Sponsors color={"#A55EEA"} />,
-      pathName: "attendees",
+      pathName: "About",
       comingSoon: false,
     },
     {
       name: "Meetings",
       imageUrl: <Form color={"#A55EEA"} />,
-      pathName: "meetings",
+      pathName: "About",
       comingSoon: false,
     },
   ];

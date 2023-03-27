@@ -50,6 +50,23 @@ const ScanPopup = ({ qrscan, setQrscan }) => {
     // return qrScanner.destroy();
   }, []);
 
+  useEffect(() => {
+    function preventBackgroundScroll(event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("scroll", preventBackgroundScroll, {
+      passive: false,
+    });
+
+    return () => {
+      document.body.style.overflow = "visible";
+      document.removeEventListener("scroll", preventBackgroundScroll);
+    };
+  }, []);
+
   return (
     <div>
       <div

@@ -79,7 +79,7 @@ const AllRoutes = () => {
       <Route path="/profile/qr" element={<ProfileQR />} />
 
       {/* {People Routes} */}
-      <Route path="/people/:eventId" element={<People />} />
+      <Route path="/people" element={<People />} />
 
       {/* {Notification Routes} */}
       <Route path="/notifications" element={<Notification />} />

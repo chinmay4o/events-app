@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getUserDetails } from "../../redux/actions/userActions";
 import { getRequest } from "../../utils/API/api.ts";
 import AttendeesReceived from "./AttendeesReceived";
 import AttendeesSent from "./AttendeesSent";
 import BookMeeting from "./BookMeeting";
+import { cancelMeeting } from "../../redux/actions/meetingActions";
 
+import { getAuthenticatedRequest } from "../../utils/API/api.ts";
 const Attendees = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("suggested");
@@ -14,7 +17,22 @@ const Attendees = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isReschedule, setIsReschedule] = useState(false);
   const [isCancelled, setisCancelled] = useState(false);
+  const [singleAttendee, setsingleAttendee] = useState([]);
+  const dispatch = useDispatch();
   const event = useSelector((state) => state.eventData);
+  const userDetails = useSelector((state) => state.userDetails);
+  const [sentMeetings, setSentMeetings] = useState([]);
+  const [receivedMeetings, setreceivedMeetings] = useState([]);
+  const [meetingDetails, setMeetingDetails] = useState([]);
+  const cancelledMeeting = useSelector((state) => state.cancelledMeeting);
+  console.log(cancelledMeeting);
+  const { savedUserConfig } = userDetails;
+
+  useEffect(() => {
+    if (cancelledMeeting.error) {
+      alert("Please Cancel again!! Some error occurred");
+    }
+  }, [cancelledMeeting]);
 
   useEffect(() => {
     if (event?._id && event?.title) {
@@ -26,9 +44,41 @@ const Attendees = () => {
     const response = await getRequest(route);
     setAttendeesData(response.data.attendees);
   };
+
+  useEffect(() => {
+    let accessToken = localStorage.getItem("accessToken");
+    dispatch(getUserDetails({ accessToken: accessToken }));
+  }, [savedUserConfig?._id]);
+
+  useEffect(() => {
+    async function fetch() {
+      const meetingDetails = await getAuthenticatedRequest(
+        "/user/meeting-details"
+      );
+      setSentMeetings(meetingDetails?.data.user.meetingRequestSent);
+      setreceivedMeetings(meetingDetails?.data.user.meetingRequestReceived);
+    }
+    fetch();
+  }, [meetingDetails]);
+
+  const deleteMeeting = async (meetingData, singleAttendee) => {
+    console.log(meetingData);
+    const cancelMeetings = sentMeetings.filter((meeting) => {
+      return meeting.meetingID !== meetingData.meetingID;
+    });
+    console.log(meetingData);
+    setSentMeetings(cancelMeetings);
+    dispatch(cancelMeeting({ meetingID: meetingData.meetingID }));
+    setsingleAttendee(singleAttendee);
+    setMeetingDetails(meetingData);
+    setisCancelled(true);
+    settrigger(true);
+    setIsEdit(false);
+    setIsReschedule(false);
+  };
   return (
     <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[59px]">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[59px] z-10">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
@@ -46,9 +96,14 @@ const Attendees = () => {
           setIsReschedule={setIsReschedule}
           isCancelled={isCancelled}
           setisCancelled={setisCancelled}
+          event={event}
+          singleAttendee={singleAttendee}
+          setMeetingDetails={setMeetingDetails}
+          meetingDetails={meetingDetails}
+          deleteMeeting={deleteMeeting}
         />
       )}
-      <div className="mx-[16px] mt-[60px]">
+      <div className="mx-[16px] mt-[60px] pb-[70px]">
         <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-between items-center">
           <div
             onClick={() => setActiveTab("suggested")}
@@ -78,7 +133,7 @@ const Attendees = () => {
               activeTab === "received" ? "white" : "[#F4F6F9]"
             }`}
           >
-            Received (2)
+            Received ({receivedMeetings?.length})
           </div>
 
           <div
@@ -89,7 +144,7 @@ const Attendees = () => {
               activeTab === "sent" ? "white" : "[#F4F6F9]"
             }`}
           >
-            Sent (2)
+            Sent ({sentMeetings?.length})
           </div>
         </div>
         {activeTab === "suggested" || activeTab === "allAttendees" ? (
@@ -143,15 +198,12 @@ const Attendees = () => {
                 </div> */}
                   <span
                     className="flex items-center cursor-pointer text-white text-[12px] font-[500] h-[32px] w-[100%] justify-center rounded-[4px] bg-primary md:w-[140px] mt-[25px]"
-                    onClick={() => settrigger(true)}
+                    onClick={() => {
+                      setsingleAttendee(attendee);
+                      settrigger(true);
+                    }}
                   >
-                    <a
-                      href={attendee.linkedinUrl}
-                      className="flex items-center "
-                      target="_blank"
-                    >
-                      Book a meeting
-                    </a>
+                    Book a meeting
                   </span>
                 </div>
               </>
@@ -172,21 +224,21 @@ const Attendees = () => {
           )
         ) : activeTab === "received" ? (
           <AttendeesReceived
-            trigger={trigger}
             settrigger={settrigger}
             isReschedule={isReschedule}
             setIsReschedule={setIsReschedule}
-            isCancelled={isCancelled}
-            setisCancelled={setisCancelled}
+            receivedMeetings={receivedMeetings}
+            deleteMeeting={deleteMeeting}
+            savedUserConfig={savedUserConfig}
+            setreceivedMeetings={setreceivedMeetings}
           />
         ) : activeTab === "sent" ? (
           <AttendeesSent
-            trigger={trigger}
             settrigger={settrigger}
             setIsEdit={setIsEdit}
-            isEdit={isEdit}
-            isCancelled={isCancelled}
-            setisCancelled={setisCancelled}
+            sentMeetings={sentMeetings}
+            deleteMeeting={deleteMeeting}
+            setsingleAttendee={setsingleAttendee}
           />
         ) : (
           <></>

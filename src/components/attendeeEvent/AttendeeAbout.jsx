@@ -1,11 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
 import moment from "moment";
+import { getUserDetails } from "../../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import AttendeeBadgePopup from "./AttendeeBadgePopup";
 
 const AttendeeAbout = ({ singleEvent }) => {
   const navigate = useNavigate();
   const [tab, settab] = useState("");
+  const [badegExpand, setBadegExpand] = useState(false);
+  const dispatch = useDispatch();
   const eventsId = useMatch("/attendee/:eventId/*");
+  const userDetails = useSelector((state) => state.userDetails);
+  const { savedUserConfig } = userDetails;
+
+  useEffect(() => {
+    // generateText(prompt);
+    let accessToken = localStorage.getItem("accessToken");
+    dispatch(getUserDetails({ accessToken: accessToken }));
+  }, [savedUserConfig?._id]);
+  const xmas95 = new Date(singleEvent?.startDate);
+  console.log(xmas95);
+  const optionmymdonth = { month: "short" };
 
   return (
     <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
@@ -19,6 +35,15 @@ const AttendeeAbout = ({ singleEvent }) => {
           {singleEvent?.title}
         </p>
       </div>
+
+      {badegExpand && (
+        <AttendeeBadgePopup
+          setBadegExpand={setBadegExpand}
+          badegExpand={badegExpand}
+          savedUserConfig={savedUserConfig}
+          singleEvent={singleEvent}
+        />
+      )}
       <div className="mt-[60px] mx-[16px] pt-[16px] md:pt-1 md:mt-[120px] pb-[90px]">
         <img
           src={singleEvent?.coverImage}
@@ -38,25 +63,36 @@ const AttendeeAbout = ({ singleEvent }) => {
               className="h-[16px] mr-[5px] md:h-[21px]"
             />
             <span>
-              {singleEvent.startDate === singleEvent.endDate ? (
-                <>
-                  {new Date(singleEvent.startDate).getDate()}{" "}
-                  {new Intl.DateTimeFormat("en-US", {
-                    month: "short",
-                  }).format(singleEvent.startDate)}
-                </>
-              ) : (
-                <>
-                  {new Date(singleEvent.startDate).getDate()}{" "}
-                  {new Intl.DateTimeFormat("en-US", {
-                    month: "short",
-                  }).format(new Date(singleEvent.startDate))}{" "}
-                  to {new Date(singleEvent.endDate).getDate()}{" "}
-                  {new Intl.DateTimeFormat("en-US", {
-                    month: "short",
-                  }).format(new Date(singleEvent.endDate))}
-                </>
-              )}
+              {(() => {
+                try {
+                  if (singleEvent.startDate === singleEvent.endDate) {
+                    return (
+                      <>
+                        {new Date(singleEvent.startDate).getDate()}{" "}
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                        }).format(new Date(singleEvent.startDate))}
+                      </>
+                    );
+                  } else {
+                    return (
+                      <>
+                        {new Date(singleEvent.startDate).getDate()}{" "}
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                        }).format(new Date(singleEvent.startDate))}{" "}
+                        to {new Date(singleEvent.endDate).getDate()}{" "}
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                        }).format(new Date(singleEvent.endDate))}
+                      </>
+                    );
+                  }
+                } catch (error) {
+                  console.error(error);
+                  return null;
+                }
+              })()}
             </span>
             <span>
               &nbsp;| {moment(singleEvent?.startDate).format("LT")} |&nbsp;
@@ -78,7 +114,10 @@ const AttendeeAbout = ({ singleEvent }) => {
           </div>
         </div>
 
-        <div className="h-[130px] w-full bg-gradient-to-b from-primary to-[#7F2ECD] p-[16px] rounded-[10px] mt-[24px] shadow cursor-pointer md:w-[414px] md:h-[168px]">
+        <div
+          className="h-[130px] w-full bg-gradient-to-b from-primary to-[#7F2ECD] p-[16px] rounded-[10px] mt-[24px] shadow cursor-pointer md:w-[414px] md:h-[168px]"
+          onClick={() => setBadegExpand(true)}
+        >
           <span className="text-sm font-[400] text-white md:text-[16px]">
             Tap to expand your badge
           </span>
@@ -86,32 +125,43 @@ const AttendeeAbout = ({ singleEvent }) => {
             <div className="border h-[64px] w-[64px] rounded-[10px] md:w-[96px] md:h-[96px]"></div>
             <div className="h-[64px] flex flex-col justify-between ml-3 md:h-[96px] md:ml-4">
               <span className="text-white font-500 text-[16px] md:text-[24px]">
-                Pulkit Madan
+                {savedUserConfig?.firstName} {savedUserConfig?.lastName}
               </span>
               <span className="text-white font-400 text-[12px] md:text-[16px]">
                 Event badge
               </span>
               <span className="text-white font-400 text-[12px] md:text-[16px]">
                 {" "}
-                {singleEvent.startDate === singleEvent.endDate ? (
-                  <>
-                    {new Date(singleEvent.startDate).getDate()}{" "}
-                    {new Intl.DateTimeFormat("en-US", {
-                      month: "short",
-                    }).format(singleEvent.startDate)}
-                  </>
-                ) : (
-                  <>
-                    {new Date(singleEvent.startDate).getDate()}{" "}
-                    {new Intl.DateTimeFormat("en-US", {
-                      month: "short",
-                    }).format(new Date(singleEvent.startDate))}{" "}
-                    to {new Date(singleEvent.endDate).getDate()}{" "}
-                    {new Intl.DateTimeFormat("en-US", {
-                      month: "short",
-                    }).format(new Date(singleEvent.endDate))}
-                  </>
-                )}
+                {(() => {
+                  try {
+                    if (singleEvent.startDate === singleEvent.endDate) {
+                      return (
+                        <>
+                          {new Date(singleEvent.startDate).getDate()}{" "}
+                          {new Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                          }).format(new Date(singleEvent.startDate))}
+                        </>
+                      );
+                    } else {
+                      return (
+                        <>
+                          {new Date(singleEvent.startDate).getDate()}{" "}
+                          {new Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                          }).format(new Date(singleEvent.startDate))}{" "}
+                          to {new Date(singleEvent.endDate).getDate()}{" "}
+                          {new Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                          }).format(new Date(singleEvent.endDate))}
+                        </>
+                      );
+                    }
+                  } catch (error) {
+                    console.error(error);
+                    return null;
+                  }
+                })()}
               </span>
             </div>
           </div>
@@ -154,11 +204,11 @@ const AttendeeAbout = ({ singleEvent }) => {
             {singleEvent?.shortDescription}
           </div>
         ) : tab === "sponsors" || tab === "exhibitors" ? (
-          <div className="mymd:flex justify-between flex-wrap w-full">
+          <div className="mymd:flex justify-between flex-wrap w-full md:w-[60%] ">
             {singleEvent?.exhibitorAndSponsors?.length > 0 ? (
               singleEvent?.exhibitorAndSponsors.map(
                 (sponsorAndExhibitor, key) => (
-                  <div className="mymd:w-[292px] mymd:h-[184px] bg-white rounded-xl mb-3 p-[20px] h-[128px]">
+                  <div className="mymd:w-[292px] mymd:h-[184px] bg-white rounded-xl mb-3 p-[20px] h-[128px] md:border">
                     {sponsorAndExhibitor.profilePicture ? (
                       <img
                         src={sponsorAndExhibitor.profilePicture}

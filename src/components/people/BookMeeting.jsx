@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import FileInput from "../../common/inputElements/FileInput";
-import TextInput from "../../common/inputElements/TextInput";
+import { useDispatch, useSelector } from "react-redux";
 import TextArea from "../../common/inputElements/TextArea";
+import { bookMeeting } from "../../redux/actions/meetingActions";
 
 const BookMeeting = ({
   settrigger,
@@ -13,26 +13,109 @@ const BookMeeting = ({
   setIsReschedule,
   isCancelled,
   setisCancelled,
+  singleAttendee,
+  event,
+  meetingDetails,
+  setMeetingDetails,
+  deleteMeeting,
 }) => {
   const [activeDate, setActiveDate] = useState("");
   const [activeTime, setActiveTime] = useState("");
   const [isSuccess, setisSuccess] = useState(false);
+  const [formattedDates, setformattedDates] = useState([]);
+  const [formattedTime, setformattedTime] = useState([]);
+  const dispatch = useDispatch();
+  const bookedMeeting = useSelector((state) => state.bookedMeeting);
 
-  const eventDates = [
-    "20 Feb",
-    "21 Feb",
-    "22 Feb",
-    "23 Feb",
-    "24 Feb",
-    "25 Feb",
-  ];
-  const eventTime = ["10:00 am", "10:30 am", "11:00 am", "11:30 am"];
+  useEffect(() => {
+    if (bookedMeeting.error) {
+      alert("Please add again!! some error occurred");
+    } else if (!Array.isArray(bookedMeeting.bookedMeeting)) {
+      console.log("here");
+      setMeetingDetails(
+        bookedMeeting.bookedMeeting.meetingRequestSent[
+          bookedMeeting.bookedMeeting?.meetingRequestSent.length - 1
+        ]
+      );
+    }
+  }, [bookedMeeting]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
+
+  //formating date and time: 12 Feb 10:00 am
+  useEffect(() => {
+    const dates = [];
+    for (
+      let date = new Date(event?.startDate);
+      date <= new Date(event?.endDate);
+      date.setDate(date.getDate() + 1)
+    ) {
+      dates.push(
+        `${date.getDate()} ${date.toLocaleString("default", {
+          month: "short",
+        })}`
+      );
+    }
+    setformattedDates(dates);
+    const times = [];
+    const startDate = new Date(event?.startDate);
+    const endDate = new Date(event?.endDate);
+
+    while (startDate < endDate) {
+      times.push(
+        startDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      );
+      startDate.setMinutes(startDate.getMinutes() + 15);
+    }
+    setformattedTime(times);
+  }, [event]);
+
+  //preventing background scroll on the popup page
+  useEffect(() => {
+    function preventBackgroundScroll(event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("scroll", preventBackgroundScroll, {
+      passive: false,
+    });
+
+    return () => {
+      document.body.style.overflow = "visible";
+      document.removeEventListener("scroll", preventBackgroundScroll);
+    };
+  }, []);
+
+  //submiting meeting details to the backend
+  const onSubmit = async (data) => {
+    if (activeTime === "" || activeDate === "") {
+      alert("Please select date and time");
+      return;
+    }
+    setMeetingDetails([]);
+    const meetingObj = {
+      meetingID: new Date().getTime().toString(),
+      message: data.Message,
+      date: activeDate,
+      time: activeTime,
+      sentTo: singleAttendee?._id,
+    };
+    dispatch(
+      bookMeeting({
+        ...meetingObj,
+      })
+    );
+    setIsEdit(false);
+    setIsReschedule(false);
+    setisSuccess(true);
+  };
   return (
     <div>
       <div
@@ -108,28 +191,48 @@ const BookMeeting = ({
                       : "Book a meeting"}
                   </p>
                 </div>
-                <div className="h-[96px] w-[96px] border m-auto rounded-full mt-[27px]"></div>
+                {singleAttendee?.profilePicture ? (
+                  <img
+                    src={singleAttendee?.profilePicture}
+                    alt=""
+                    className="h-[96px] w-[96px] m-auto rounded-full mt-[27px]"
+                  />
+                ) : (
+                  <div
+                    className={` h-[96px] w-[96px] rounded-full bg-${
+                      ["red", "green", "blue", "yellow", "indigo"][
+                        Math.floor(Math.random() * 5)
+                      ]
+                    }-500 flex items-center justify-center text-white text-[22px] font-medium uppercase cursor-pointer m-auto mt-[27px]`}
+                  >
+                    {singleAttendee?.firstName.slice(0, 1)}
+                    {singleAttendee?.lastName.slice(0, 1)}
+                  </div>
+                )}
+                {/* <div className="h-[96px] w-[96px] border m-auto rounded-full mt-[27px]"></div> */}
                 <span className="mt-[10px] text-[#000000] text-[24px] m-auto cursor-pointer font-[500] ">
-                  Rahul Joshi
+                  {singleAttendee?.firstName} {singleAttendee?.lastName}
                 </span>
                 <span className="text-[12px] text-[#4F4F4F] font-[500] m-auto mt-[10px]">
-                  Product Designer, Ream Design
+                  {/* Product Designer, Ream Design */}
+                  {singleAttendee?.organization}
                 </span>
               </div>
               {!isSuccess && !isCancelled ? (
                 <form
                   className="mt-10"
                   id="form_submit"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setIsEdit(false);
-                    setIsReschedule(false);
-                    setisSuccess(true);
-                  }}
+                  onSubmit={handleSubmit(onSubmit)}
+                  // onSubmit={(e) => {
+                  //   e.preventDefault();
+                  //   setIsEdit(false);
+                  //   setIsReschedule(false);
+                  //   setisSuccess(true);
+                  // }}
                 >
                   <div className="font-[500] text-[16px] mb-2">Choose day</div>
                   <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-between items-center">
-                    {eventDates.map((dates) => {
+                    {formattedDates?.map((dates) => {
                       return (
                         <div
                           onClick={() => setActiveDate(dates)}
@@ -146,7 +249,7 @@ const BookMeeting = ({
                   </div>
                   <div className="font-[500] text-[16px] mb-2">Choose time</div>
                   <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-between items-center">
-                    {eventTime.map((time) => {
+                    {formattedTime?.map((time) => {
                       return (
                         <div
                           onClick={() => setActiveTime(time)}
@@ -168,13 +271,16 @@ const BookMeeting = ({
                     <span className="text-[#121212] text-[16px] font-[500]">
                       {isReschedule
                         ? "Reason for rescheduling"
-                        : "Introduce yourself to Hugh"}
+                        : `Introduce yourself to ${singleAttendee?.firstName}`}
                     </span>
-                    <textarea
-                      type="text"
-                      placeholder="Type your message here ..."
-                      className="h-[96px] text-[12px] w-full mt-4 bg-[#F4F6F9] rounded-[10px] p-2 border border-[#F4F6F9]"
-                    />
+                    <div className="mt-[-20px]">
+                      <TextArea
+                        register={register}
+                        type="text"
+                        id={"Message"}
+                        placeholder="Message"
+                      />
+                    </div>
                   </div>
                 </form>
               ) : (
@@ -187,7 +293,8 @@ const BookMeeting = ({
                         className=" mr-3"
                       />
                       <p className="text-[16px] font-[400]">
-                        Your meeting request to Hugh has been cancelled.
+                        Your meeting request to {singleAttendee?.firstName} has
+                        been cancelled.
                       </p>
                     </div>
                   ) : (
@@ -198,8 +305,9 @@ const BookMeeting = ({
                         className=" mr-3"
                       />
                       <p className="text-[16px] font-[400]">
-                        Meeting request has been sent to Hugh. You will get a
-                        notification once Hugh accepts your request.
+                        Meeting request has been sent to{" "}
+                        {singleAttendee?.firstName}. You will get a email once{" "}
+                        {singleAttendee?.firstName} accepts your request.
                       </p>
                     </div>
                   )}
@@ -214,7 +322,7 @@ const BookMeeting = ({
                         alt="location"
                         className="mr-[8px] md:h-[21px]"
                       />
-                      24 Feb
+                      {meetingDetails?.meetingDate}
                     </span>
                     <span className="flex my-3 items-center">
                       <img
@@ -222,16 +330,27 @@ const BookMeeting = ({
                         alt="location"
                         className="mr-[8px] md:h-[21px]"
                       />
-                      10:00 Am
+                      {meetingDetails?.meetingTime}
                     </span>
+
                     <span className="flex items-start">
                       <img
                         src="/svgs/Message.svg"
                         alt="location"
                         className=" mr-[8px] md:h-[21px] mt-1"
                       />
-                      “Hello Hugh, I would like to meet you to discuss the
-                      upcoming design trends and you views on it. Thank you.”
+                      {meetingDetails?.mettingMessage.split("").length > 130 ? (
+                        <>
+                          {meetingDetails?.mettingMessage.slice(0, 130)}
+                          ...
+                        </>
+                      ) : (
+                        <> {meetingDetails?.mettingMessage.slice(0, 130)}</>
+                      )}
+                      {/* <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        {" "}
+                        {meetingDetails?.mettingMessage}
+                      </p> */}
                     </span>
                   </div>
                   {isCancelled ? (
@@ -249,10 +368,12 @@ const BookMeeting = ({
                       </span>
                       <span
                         className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[700] text-[12px] border border-[#E74C3C] h-[40px] w-[45%] justify-center rounded-[4px] md:w-[140px]"
-                        onClick={() => {
-                          setisCancelled(true);
-                          setisSuccess(false);
-                        }}
+                        onClick={() =>
+                          deleteMeeting(
+                            meetingDetails,
+                            meetingDetails.sentTo[0]
+                          )
+                        }
                       >
                         Cancel
                       </span>

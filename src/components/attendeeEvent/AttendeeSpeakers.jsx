@@ -19,7 +19,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
             <>
               <div
                 key={key}
-                className="bg-[#FFFFFF] mb-4 rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px]"
+                className="bg-[#FFFFFF] mb-4 rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[210px] "
               >
                 <div className="flex items-center">
                   {speakerData.profilePicture ? (
@@ -49,7 +49,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                     </div>
                   </div>
                 </div>
-                <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 pb-2">
+                <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 pb-2 md:min-h-[75px]">
                   {speakerData.speaker.eventSpecificData[0].bio.split("")
                     .length > 150 ? (
                     <>

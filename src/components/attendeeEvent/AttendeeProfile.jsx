@@ -5,8 +5,10 @@ import TextArea from "../../common/inputElements/TextArea";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { getUserDetails } from "../../redux/actions/userActions";
+import { getUserDetails, logout } from "../../redux/actions/userActions";
 import FileInput from "../../common/inputElements/FileInput";
+import { EVENT_CREATE_DESTROY } from "../../redux/constants/eventConstants";
+import { USER_EVENTS_EMPTY } from "../../redux/constants/userConstants";
 
 const AttendeeProfile = ({
   settriggerProfile,
@@ -72,6 +74,24 @@ const AttendeeProfile = ({
       setProfilePicture(savedUserConfig.profilePicture);
     }
   }, []);
+
+  useEffect(() => {
+    function preventBackgroundScroll(event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("scroll", preventBackgroundScroll, {
+      passive: false,
+    });
+
+    return () => {
+      document.body.style.overflow = "visible";
+      document.removeEventListener("scroll", preventBackgroundScroll);
+    };
+  }, []);
+  console.log(savedUserConfig);
   return (
     <div className="md:hidden">
       <div
@@ -115,8 +135,8 @@ const AttendeeProfile = ({
                 >
                   {savedUserConfig?.profilePicture ? (
                     <img
-                      src={savedUserConfig?.profilePicture}
-                      alt="Profile"
+                      src={profilePicture}
+                      alt=""
                       className="h-[96px] w-[96px] border m-auto rounded-full"
                     />
                   ) : (
@@ -191,6 +211,33 @@ const AttendeeProfile = ({
                     id={"jobTitle"}
                     label="Designation"
                   />
+
+                  <div
+                    className={`cursor-pointer w-[50%] bg-danger text-[16px] grid place-items-center h-[40px] rounded-[8px] text-[#fff] font-[600] mt-[30px] mx-auto`}
+                    onClick={() => {
+                      let linkedinAccessToken = localStorage.getItem(
+                        "linkedinAccessToken"
+                      );
+                      localStorage.clear();
+                      if (linkedinAccessToken) {
+                        localStorage.setItem(
+                          "linkedinAccessToken",
+                          linkedinAccessToken
+                        );
+                      }
+                      dispatch(logout());
+                      dispatch({
+                        type: USER_EVENTS_EMPTY,
+                        payload: [],
+                      });
+                      dispatch({
+                        type: EVENT_CREATE_DESTROY,
+                      });
+                      navigate("/login");
+                    }}
+                  >
+                    Logout
+                  </div>
                   {/* <div className="relative">
                     <label
                       htmlFor="startDate"
