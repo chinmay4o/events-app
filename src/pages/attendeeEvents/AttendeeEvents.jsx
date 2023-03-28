@@ -45,7 +45,7 @@ const AttendeeEvents = () => {
       <div className="w-full h-[60px] fixed top-0 bg-[#F5F5F5] flex items-center justify-between px-[16px]">
         <div className="flex items-center text-[22px] font-[500]">
           <img src="/svgs/logo.svg" alt="logo" className="w-[30px] mr-[5px]" />{" "}
-          Warpbay
+          Flicker
         </div>
         <div className="flex items-center">
           <img

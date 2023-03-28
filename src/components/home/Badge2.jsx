@@ -121,7 +121,7 @@ export default function Badge2() {
         <p>Technology partner</p>{" "}
         <div className="img-box">
           <div>
-            <img className="wblogo" src="./warpbay.svg" alt="" /> WarpBay
+            <img className="wblogo" src="./warpbay.svg" alt="" /> Flicker
           </div>
 
           <div>

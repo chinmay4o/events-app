@@ -31,7 +31,7 @@ const LoginDemoEvent = () => {
   } = createEventB;
 
   const [event, setEvent] = useState({
-    title: "Explore Warpbay 2023",
+    title: "Explore Flicker 2023",
     startDate: "",
     endDate: "",
     description: "",
@@ -59,8 +59,8 @@ const LoginDemoEvent = () => {
   } = useForm({
     defaultValues: {
       title: userInfo?.firstName
-        ? `${userInfo.firstName} Explores Warpbay`
-        : `Explore Warpbay 2023`,
+        ? `${userInfo.firstName} Explores Flicker`
+        : `Explore Flicker 2023`,
       //   startTime: new Date().toLocaleTimeString(),
       // startTime: null,
     },

@@ -42,7 +42,7 @@ const Navbar = () => {
               className=" h-[30px] w-[30px] md:h-[35px] md:w-[35px]"
             />
             <p className="text-[22px] font-[500] md:text-[23px] md:font-[600] relative">
-              Warpbay
+            Flicker
               <span className="inline-flex absolute -right-[28px] -top-[2px] h-[14px] justify-center items-center px-[6px] py-[2px] ml-3 text-[6px] font-medium text-gray-800 bg-gray-200 rounded-[2px] dark:bg-gray-700 dark:text-gray-300">
                 Beta
               </span>

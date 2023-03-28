@@ -119,7 +119,7 @@ function AllEvents() {
               alt="logo"
               className="w-[30px] mr-[5px]"
             />{" "}
-            Warpbay
+            Flicker
           </div>
           <div className="flex items-center">
             <img
