@@ -108,7 +108,7 @@ function AnalyticsCard02() {
                 {/* Row */}
                 <tr>
                   <td className="py-2">
-                    <div className="text-left">warpbay.com/events/eventId</div>
+                    <div className="text-left">chinmay.space/events/eventId</div>
                   </td>
                   <td className="py-2">
                     <div className="font-medium text-right text-slate-800">
@@ -119,7 +119,7 @@ function AnalyticsCard02() {
                 {/* Row */}
                 <tr>
                   <td className="py-2">
-                    <div className="text-left">warpbay.com/events/home</div>
+                    <div className="text-left">chinmay.space/events/home</div>
                   </td>
                   <td className="py-2">
                     <div className="font-medium text-right text-slate-800">
@@ -130,7 +130,7 @@ function AnalyticsCard02() {
                 {/* Row */}
                 <tr>
                   <td className="py-2">
-                    <div className="text-left">warpbay.com/events/schedule</div>
+                    <div className="text-left">chinmay.space/events/schedule</div>
                   </td>
                   <td className="py-2">
                     <div className="font-medium text-right text-slate-800">
@@ -142,7 +142,7 @@ function AnalyticsCard02() {
                 <tr>
                   <td className="py-2">
                     <div className="text-left">
-                      warpbay.com/events/eventId/connect
+                      chinmay.space/events/eventId/connect
                     </div>
                   </td>
                   <td className="py-2">

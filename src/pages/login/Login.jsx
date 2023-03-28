@@ -55,7 +55,7 @@ function Login() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <p className="text-[22px] font-[700] block text-left mb-[10px]">
-              Login to Warpbay!!
+              Login to Flicker!!
             </p>
             <div>
               <TextInput

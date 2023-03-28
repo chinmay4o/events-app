@@ -18,7 +18,7 @@ function AccountPanel({ savedUserConfig }) {
   const qrOptions = {
     width: 150,
     height: 150,
-    data: `https://dev.warpbay.com${
+    data: `https://events.chinmay.space${
       savedUserConfig?._id ? `/connections/user?uid=${savedUserConfig._id}` : ""
     }`,
     margin: 0,

@@ -48,8 +48,8 @@ function App() {
         </div>
       )}
       <Helmet>
-        <title>Warpbay</title>
-        <meta name="description" content="Warpbay Events application" />
+        <title>Flicker</title>
+        <meta name="description" content="Flicker Events application" />
       </Helmet>
 
       <Provider store={store}>

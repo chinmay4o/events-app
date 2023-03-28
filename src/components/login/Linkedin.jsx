@@ -24,7 +24,7 @@ function throttle(fn, delay) {
 
 const Linkedin = () => {
   // const vercelDomain = "http://localhost:3000/";
-  const vercelDomain = "https://dev.warpbay.com/";
+  const vercelDomain = "https://events.chinmay.space/";
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

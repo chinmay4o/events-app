@@ -22,7 +22,7 @@ function throttle(fn, delay) {
 
 const LinkedinReg = ({ setIsRegistered }) => {
   // const vercelDomain = "http://localhost:3000/";
-  const vercelDomain = "https://dev.warpbay.com/";
+  const vercelDomain = "https://events.chinmay.space/";
   const [isChecked, setIsChecked] = useState(true);
   const [linkData, setlinkData] = useState({});
   const navigate = useNavigate();

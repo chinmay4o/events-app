@@ -51,7 +51,7 @@ const LandingPage = ({ singleEvent }) => {
   return (
     <>
       <Helmet>
-        <title>Warpbay - {singleEvent?.title}</title>
+        <title>Flicker - {singleEvent?.title}</title>
         <link rel="icon" href={`${singleEvent?.coverImage}`} />
         <meta name="description" content={`${singleEvent?.shortDescription}`} />
 
@@ -62,7 +62,7 @@ const LandingPage = ({ singleEvent }) => {
           content={`${singleEvent?.shortDescription}`}
         />
         <meta name="og:image" content={`${singleEvent?.coverImage}`} />
-        <meta property="og:url" content="https://app.warpbay.com" />
+        <meta property="og:url" content="https://app.chinmay.space" />
       </Helmet>
 
       <div className="pt-0 mymd:pt-18 mymd:mb-0 mx-auto mymd:grid place-items-center w-[93vw] mymd:max-w-[1440px] mymd:w-full mb-[100px] ">
@@ -116,14 +116,14 @@ const LandingPage = ({ singleEvent }) => {
         <div className={styles.nav_parent}>
           <nav className={styles.navbar}>
             <div className={styles.logo}>
-              <img src="/svgs/logo.svg" alt="logo" /> Warpbay
+              <img src="/svgs/logo.svg" alt="logo" /> Flicker
             </div>
             <ul className={styles.menu_ul}>
               <li className={styles.nav_home}>
                 <a
                   href=""
                   onClick={() =>
-                    window.open("https://dev.warpbay.com/login", "_blank")
+                    window.open("https://events.chinmay.space/login", "_blank")
                   }
                 >
                   Login
@@ -133,7 +133,7 @@ const LandingPage = ({ singleEvent }) => {
                 src="/svgs/profile.svg"
                 className="w-[26px] h-[26px] object-cover cursor-pointer mymd:hidden"
                 onClick={() =>
-                  window.open("https://dev.warpbay.com/login", "_blank")
+                  window.open("https://events.chinmay.space/login", "_blank")
                 }
               />
             </ul>

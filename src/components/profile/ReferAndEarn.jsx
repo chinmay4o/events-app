@@ -35,7 +35,7 @@ const ReferAndEarn = (props) => {
               Earn 20 points on each Referrals
             </p>
             <div className="w-[280px] h-[46px] flex items-center rounded-3xl p-4 justify-between bg-white text-[#8E8E93]">
-              <p>warpbay.com/tejas-sonar</p>
+              <p>chinmay.space/tejas-sonar</p>
               <img src="/svgs/share.svg" alt="Share" />
             </div>
           </div>
