@@ -84,10 +84,10 @@ function Login() {
               disabled={loading}
             />
             <div className="border-[1px] border-gray-300 w-full"></div>
-            <div className="grid grid-cols-1 gap-[20px] w-full place-items-center">
+            {/* <div className="grid grid-cols-1 gap-[20px] w-full place-items-center">
               <Google />
               <Linkedin />
-            </div>
+            </div> */}
             <p className="text-[13px] font-[500]">
               By continuing you agree to the{" "}
               <span className="text-[#a55eea]">Term of Service</span> and{" "}
