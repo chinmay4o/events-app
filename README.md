@@ -9,6 +9,8 @@ Flicker Events is a low cost and high performant one stop solution to:
 - Organize vitual and hybrid events
 - Attendee registration with custom event landing page
 - Creating custom attendee badges with QR codes
+- Linkedin Auto post of events on attendee registration
+- Add to google calender
 
 # Application Links
 
