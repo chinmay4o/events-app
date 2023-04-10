@@ -11,45 +11,33 @@ import FintechCard09 from "./cards/FintechCard09";
 import FintechCard01 from "./cards/FintechCard01";
 import AnalyticsCard02 from "./cards/AnalyticsCard02";
 import { useMatch } from "react-router-dom";
+import FintechCard04 from "./cards/FintechCard04";
 
 function getDayWiseRegistrations(arr, eventId = null, entity) {
   if (arr.length === 0) {
-    return "arr has no elements";
+    console.log("arr has no elements");
+    return [];
   }
   if (!eventId) {
-    return "can't find event id";
+    console.log("can't find event id");
+    return [];
   }
-  // param is array of attendees with obj inside
-  //will have attendee property that property has property named eventSpecificData
-  //which had set of objects where each object is entry of attendee registering to te particular event
-  // that object further has property named timeStamp which is UTC ISO date format
-  //now this function will match the eventId and will create an array of objects with properties as date and registrations
-  // which signifies number of registrations on a certain date
+
   const resultsArray = [];
 
   for (let i = 0; i < arr.length; i++) {
-    // let ele;
-    // if (entity === "attendees") {
-    //   ele = arr[i].attendees[0].eventSpecificData;
-    // }
-    // if (entity === "exhibitorAndSponsors") {
-    //   ele = arr[i].exhibitorAndSponsors[0].eventSpecificData;
-    // }
     const ele = arr[i].attendee[0].eventSpecificData;
     for (let f = 0; f < ele.length; f++) {
       if (ele[f].eventId === eventId) {
-        const date = new Date(ele[f].timeStamp);
-
+        const utcDate = new Date(ele[f].timeStamp);
+        const istDate = new Date(utcDate.getTime() + 5.5 * 60 * 60 * 1000);
         const options = {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
-          /* hour: 'numeric',
-         minute: 'numeric', */
-          /* hour12: true, */
           timeZone: "Asia/Kolkata",
         };
-        const dateString = date.toLocaleDateString("en-IN", options);
+        const dateString = utcDate.toLocaleDateString("en-IN", options);
 
         let obj = {
           date: dateString,
@@ -58,41 +46,66 @@ function getDayWiseRegistrations(arr, eventId = null, entity) {
 
         let index = null;
         for (let s = 0; s < resultsArray.length; s++) {
+          console.log(new Date(resultsArray[s].date).getDate(), "result Date");
+          // console.log(new Date(dateString).toISOString(), "new Date");
           if (resultsArray[s].date === dateString) {
             index = s;
           }
         }
 
-        if (index) {
+        if (index === 0 || index) {
           resultsArray[index].registrations =
             resultsArray[index].registrations + 1;
         } else {
           resultsArray.push(obj);
         }
+      } else {
+        console.log("event id is different");
       }
-      // else {
-      //   console.log("event id can not be found");
-      // }
     }
   }
-  return getLabels(resultsArray);
+  return resultsArray;
 }
 
-function getLabels(arr) {
-  let arrLabels = [];
-  let arrDataPoints = [];
-  for (let i = 0; i < arr.length; i++) {
-    const ele = arr[i];
-    arrLabels.push(ele.date);
-    arrDataPoints.push(ele.registrations);
+function getDaysBetweenDates(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const oneDay = 1000 * 60 * 60 * 24; // Number of milliseconds in a day
+  const timeDiff = end.getTime() - start.getTime(); // Difference in milliseconds
+  const daysDiff = Math.round(timeDiff / oneDay); // Round to nearest integer
+  return daysDiff;
+}
+
+function getDetailedLabels(startDate, endDate) {
+  // let newEndDate = endDate;
+  // if (new Date() < endDate) {
+  //   newEndDate = endDate;
+  // }
+  const startDate1 = new Date(startDate);
+  const endDate1 = new Date(endDate);
+  const dateArray = [];
+  let currentDate1 = startDate1;
+  while (currentDate1 <= endDate1) {
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      timeZone: "Asia/Kolkata",
+    };
+    const dateString = currentDate1.toLocaleDateString("en-IN", options);
+    dateArray.push(dateString);
+    currentDate1.setDate(currentDate1.getDate() + 1);
   }
-  return;
+  console.log(dateArray);
+  //   console.log(new Date("2023-03-20").toISOString())
+  return dateArray;
 }
 
 const Analytics = () => {
   const [attendees, setAttendees] = useState([]);
   const [exhibitors, setExhibitors] = useState([]);
   const [speakers, setSpeakers] = useState([]);
+  const [resultsArray, setResultsArray] = useState([]);
   const [attendedRegistrations, setAttendedRegistrations] = useState([]);
   const singleEvent = useSelector((state) => state.eventData);
   const eventsId = useMatch("/events/:eventId");
@@ -101,14 +114,20 @@ const Analytics = () => {
   useEffect(() => {
     getAllEventAttendees(`/attendee/${eventsId.params.eventId}`);
     getAttendedAttendees();
-    // if (singleEvent.exhibitorAndSponsor?.length) {
-    //   setExhibitors(singleEvent.exhibitorAndSponsors);
-    // }
   }, []);
 
   useEffect(() => {
-    getDayWiseRegistrations(attendees, singleEvent._id, "attendees");
-  }, [attendees]);
+    setSpeakers(singleEvent.speakers);
+  }, [singleEvent._id]);
+
+  useEffect(() => {
+    setResultsArray(
+      getDayWiseRegistrations(attendees, singleEvent._id, "attendees")
+    );
+  }, [attendees, singleEvent._id]);
+
+  let lineChartEndDate = singleEvent.endDate;
+  const dateArray = getDetailedLabels(singleEvent.createdAt, lineChartEndDate);
 
   // useEffect(() => {
   //   getDayWiseRegistrations(
@@ -124,11 +143,9 @@ const Analytics = () => {
     dispatch({
       type: UPDATE_EVENT,
       payload: {
-        // attendees: [...attendees, response.data.attendees],
         attendees: [...response.data.attendees],
       },
     });
-    console.log(response.data.attendees, "response.data.attendees");
   };
 
   const getAttendedAttendees = async () => {
@@ -141,17 +158,27 @@ const Analytics = () => {
 
   return (
     <div className="w-full md:w-[85%] md:ml-[0px] md:mt-[25px] min-h-[1260px">
-      <p className="font-[600] w-full mx-auto md:w-full text-[24px] pt-2.5 text-black">
+      <p className="font-[600] w-full mx-auto md:w-full text-[22px] pt-2.5 text-black">
         Analytics
       </p>
 
       <div className="mt-[20px] flex justify-between">
-        <FintechCard10 attendees={attendees.length} />
-        <FintechCard11 exhibitors={exhibitors.length} />
-        <FintechCard12 speakers={speakers.length} />
+        <FintechCard10 resultsArray={resultsArray} dateArray={dateArray} />
+        <FintechCard11 />
+        <FintechCard12 speakers={speakers} singleEvent={singleEvent} />
       </div>
 
-      {/* Checkin-Checkouts : Number of participants day wise */}
+      {/* attendee-registrations : Number of participants day wise  single bar*/}
+      <div className="">
+        <FintechCard04
+          attendees={attendees}
+          singleEvent={singleEvent}
+          checkIns={true}
+          checkOuts={false}
+        />
+      </div>
+
+      {/* Checkin-Checkouts : Number of participants day wise 2 bars*/}
       <div className="">
         <FintechCard03
           attendees={attendees.length}

@@ -1,5 +1,9 @@
 import React from "react";
 import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
+import Clipboard from "../../svg/Clipboard";
+import Meetings from "../../svg/Meetings";
+import People from "../../svg/People";
+import Speakers from "../../svg/Speakers";
 
 const AttendeeBottomBar = ({ singleEvent }) => {
   const [searchParams] = useSearchParams();
@@ -15,10 +19,8 @@ const AttendeeBottomBar = ({ singleEvent }) => {
         } flex flex-col justify-center items-center  cursor-pointer`}
         onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=about`)}
       >
-        <img
-          src="/svgs/Clipboard.svg"
-          alt="Clipboard"
-          className="h-[21px] w-[21px]"
+        <Clipboard
+          color={searchParams.get("tab") === "about" ? "#A55EEA" : ""}
         />
         <span className="text-[11px] font-[600]">About</span>
       </span>
@@ -47,11 +49,12 @@ const AttendeeBottomBar = ({ singleEvent }) => {
         } flex flex-col justify-center items-center  cursor-pointer`}
         onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=speakers`)}
       >
-        <img
-          src="/svgs/Speakers.svg"
-          alt="Clipboard"
-          className="h-[22px] w-[22px]"
-        />
+        <div className="h-[22px] w-[22px]">
+          <Speakers
+            color={searchParams.get("tab") === "speakers" ? "#A55EEA" : ""}
+          />
+        </div>
+
         <span className="text-[11px] font-[600]">Speakers</span>
       </span>
 
@@ -63,12 +66,13 @@ const AttendeeBottomBar = ({ singleEvent }) => {
         } flex flex-col justify-center items-center  cursor-pointer`}
         onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=people`)}
       >
-        <img
-          src="/svgs/People.svg"
-          alt="Clipboard"
-          className="h-[22px] w-[22px]"
-        />
-        <span className="text-[11px] font-[600]">Attendees</span>
+        <div className="h-[22px] w-[22px]">
+          <People
+            color={searchParams.get("tab") === "people" ? "#A55EEA" : ""}
+          />
+        </div>
+
+        <span className="text-[11px] font-[600]">Networking</span>
       </span>
 
       <span
@@ -79,11 +83,10 @@ const AttendeeBottomBar = ({ singleEvent }) => {
         } flex flex-col justify-center items-center  cursor-pointer`}
         onClick={() => navigate(`/attendee/${singleEvent?._id}?tab=meetings`)}
       >
-        <img
-          src="/svgs/Meetings.svg"
-          alt="Clipboard"
-          className="h-[22px] w-[22px]"
+        <Meetings
+          color={searchParams.get("tab") === "meetings" ? "#A55EEA" : ""}
         />
+
         <span className="text-[11px] font-[600]">Meetings</span>
       </span>
     </div>

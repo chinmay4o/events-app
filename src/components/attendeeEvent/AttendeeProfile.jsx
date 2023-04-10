@@ -9,9 +9,10 @@ import { getUserDetails, logout } from "../../redux/actions/userActions";
 import FileInput from "../../common/inputElements/FileInput";
 import { EVENT_CREATE_DESTROY } from "../../redux/constants/eventConstants";
 import { USER_EVENTS_EMPTY } from "../../redux/constants/userConstants";
+import DefaultProfilePicture from "../../common/defaultProfilePicture/DefaultProfilePicture";
 
 const AttendeeProfile = ({
-  settriggerProfile,
+  setTriggerProfile,
   triggerProfile,
   savedUserConfig,
 }) => {
@@ -96,7 +97,7 @@ const AttendeeProfile = ({
     <div className="md:hidden">
       <div
         className="h-full top-0 bg-[rgba(0,0,0,0.4)] z-30 fixed w-[100%]"
-        onClick={() => settriggerProfile(false)}
+        onClick={() => setTriggerProfile(false)}
       ></div>
       <div className="flex justify-center h-[70px] items-center bg-white  fixed bottom-0 w-full z-50">
         <input
@@ -109,16 +110,14 @@ const AttendeeProfile = ({
       </div>
 
       <div
-        className={`h-[90%] w-full md:w-${
-          triggerProfile ? "full" : "0"
-        } z-40 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out pb-[50px]`}
+        className={`h-[90%] w-full z-40 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out pb-[50px]`}
       >
         <div
           className={`max-w-[1440px] w-full mx-auto min-h-[calc(100vh_-_60px)] md:w-[375px] mt-[8px] flex items-center flex-col`}
         >
           <div
             className="w-[40px] h-[4px] rounded-[10px] bg-[#C5C5C7] mb-[20px] cursor-pointer"
-            onClick={() => settriggerProfile(false)}
+            onClick={() => setTriggerProfile(false)}
           ></div>
           <div className="w-full -mt-[10px]">
             <div className="w-full md:w-full p-5 pt-2">
@@ -140,16 +139,17 @@ const AttendeeProfile = ({
                       className="h-[96px] w-[96px] border m-auto rounded-full"
                     />
                   ) : (
-                    <div
-                      onClick={() => settriggerProfile(true)}
-                      className={` h-[96px] w-[96px] rounded-full bg-${
-                        ["red", "green", "blue", "yellow", "indigo"][
-                          Math.floor(Math.random() * 5)
-                        ]
-                      }-500 flex items-center justify-center text-white text-[22px] font-medium uppercase cursor-pointer m-auto`}
-                    >
-                      {savedUserConfig?.firstName.slice(0, 1)}
-                      {savedUserConfig?.lastName.slice(0, 1)}
+                    <div className="cursor-pointer m-auto">
+                      <DefaultProfilePicture
+                        firstName={savedUserConfig?.firstName}
+                        lastName={savedUserConfig?.lastName}
+                        style={{
+                          width: "96px",
+                          height: "96px",
+                          borderRadius: "300px",
+                          fontSize: "30px",
+                        }}
+                      />
                     </div>
                   )}
 

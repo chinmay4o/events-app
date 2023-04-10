@@ -51,7 +51,7 @@ function Login() {
       >
         <Card>
           <form
-            className="max-w-[340px] flex flex-col gap-[20px]"
+            className="max-w-[340px] flex flex-col gap-[20px] -mt-[30px]"
             onSubmit={handleSubmit(onSubmit)}
           >
             <p className="text-[22px] font-[700] block text-left mb-[10px]">

@@ -22,28 +22,32 @@ const AttendeeContactDetails = ({
     };
   }, []);
   return (
-    <div>
+    <div className="">
       <div
-        className="h-full top-0 bg-[rgba(0,0,0,0.4)] z-30 fixed w-[100%]"
+        className="h-full top-0 bg-[rgba(0,0,0,0.4)] z-30 fixed w-[100%] md:left-0"
         onClick={() => setViewContact(false)}
       ></div>
       <div
-        className={`h-[450px] w-full md:w-${
-          viewContact ? "full" : "0"
-        } z-50 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out`}
+        className={`h-[450px] w-full z-50 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out md:h-[60%] md:w-[450px] md:left-0 md:right-0 mx-auto md:top-1/2 md:-translate-y-1/2 md:rounded-[10px]`}
       >
         <div className={`w-full mx-auto mt-[8px] flex items-center flex-col `}>
           <div
-            className="w-[40px] h-[4px] rounded-[10px] bg-[#C5C5C7] mb-[20px] cursor-pointer "
+            className="w-[40px] h-[4px] rounded-[10px] bg-[#C5C5C7] mb-[20px] cursor-pointer md:hidden"
             onClick={() => setViewContact(false)}
           ></div>
           <div className="w-full -mt-[10px] ">
             <div className="w-full md:w-full p-5 pt-2">
               <div className="flex flex-col">
-                <div>
-                  <p className="font-[500] text-[16px] text-center">
+                <div className="md:flex md:justify-center md:relative md:items-center md:mt-[10px]">
+                  <p className="font-[500] text-[16px] text-center md:text-[20px] ">
                     Contact details
                   </p>
+                  <img
+                    src="/svgs/Cross.svg"
+                    alt=""
+                    className="absolute right-0 h-[20px] cursor-pointer hidden md:block"
+                    onClick={() => setViewContact(false)}
+                  />
                 </div>
                 {meetingDetails?.profilePicture ? (
                   <img
@@ -74,24 +78,12 @@ const AttendeeContactDetails = ({
           </div>
         </div>
         <div className="flex flex-col mt-[30px] items-center">
-          <span className="flex items-center cursor-pointer text-[#2ECC71] text-[12px] font-[700] border border-[#2ECC71] h-[40px] w-[90%] justify-center rounded-[4px] bg-white md:w-[140px] mb-[10px]">
-            <a
-              // href={speakerData.linkedinUrl}
-              className="flex items-center "
-              target="_blank"
-            >
-              <img src="/svgs/Phone.svg" alt="" className="mr-2" />
-              Call {meetingDetails?.firstName} ({meetingDetails.mobile})
-            </a>
+          <span className="flex items-center cursor-pointer text-[#2ECC71] text-[12px] font-[700] border border-[#2ECC71] h-[40px] w-[90%] justify-center rounded-[4px] bg-white md:w-[80%] mb-[10px]">
+            <img src="/svgs/Phone.svg" alt="" className="mr-2" />
+            Call {meetingDetails?.firstName} ({meetingDetails.mobile})
           </span>
-          <span className="flex items-center cursor-pointer text-[#1C1C1E] font-[700] text-[12px] border h-[40px] w-[90%] justify-center rounded-[4px] bg-white md:w-[140px]">
-            <a
-              // href={speakerData.linkedinUrl}
-              className="flex items-center "
-              target="_blank"
-            >
-              Email {meetingDetails?.firstName} ({meetingDetails.email})
-            </a>
+          <span className="flex items-center cursor-pointer text-[#1C1C1E] font-[700] text-[12px] border h-[40px] w-[90%] justify-center rounded-[4px] bg-white md:w-[80%]">
+            Email {meetingDetails?.firstName} ({meetingDetails.email})
           </span>
         </div>
       </div>

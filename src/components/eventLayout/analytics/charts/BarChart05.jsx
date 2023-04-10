@@ -50,12 +50,19 @@ function BarChart05({
           x: {
             type: 'time',
             time: {
-              parser: 'MM-DD-YYYY',
+              parser: 'DD/MM/YYYY',
               unit: 'day',
               displayFormats: {
                 day: 'DD MMM',
               },
             },
+            // time: {
+            //   parser: 'MM-DD-YYYY',
+            //   unit: 'day',
+            //   displayFormats: {
+            //     day: 'DD MMM',
+            //   },
+            // }, previous
             grid: {
               display: false,
               drawBorder: false,
@@ -136,7 +143,7 @@ function BarChart05({
     });
     return () => chart.destroy();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data.datasets[0].data]);
 
   return (
     <React.Fragment>

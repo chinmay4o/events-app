@@ -387,7 +387,7 @@ const LandingPage = ({ singleEvent }) => {
                   Speakers
                 </div>
               )}
-              {singleEvent.exhibitorAndSponsors.length === 0 ? (
+              {singleEvent.exhibitorOrganizations.length === 0 ? (
                 <></>
               ) : (
                 <div

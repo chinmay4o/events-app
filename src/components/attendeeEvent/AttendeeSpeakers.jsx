@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import DefaultProfilePicture from "../../common/defaultProfilePicture/DefaultProfilePicture";
 
 const AttendeeSpeakers = ({ singleEvent }) => {
   const navigate = useNavigate();
   return (
-    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[59px]">
+    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white md:min-h-full ">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[59px] z-10 md:hidden">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
@@ -13,7 +14,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
         />
         <span className="ml-2 text-[22px] font-[500]">Speakers</span>
       </div>
-      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[140px] md:w-[65%] md:flex flex-wrap justify-between">
+      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[80px] md:w-[62%] md:flex flex-wrap justify-between">
         {singleEvent.speakers && singleEvent.speakers.length > 0 ? (
           singleEvent.speakers.map((speakerData, key) => (
             <>
@@ -28,15 +29,17 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                       className="rounded-full sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] object-cover mr-3"
                     />
                   ) : (
-                    <div
-                      className={`sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] rounded-full bg-${
-                        ["red", "green", "blue", "yellow", "indigo"][
-                          Math.floor(Math.random() * 5)
-                        ]
-                      }-500 flex items-center justify-center mr-2 text-white text-lg font-medium uppercase`}
-                    >
-                      {speakerData.firstName.slice(0, 1)}
-                      {speakerData.lastName.slice(0, 1)}
+                    <div className="mr-2">
+                      <DefaultProfilePicture
+                        firstName={speakerData.firstName}
+                        lastName={speakerData.lastName}
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          borderRadius: "300px",
+                          fontSize: "14px",
+                        }}
+                      />
                     </div>
                   )}
 
@@ -70,7 +73,7 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                   )}
                 </div>
                 <div className="mymd:mt-3 mt-0 flex justify-between">
-                  <span className="flex items-center cursor-pointer text-[#0E76A8] text-[12px] font-[500] text-[12px] border h-[32px] w-[47%] justify-center rounded-[4px] md:w-[140px]">
+                  <span className="flex items-center cursor-pointer text-[#0E76A8] text-[12px] font-[500] text-[12px] border h-[32px] w-[47%] justify-center rounded-[4px] md:w-[47%]">
                     <a
                       href={speakerData.linkedinUrl}
                       className="flex items-center "
@@ -84,14 +87,9 @@ const AttendeeSpeakers = ({ singleEvent }) => {
                       Visit Linkedin
                     </a>
                   </span>
-                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] h-[32px] w-[47%] justify-center rounded-[4px] bg-primary md:w-[140px]">
-                    <a
-                      href={speakerData.linkedinUrl}
-                      className="flex items-center "
-                      target="_blank"
-                    >
-                      Book a meeting
-                    </a>
+
+                  <span className="flex items-center cursor-pointer text-white text-[12px] font-[500] h-[32px] w-[47%] justify-center rounded-[4px] bg-primary md:w-[47%] opacity-50">
+                    Book a meeting
                   </span>
                 </div>
               </div>

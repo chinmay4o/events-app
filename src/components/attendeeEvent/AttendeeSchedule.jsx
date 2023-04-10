@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import DefaultProfilePicture from "../../common/defaultProfilePicture/DefaultProfilePicture";
 
 const AttendeeSchedule = ({ singleEvent }) => {
   const navigate = useNavigate();
   const [schedule, setSchedule] = useState([]);
-
+  console.log(singleEvent);
   useEffect(() => {
     const schedule = singleEvent.schedule;
     let allSessions = [];
@@ -17,8 +18,8 @@ const AttendeeSchedule = ({ singleEvent }) => {
     }
   }, [singleEvent]);
   return (
-    <div className="w-full min-h-[90vh] bg-[#F5F5F5] pb-[80px] md:ml-[17%] md:w-[83%] md:bg-white">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] z-20 md:mt-[59px]">
+    <div className="w-full min-h-[90vh] bg-[#F5F5F5] pb-[80px] md:ml-[17%] md:w-[83%] md:bg-white md:min-h-full">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] z-20 md:mt-[59px] md:hidden">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
@@ -27,7 +28,7 @@ const AttendeeSchedule = ({ singleEvent }) => {
         <span className="ml-2 text-[22px] font-[500]">Schedule</span>
       </div>
 
-      <div className=" mt-[60px] mx-[16px] pt-[10px] md:mt-[120px] md:w-[45%]">
+      <div className=" mt-[60px] mx-[16px] pt-[10px] md:mt-[60px] md:w-[57%] ">
         {schedule && schedule.length > 0 ? (
           schedule
             .sort((a, b) => new Date(a.startTime) - new Date(b.startTime))
@@ -71,64 +72,93 @@ const AttendeeSchedule = ({ singleEvent }) => {
                   <></>
                 )}
 
-                <div className="w-120 ml-[88px] mb-2 ">
-                  {session.speakers.length > 0
-                    ? session.speakers.map((ele, index) => {
-                        for (let i = 0; i < singleEvent.speakers.length; i++) {
-                          if (ele === singleEvent.speakers[i]._id) {
-                            if (singleEvent.speakers[i].profilePicture) {
-                              return (
-                                <>
-                                  <div className="flex items-center text-[13px] font-medium text-[#1C1C1E] mb-2">
-                                    <img
-                                      src={
-                                        singleEvent.speakers[i].profilePicture
-                                      }
-                                      className="rounded-full w-[25px] h-[25px] object-cover mr-2"
-                                    />
-                                    {singleEvent.speakers[i].firstName}{" "}
-                                    {singleEvent.speakers[i].lastName},{" "}
-                                    {singleEvent.speakers[i].jobTitle},{" "}
-                                    {singleEvent.speakers[i].organization}
-                                  </div>
-                                </>
-                              );
-                            } else {
-                              return (
-                                <>
-                                  <div className="flex items-center text-[13px] font-medium text-[#1C1C1E] mb-2">
-                                    <div
-                                      className={`w-[25px] h-[25px] rounded-full bg-${
-                                        [
-                                          "red",
-                                          "green",
-                                          "blue",
-                                          "yellow",
-                                          "indigo",
-                                        ][Math.floor(Math.random() * 5)]
-                                      }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
-                                    >
-                                      {singleEvent.speakers[i].firstName.slice(
-                                        0,
-                                        1
-                                      )}
-                                      {singleEvent.speakers[i].lastName.slice(
-                                        0,
-                                        1
-                                      )}
-                                    </div>{" "}
-                                    {singleEvent.speakers[i].firstName}{" "}
-                                    {singleEvent.speakers[i].lastName},{" "}
-                                    {singleEvent.speakers[i].jobTitle},{" "}
-                                    {singleEvent.speakers[i].organization}
-                                  </div>
-                                </>
-                              );
+                <div className="flex mt-2 justify-between items-start mb-2">
+                  <div className=" ml-[88px] w-[50%] md:w-[60%]">
+                    {session.speakers.length > 0
+                      ? session.speakers.map((ele, index) => {
+                          for (
+                            let i = 0;
+                            i < singleEvent.speakers.length;
+                            i++
+                          ) {
+                            if (ele === singleEvent.speakers[i]._id) {
+                              if (singleEvent.speakers[i].profilePicture) {
+                                return (
+                                  <>
+                                    <div className="flex items-center text-[13px] font-medium text-[#1C1C1E] mb-2">
+                                      <img
+                                        src={
+                                          singleEvent.speakers[i].profilePicture
+                                        }
+                                        className="rounded-full w-[25px] h-[25px] object-cover mr-2"
+                                      />
+                                      {singleEvent.speakers[i].firstName}{" "}
+                                      {singleEvent.speakers[i].lastName},{" "}
+                                      {singleEvent.speakers[i].jobTitle},{" "}
+                                      {singleEvent.speakers[i].organization}
+                                    </div>
+                                  </>
+                                );
+                              } else {
+                                return (
+                                  <>
+                                    <div className="flex items-center text-[13px] font-medium text-[#1C1C1E] mb-2">
+                                      <div className="mr-2">
+                                        <DefaultProfilePicture
+                                          firstName={
+                                            singleEvent.speakers[i].firstName
+                                          }
+                                          lastName={
+                                            singleEvent.speakers[i].lastName
+                                          }
+                                          style={{
+                                            width: "25px",
+                                            height: "25px",
+                                            borderRadius: "300px",
+                                            fontSize: "10px",
+                                          }}
+                                        />
+                                      </div>
+                                      {singleEvent.speakers[i].firstName}{" "}
+                                      {singleEvent.speakers[i].lastName},{" "}
+                                      {singleEvent.speakers[i].jobTitle},{" "}
+                                      {singleEvent.speakers[i].organization}
+                                    </div>
+                                  </>
+                                );
+                              }
                             }
                           }
-                        }
-                      })
-                    : []}
+                        })
+                      : []}
+                  </div>
+                  {session?.venueName ? (
+                    <div className="venueName text-[13px] font-[500] text-[#aaaaaa] top-[0px] flex justify-end">
+                      {session?.venueName && session.venueName}
+                    </div>
+                  ) : (
+                    session.onlineSessionUrl && (
+                      <div className=" pb-[0px]">
+                        {/* <p className="spacer"></p>{" "} */}
+                        <div className="flex items-center">
+                          <span className="text-green-500 mr-3 text-[14px] hidden md:block">
+                            &#9679; online
+                          </span>
+
+                          {/* <i className="fa-solid fa-wifi fa-font-solid text-green-500 font-[600]"></i> */}
+                          <p
+                            className="cursor-pointer grid place-items-center grid-cols-[1fr_0px] bg-primary text-white text-[13px] font-[500] w-[90px] h-[28px] px-[0px] rounded-sm "
+                            onClick={() => {
+                              window.open(session.onlineSessionUrl, "_blank");
+                            }}
+                          >
+                            Join Now{" "}
+                            {/* <i className="fa-solid fa-arrow-up-right-from-square"></i> */}
+                          </p>
+                        </div>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             ))

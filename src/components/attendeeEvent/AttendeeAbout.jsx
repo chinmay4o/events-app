@@ -4,6 +4,7 @@ import moment from "moment";
 import { getUserDetails } from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import AttendeeBadgePopup from "./AttendeeBadgePopup";
+import DefaultProfilePicture from "../../common/defaultProfilePicture/DefaultProfilePicture";
 
 const AttendeeAbout = ({ singleEvent }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const AttendeeAbout = ({ singleEvent }) => {
   const eventsId = useMatch("/attendee/:eventId/*");
   const userDetails = useSelector((state) => state.userDetails);
   const { savedUserConfig } = userDetails;
-
+  const now = new Date().getTime();
   useEffect(() => {
     // generateText(prompt);
     let accessToken = localStorage.getItem("accessToken");
@@ -23,8 +24,8 @@ const AttendeeAbout = ({ singleEvent }) => {
   const optionmymdonth = { month: "short" };
 
   return (
-    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px]">
+    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white md:min-h-full">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px] md:hidden">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
@@ -43,7 +44,7 @@ const AttendeeAbout = ({ singleEvent }) => {
           singleEvent={singleEvent}
         />
       )}
-      <div className="mt-[60px] mx-[16px] pt-[16px] md:pt-1 md:mt-[120px] pb-[90px]">
+      <div className="mt-[60px] mx-[16px] pt-[16px] md:pt-1 md:mt-[50px] pb-[90px]">
         <img
           src={singleEvent?.coverImage}
           alt="coverimage"
@@ -64,7 +65,16 @@ const AttendeeAbout = ({ singleEvent }) => {
             <span>
               {(() => {
                 try {
-                  if (singleEvent.startDate === singleEvent.endDate) {
+                  if (
+                    new Date(singleEvent.startDate)
+                      .toString()
+                      .substring(0, 10)
+                      .slice(-10) ===
+                    new Date(singleEvent.endDate)
+                      .toString()
+                      .substring(0, 10)
+                      .slice(-10)
+                  ) {
                     return (
                       <>
                         {new Date(singleEvent.startDate).getDate()}{" "}
@@ -96,7 +106,21 @@ const AttendeeAbout = ({ singleEvent }) => {
             <span>
               &nbsp;| {moment(singleEvent?.startDate).format("LT")} |&nbsp;
             </span>
-            <span className="font-semibold text-[#2ECC71]">Ongoing</span>
+            {new Date(
+              new Date(singleEvent?.endDate).toLocaleString("en-US", {
+                timeZone: "Asia/Kolkata",
+              })
+            ).getTime() <= now ? (
+              <span className="font-semibold text-[#E74C3C]">Ended</span>
+            ) : new Date(
+                new Date(singleEvent?.startDate).toLocaleString("en-US", {
+                  timeZone: "Asia/Kolkata",
+                })
+              ).getTime() <= now ? (
+              <span className="font-semibold text-[#2ECC71]">Ongoing</span>
+            ) : (
+              <span className="font-semibold text-primary">Upcoming</span>
+            )}
           </div>
 
           <div className="flex text-[12px] text-[#727374] font-normal my-[9px] items-center w-[95%]">
@@ -114,54 +138,64 @@ const AttendeeAbout = ({ singleEvent }) => {
         </div>
 
         <div
-          className="h-[130px] w-full bg-gradient-to-b from-primary to-[#7F2ECD] p-[16px] rounded-[10px] mt-[24px] shadow cursor-pointer md:w-[414px] md:h-[168px]"
+          className="h-[130px] w-full bg-gradient-to-b from-primary to-[#7F2ECD] rounded-[10px] mt-[24px] shadow cursor-pointer md:w-[350px] md:h-[130px] flex flex-col justify-center pl-5 md:pl-3.5"
           onClick={() => setBadegExpand(true)}
         >
-          <span className="text-sm font-[400] text-white md:text-[16px]">
-            Tap to expand your badge
-          </span>
-          <div className="flex mt-[10px] md:mt-[12px]">
-            <div className="border h-[64px] w-[64px] rounded-[10px] md:w-[96px] md:h-[96px]"></div>
-            <div className="h-[64px] flex flex-col justify-between ml-3 md:h-[96px] md:ml-4">
-              <span className="text-white font-500 text-[16px] md:text-[24px]">
-                {savedUserConfig?.firstName} {savedUserConfig?.lastName}
-              </span>
-              <span className="text-white font-400 text-[12px] md:text-[16px]">
-                Event badge
-              </span>
-              <span className="text-white font-400 text-[12px] md:text-[16px]">
-                {" "}
-                {(() => {
-                  try {
-                    if (singleEvent.startDate === singleEvent.endDate) {
-                      return (
-                        <>
-                          {new Date(singleEvent.startDate).getDate()}{" "}
-                          {new Intl.DateTimeFormat("en-US", {
-                            month: "short",
-                          }).format(new Date(singleEvent.startDate))}
-                        </>
-                      );
-                    } else {
-                      return (
-                        <>
-                          {new Date(singleEvent.startDate).getDate()}{" "}
-                          {new Intl.DateTimeFormat("en-US", {
-                            month: "short",
-                          }).format(new Date(singleEvent.startDate))}{" "}
-                          to {new Date(singleEvent.endDate).getDate()}{" "}
-                          {new Intl.DateTimeFormat("en-US", {
-                            month: "short",
-                          }).format(new Date(singleEvent.endDate))}
-                        </>
-                      );
+          <div className="mb-1">
+            <p className="text-sm font-[400] text-white md:text-[14px]">
+              Tap to expand your badge
+            </p>
+            <div className="flex mt-[10px] md:mt-[10px]">
+              <img
+                src="/svgs/scanner.svg"
+                alt="Scanner"
+                className="h-[64px] w-[64px] rounded-[4px] md:w-[80px] md:h-[80px] object-contain"
+              />
+
+              <div className="h-[64px] flex flex-col justify-between ml-3 md:h-[80px] md:ml-4">
+                <span className="text-white font-500 text-[16px] md:text-[20px]">
+                  {savedUserConfig?.firstName} {savedUserConfig?.lastName}
+                </span>
+                <span className="text-white font-400 text-[12px] md:text-[14px]">
+                  Event badge
+                </span>
+                <span className="text-white font-400 text-[12px] md:text-[14px]">
+                  {" "}
+                  {(() => {
+                    try {
+                      if (
+                        new Date(singleEvent.startDate).getDate() ===
+                        new Date(singleEvent.endDate).getDate()
+                      ) {
+                        return (
+                          <>
+                            {new Date(singleEvent.startDate).getDate()}{" "}
+                            {new Intl.DateTimeFormat("en-US", {
+                              month: "short",
+                            }).format(new Date(singleEvent.startDate))}
+                          </>
+                        );
+                      } else {
+                        return (
+                          <>
+                            {new Date(singleEvent.startDate).getDate()}{" "}
+                            {new Intl.DateTimeFormat("en-US", {
+                              month: "short",
+                            }).format(new Date(singleEvent.startDate))}{" "}
+                            to {new Date(singleEvent.endDate).getDate()}{" "}
+                            {new Intl.DateTimeFormat("en-US", {
+                              month: "short",
+                            }).format(new Date(singleEvent.endDate))}
+                          </>
+                        );
+                      }
+                    } catch (error) {
+                      console.error(error);
+                      return null;
                     }
-                  } catch (error) {
-                    console.error(error);
-                    return null;
-                  }
-                })()}
-              </span>
+                  })()}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -214,21 +248,22 @@ const AttendeeAbout = ({ singleEvent }) => {
                         className="rounded-full mymd:w-[50px] mymd:h-[50px] w-[40px] h-[40px] object-cover "
                       />
                     ) : (
-                      <div
-                        class={`mymd:w-[45px] mymd:h-[45px] w-[40px] h-[40px] rounded-full bg-${
-                          ["red", "green", "blue", "yellow", "indigo"][
-                            Math.floor(Math.random() * 5)
-                          ]
-                        }-500 flex items-center justify-center mr-2 text-white mymd:text-2xl text-lg font-medium uppercase`}
-                      >
-                        {sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
+                      <DefaultProfilePicture
+                        firstName={sponsorAndExhibitor.exhibitorAndSponsor.eventSpecificData
                           .filter((ele, id) => {
                             return (
                               ele.eventId.toString() === eventsId.params.eventId
                             );
                           })[0]
                           .companyName.charAt(0)}
-                      </div>
+                        lastName={" "}
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          borderRadius: "300px",
+                          fontSize: "14px",
+                        }}
+                      />
                     )}
 
                     <div className="mymd:text-2xl text-base font-medium mymd:mt-[16px] mt-[8px] font-[500]">

@@ -213,7 +213,7 @@ const UserMeetings = () => {
                     </div>
                   </div>
                   <div className="font-normal mt-10 text-center text-[14px] text-black text-opacity-50">
-                    <p>Meeting for - Introduction of Warpbay</p>
+                    <p>Meeting for - Introduction of Flicker</p>
                   </div>
                   <div className="w-[295px] mx-auto flex items-center justify-between">
                     <div className="w-full h-10 rounded-[10px]">

@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import TextArea from "../../common/inputElements/TextArea";
-import { bookMeeting } from "../../redux/actions/meetingActions";
+import DefaultProfilePicture from "../../common/defaultProfilePicture/DefaultProfilePicture";
+import { getAuthenticatedRequest } from "../../utils/API/api.ts";
 
 const BookMeeting = ({
   settrigger,
-  trigger,
-  isEdit,
-  setIsEdit,
-  isReschedule,
-  setIsReschedule,
   isCancelled,
   setisCancelled,
   singleAttendee,
@@ -18,33 +12,19 @@ const BookMeeting = ({
   meetingDetails,
   setMeetingDetails,
   deleteMeeting,
+  receivedMeetings,
+  sentMeetings,
 }) => {
   const [activeDate, setActiveDate] = useState("");
   const [activeTime, setActiveTime] = useState("");
   const [isSuccess, setisSuccess] = useState(false);
   const [formattedDates, setformattedDates] = useState([]);
   const [formattedTime, setformattedTime] = useState([]);
-  const dispatch = useDispatch();
-  const bookedMeeting = useSelector((state) => state.bookedMeeting);
-  console.log(bookedMeeting);
-  useEffect(() => {
-    if (bookedMeeting.error) {
-      alert("Please add again!! some error occurred");
-    } else if (isSuccess) {
-      console.log("here");
-      setMeetingDetails(
-        bookedMeeting.bookedMeeting.meetingRequestSent[
-          bookedMeeting.bookedMeeting?.meetingRequestSent.length - 1
-        ]
-      );
-    }
-  }, [bookedMeeting]);
-
+  const [scheduledMeetings, setScheduledMeetings] = useState([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
   //formating date and time: 12 Feb 10:00 am
@@ -62,20 +42,44 @@ const BookMeeting = ({
       );
     }
     setformattedDates(dates);
+  }, [event, meetingDetails]);
+
+  useEffect(() => {
     const times = [];
     const startDate = new Date(event?.startDate);
     const endDate = new Date(event?.endDate);
-
-    while (startDate < endDate) {
+    const maxHours = 24;
+    while (startDate <= endDate && times.length < maxHours * 4) {
       times.push(
-        startDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        new Date(startDate).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
       );
       startDate.setMinutes(startDate.getMinutes() + 15);
     }
-    setformattedTime(times);
-  }, [event]);
+    if (times) {
+      setformattedTime(times);
+    }
+  }, [meetingDetails]);
 
+  useEffect(() => {
+    async function fetch() {
+      const response = await getAuthenticatedRequest(
+        "/user/userMeeting-details"
+      );
+      const { scheduledMeetings } = response?.data.user;
+
+      const filteredscheduledMeetings = scheduledMeetings.filter(
+        (meeting) => meeting.eventId === event?._id
+      );
+
+      setScheduledMeetings(filteredscheduledMeetings);
+    }
+    fetch();
+  }, [meetingDetails, event]);
   //preventing background scroll on the popup page
+
   useEffect(() => {
     function preventBackgroundScroll(event) {
       event.preventDefault();
@@ -99,57 +103,104 @@ const BookMeeting = ({
       alert("Please select date and time");
       return;
     }
+
+    if (data.Message === "") {
+      alert("Please add some description");
+      return;
+    }
     setMeetingDetails([]);
+
     const meetingObj = {
+      eventId: event._id,
       meetingID: new Date().getTime().toString(),
       message: data.Message,
       date: activeDate,
       time: activeTime,
       sentTo: singleAttendee?._id,
     };
-    dispatch(
-      bookMeeting({
-        ...meetingObj,
-      })
-    );
-    setIsEdit(false);
-    setIsReschedule(false);
-    setisSuccess(true);
+
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        return alert("Unauthorised from edit reducer");
+      }
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/user/user-meetings`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...meetingObj,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data.user);
+
+      if (response.status !== 200) {
+        throw new Error();
+      } else {
+        setMeetingDetails(
+          data.user.meetingRequestSent[data.user.meetingRequestSent.length - 1]
+        );
+
+        setisSuccess(true);
+      }
+    } catch (error) {
+      alert("Error");
+    }
   };
+
+  const checkIfEmailExists = (time) => {
+    console.log(time);
+    return (
+      scheduledMeetings?.some(
+        (meeting) =>
+          meeting.meetingTime.toLowerCase() === time.toLowerCase() &&
+          meeting.meetingDate.toLowerCase() === activeDate.toLowerCase()
+      ) ||
+      receivedMeetings?.some(
+        (meeting) =>
+          meeting.meetingTime.toLowerCase() === time.toLowerCase() &&
+          meeting.meetingDate.toLowerCase() === activeDate.toLowerCase()
+      ) ||
+      sentMeetings?.some(
+        (meeting) =>
+          meeting.meetingTime.toLowerCase() === time.toLowerCase() &&
+          meeting.meetingDate.toLowerCase() === activeDate.toLowerCase()
+      )
+    );
+  };
+  console.log(scheduledMeetings, receivedMeetings, sentMeetings);
   return (
-    <div>
+    <div className="">
       <div
-        className="h-full top-0 bg-[rgba(0,0,0,0.4)] z-30 fixed w-[100%]"
+        className="h-full top-0 bg-[rgba(0,0,0,0.4)] z-30 fixed w-[100%] md:left-0"
         onClick={() => {
           settrigger(false);
-          setIsEdit(false);
-          setIsReschedule(false);
           setisSuccess(false);
           setisCancelled(false);
         }}
       ></div>
-      <div className="flex justify-center fixed bottom-0 z-50 w-full bg-white h-[70px] items-center">
+      <div className="flex justify-center fixed bottom-0 z-50 w-full bg-white h-[70px] items-center md:hidden">
         {!isSuccess && !isCancelled ? (
           <button
             type="submit"
             form="form_submit"
-            className="cursor-pointer text-white font-[500] text-[12px] border h-[40px] w-[90%] justify-center rounded-[4px] bg-primary md:w-[140px]"
+            className="cursor-pointer text-white font-[500] text-[12px] border h-[40px] w-[90%] justify-center rounded-[4px] bg-primary md:w-[140px] "
           >
-            {isEdit
-              ? "Edit Request"
-              : isReschedule
-              ? "Request reschedule"
-              : isCancelled
-              ? "Meeting request cancelled"
-              : "Send meeting request"}
+            {isCancelled ? "Meeting request cancelled" : "Send meeting request"}
           </button>
         ) : (
           <button
             className="cursor-pointer text-white font-[500] text-[12px] h-[40px] w-[90%] rounded-[4px] bg-primary md:w-[140px]"
             onClick={() => {
               settrigger(false);
-              setIsEdit(false);
-              setIsReschedule(false);
               setisSuccess(false);
               setisCancelled(false);
             }}
@@ -160,19 +211,15 @@ const BookMeeting = ({
       </div>
 
       <div
-        className={`h-[90%] w-full md:w-${
-          trigger ? "full" : "0"
-        } z-40 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out pb-[50px]`}
+        className={`h-[90%] w-full z-40 fixed bottom-0 bg-white rounded-t-[10px] overflow-scroll transform transition duration-1000 ease-in-out pb-[50px] md:h-[90%] md:w-[500px] md:left-0 md:right-0 mx-auto md:top-1/2 md:-translate-y-1/2 md:rounded-[10px] md:pb-0`}
       >
         <div
           className={`max-w-[1440px] w-full mx-auto mt-[8px] flex items-center flex-col`}
         >
           <div
-            className="w-[40px] h-[4px] rounded-[10px] bg-[#C5C5C7] mb-[20px] cursor-pointer"
+            className="w-[40px] h-[4px] rounded-[10px] bg-[#C5C5C7] mb-[20px] cursor-pointer md:hidden"
             onClick={() => {
               settrigger(false);
-              setIsEdit(false);
-              setIsReschedule(false);
               setisSuccess(false);
               setisCancelled(false);
             }}
@@ -180,16 +227,20 @@ const BookMeeting = ({
           <div className="w-full -mt-[10px]">
             <div className="w-full md:w-full p-5 pt-2">
               <div className="flex flex-col">
-                <div>
-                  <p className="font-[500] text-[16px] text-center">
-                    {isEdit
-                      ? "Edit Request"
-                      : isReschedule
-                      ? "Reschedule meeting"
-                      : isSuccess
-                      ? "Meeting request sent"
-                      : "Book a meeting"}
+                <div className="md:flex md:justify-center md:relative md:items-center md:mt-[10px]">
+                  <p className="font-[500] text-[16px] text-center md:text-[20px] ">
+                    {isSuccess ? "Meeting request sent" : "Book a meeting"}
                   </p>
+                  <img
+                    src="/svgs/Cross.svg"
+                    alt=""
+                    className="absolute right-0 h-[20px] cursor-pointer hidden md:block"
+                    onClick={() => {
+                      settrigger(false);
+                      setisSuccess(false);
+                      setisCancelled(false);
+                    }}
+                  />
                 </div>
                 {singleAttendee?.profilePicture ? (
                   <img
@@ -198,23 +249,24 @@ const BookMeeting = ({
                     className="h-[96px] w-[96px] m-auto rounded-full mt-[27px]"
                   />
                 ) : (
-                  <div
-                    className={` h-[96px] w-[96px] rounded-full bg-${
-                      ["red", "green", "blue", "yellow", "indigo"][
-                        Math.floor(Math.random() * 5)
-                      ]
-                    }-500 flex items-center justify-center text-white text-[22px] font-medium uppercase cursor-pointer m-auto mt-[27px]`}
-                  >
-                    {singleAttendee?.firstName.slice(0, 1)}
-                    {singleAttendee?.lastName.slice(0, 1)}
+                  <div className=" m-auto mt-[27px]">
+                    <DefaultProfilePicture
+                      firstName={singleAttendee?.firstName}
+                      lastName={singleAttendee?.lastName}
+                      style={{
+                        width: "96px",
+                        height: "96px",
+                        borderRadius: "300px",
+                        fontSize: "30px",
+                      }}
+                    />
                   </div>
                 )}
-                {/* <div className="h-[96px] w-[96px] border m-auto rounded-full mt-[27px]"></div> */}
+
                 <span className="mt-[10px] text-[#000000] text-[24px] m-auto cursor-pointer font-[500] ">
                   {singleAttendee?.firstName} {singleAttendee?.lastName}
                 </span>
                 <span className="text-[12px] text-[#4F4F4F] font-[500] m-auto mt-[10px]">
-                  {/* Product Designer, Ream Design */}
                   {singleAttendee?.organization}
                 </span>
               </div>
@@ -223,20 +275,14 @@ const BookMeeting = ({
                   className="mt-10"
                   id="form_submit"
                   onSubmit={handleSubmit(onSubmit)}
-                  // onSubmit={(e) => {
-                  //   e.preventDefault();
-                  //   setIsEdit(false);
-                  //   setIsReschedule(false);
-                  //   setisSuccess(true);
-                  // }}
                 >
                   <div className="font-[500] text-[16px] mb-2">Choose day</div>
-                  <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-between items-center">
+                  <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-start items-center ">
                     {formattedDates?.map((dates) => {
                       return (
                         <div
                           onClick={() => setActiveDate(dates)}
-                          className={`grid place-items-center w-[100%] cursor-pointer mr-[35px] text-[14px] font-[600] whitespace-nowrap bg-${
+                          className={`grid place-items-center w-[100%] cursor-pointer mr-[35px] text-[14px] font-[600] whitespace-nowrap max-w-[65px] bg-${
                             activeDate === dates ? "primary" : "[#F4F6F9]"
                           } p-2 rounded-[17px] text-${
                             activeDate === dates ? "white" : "[#F4F6F9]"
@@ -248,19 +294,43 @@ const BookMeeting = ({
                     })}
                   </div>
                   <div className="font-[500] text-[16px] mb-2">Choose time</div>
-                  <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-between items-center">
+                  <div className="flex w-[100%] h-[60px] overflow-scroll place-items-center rounded-[8px] text-[16px] ml-0 justify-start items-center">
                     {formattedTime?.map((time) => {
                       return (
-                        <div
-                          onClick={() => setActiveTime(time)}
-                          className={`grid place-items-center w-[100%] cursor-pointer mr-[35px] text-[14px] font-[600] whitespace-nowrap bg-${
-                            activeTime === time ? "primary" : "[#F4F6F9]"
-                          } p-2 rounded-[17px] text-${
-                            activeTime === time ? "white" : "[#F4F6F9]"
-                          }`}
-                        >
-                          {time}
-                        </div>
+                        <>
+                          {
+                            checkIfEmailExists(time) ? (
+                              <div
+                                className={`max-w-[80px] grid place-items-center w-[100%]  mr-[35px] text-[14px] font-[600] whitespace-nowrap bg-[#C7C7C8] text-white p-2 rounded-[17px]`}
+                              >
+                                {time}
+                              </div>
+                            ) : (
+                              <div
+                                onClick={() => setActiveTime(time)}
+                                className={` max-w-[80px] grid place-items-center w-[100%] cursor-pointer mr-[35px] text-[14px] font-[600] whitespace-nowrap bg-${
+                                  activeTime === time ? "primary" : "[#F4F6F9]"
+                                } p-2 rounded-[17px] text-${
+                                  activeTime === time ? "white" : "[#F4F6F9]"
+                                }`}
+                              >
+                                {time}
+                              </div>
+                            )
+                            /* ) : (
+                            <div
+                              onClick={() => setActiveTime(time)}
+                              className={` max-w-[80px] grid place-items-center w-[100%] cursor-pointer mr-[35px] text-[14px] font-[600] whitespace-nowrap bg-${
+                                activeTime === time ? "primary" : "[#F4F6F9]"
+                              } p-2 rounded-[17px] text-${
+                                activeTime === time ? "white" : "[#F4F6F9]"
+                              }`}
+                            >
+                              {time}
+                            </div>
+                          ) */
+                          }
+                        </>
                       );
                     })}
                   </div>
@@ -269,18 +339,27 @@ const BookMeeting = ({
                   </span>
                   <div className="mt-5">
                     <span className="text-[#121212] text-[16px] font-[500]">
-                      {isReschedule
-                        ? "Reason for rescheduling"
-                        : `Introduce yourself to ${singleAttendee?.firstName}`}
+                      {`Introduce yourself to ${singleAttendee?.firstName}`}
                     </span>
-                    <div className="mt-[-20px]">
-                      <TextArea
-                        register={register}
-                        type="text"
-                        id={"Message"}
-                        placeholder="Message"
-                      />
-                    </div>
+                    <textarea
+                      className="border-transparent	 focus:outline-none text-[14px] font-medium rounded-[10px] bg-[#F4F6F9] w-full min-h-[150px] mt-[17px] focus:border-1.5 focus:border-primary focus:ring-0 "
+                      placeholder={`Introduce yourself to ${singleAttendee?.firstName}`}
+                      // value={"somthing"}
+                      {...register("Message", {
+                        required: true,
+                      })}
+                    ></textarea>
+                  </div>
+                  <div className="flex justify-center w-full bg-white items-center hidden md:block mt-[20px] ">
+                    <button
+                      type="submit"
+                      form="form_submit"
+                      className="cursor-pointer text-white font-[500] text-[12px] border h-[40px] w-[90%] justify-center rounded-[4px] bg-primary md:w-[100%] "
+                    >
+                      {isCancelled
+                        ? "Meeting request cancelled"
+                        : "Send meeting request"}
+                    </button>
                   </div>
                 </form>
               ) : (
@@ -339,26 +418,22 @@ const BookMeeting = ({
                         alt="location"
                         className=" mr-[8px] md:h-[21px] mt-1"
                       />
-                      {meetingDetails?.mettingMessage?.split("").length >
+                      {meetingDetails?.meetingMessage?.split("").length >
                       130 ? (
                         <>
-                          {meetingDetails?.mettingMessage?.slice(0, 130)}
+                          {meetingDetails?.meetingMessage?.slice(0, 130)}
                           ...
                         </>
                       ) : (
-                        <> {meetingDetails?.mettingMessage?.slice(0, 130)}</>
+                        <> {meetingDetails?.meetingMessage?.slice(0, 130)}</>
                       )}
-                      {/* <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
-                        {" "}
-                        {meetingDetails?.mettingMessage}
-                      </p> */}
                     </span>
                   </div>
                   {isCancelled ? (
                     <></>
                   ) : (
                     <div className="mymd:mt-3 mt-1 flex justify-between">
-                      <span
+                      {/* <span
                         className="flex items-center cursor-pointer text-primary text-[12px] font-[700] border border-primary h-[40px] w-[45%] justify-center rounded-[4px] md:w-[140px]"
                         onClick={() => {
                           setIsEdit(true);
@@ -366,13 +441,13 @@ const BookMeeting = ({
                         }}
                       >
                         Edit request
-                      </span>
+                      </span> */}
                       <span
-                        className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[700] text-[12px] border border-[#E74C3C] h-[40px] w-[45%] justify-center rounded-[4px] md:w-[140px]"
+                        className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[700] text-[12px] border border-[#E74C3C] h-[40px] w-[100%] justify-center rounded-[4px] md:w-[100%]"
                         onClick={() =>
                           deleteMeeting(
                             meetingDetails,
-                            meetingDetails.sentTo[0]
+                            meetingDetails.meetingWith[0]
                           )
                         }
                       >
@@ -380,6 +455,18 @@ const BookMeeting = ({
                       </span>
                     </div>
                   )}
+                  <div className=" flex justify-center w-full bg-white items-center hidden md:block mt-[20px]">
+                    <button
+                      className="cursor-pointer text-white font-[500] text-[12px] h-[40px] w-[90%] rounded-[4px] bg-primary md:w-[100%]"
+                      onClick={() => {
+                        settrigger(false);
+                        setisSuccess(false);
+                        setisCancelled(false);
+                      }}
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

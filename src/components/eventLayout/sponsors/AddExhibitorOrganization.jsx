@@ -1,8 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import PrimaryButton from "../../../common/buttons/PrimaryButton";
-import Toggle from "../../../common/inputElements/Toggle";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { UPDATE_EVENT } from "../../../redux/constants/eventConstants";
@@ -10,21 +8,23 @@ import FileInput from "../../../common/inputElements/FileInput";
 import TextArea from "../../../common/inputElements/TextArea";
 import throttle from "../../../utils/throttle";
 import TextInput from "../../../common/inputElements/TextInput";
-import { useMatch } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 
-export default function AddSponsor({
+export default function AddExhibitorOrganization({
   open,
   setOpen,
-  singleSponsor,
-  setSingleSponsor,
+  singleCompany,
+  setSingleCompany,
   isEdit,
   setIsEdit,
+  singleEvent,
 }) {
-  const [isExhibitor, setIsExhibitor] = useState(false);
-  const [profilePicture, setProfilePicture] = useState("");
+  const [companyLogo, setCompanyLogo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const eventsId = useMatch("/events/:eventId");
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -32,91 +32,153 @@ export default function AddSponsor({
     reset,
   } = useForm({
     defaultValues: {
-      ...singleSponsor,
-      firstName: "Exhibitor",
-      LastName: "Exhibitor",
+      ...singleCompany,
     },
     mode: "onChange",
   });
 
+  // edit purpose
+  useEffect(() => {
+    if (!open) {
+      reset({
+        logo: "",
+        companyName: "",
+        email: "",
+        website: "",
+        linkedinUrl: "",
+        bio: "",
+        industry: "",
+        inviteTeam: [],
+      });
+    }
+    if (singleCompany?.companyName) {
+      setCompanyLogo(singleCompany.logo);
+      reset({
+        ...singleCompany,
+        inviteTeam: singleCompany.inviteTeam.join(","),
+      });
+    }
+    if (!open) {
+      setCompanyLogo("");
+      setSingleCompany({});
+      setIsEdit(false);
+    }
+  }, [singleCompany?.companyName, open, isEdit]);
+
+  const accessToken = localStorage.getItem("accessToken");
+  if (!accessToken) {
+    alert("please login!! access token not found");
+    navigate("/login");
+  }
+
+  // onSubmit form create exhibitor organization
   async function onSubmit(data) {
     setIsSubmitting(true);
-    setProfilePicture(singleSponsor.profilePicture);
+
     if (Object.values(data).length <= 0) {
       alert("please fill all the details");
     } else {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/event/${
-            eventsId.params.eventId
-          }/${
-            isEdit ? "editExhibitorAndSponsor" : "registerExhibitorAndSponsor"
-          }`,
-          {
-            method: isEdit ? "PATCH" : "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userEmail: data.email.toLowerCase(),
-              data: {
-                userData: {
-                  firstName: "Exhibitor",
-                  lastName: "Exhibitor",
-                  //   jobTitle: data.jobTitle,
-                  organization: data.organization,
-                  email: data.email,
-                  linkedinUrl: data.linkedinUrl,
-                  profilePicture: profilePicture,
-                },
-                eventSpecificData: {
-                  companyName: data.companyName,
-                  industry: data.industry,
-                  category: data.category,
-                  webLink: data.webLink,
-                  eventId: eventsId.params.eventId,
-                  eventSpecificRole: "exhibitorAndSponsor",
-                  bio: data.bio,
-                },
-              },
-            }),
+        if (!companyLogo) {
+          alert("please upload company logo");
+          setIsSubmitting(false);
+          return;
+        }
+
+        if (!isEdit) {
+          for (let i = 0; i < singleEvent?.exhibitorOrganizations.length; i++) {
+            if (data.email === singleEvent?.exhibitorOrganizations[i].email) {
+              alert("company email already exists");
+              return;
+            }
           }
-        );
+        }
 
-        const allSponsors = await response.json();
-        console.log(allSponsors, "allSponsors-allSponsors-allSponsors");
-        dispatch({
-          type: UPDATE_EVENT,
-          payload: {
-            exhibitorAndSponsors: allSponsors.message.exhibitorsAndSponsors,
-          },
-        });
+        if (isEdit) {
+          let exhibitorOrganizationsCopy =
+            singleEvent.exhibitorOrganizations.filter(
+              (ele, index) => singleCompany._id !== ele._id
+            );
 
-        setOpen(false);
-        setIsEdit(false);
-        setSingleSponsor({
-          firstName: "",
-          lastName: "",
-          email: "",
-          linkedinUrl: "",
-          bio: "",
-          profilePicture: "",
-          companyName: "",
-          industry: "",
-          category: "",
-          webLink: "",
-          eventId: eventsId.params.eventId,
-          eventSpecificRole: "exhibitorAndSponsor",
-        });
-        reset();
-        setIsSubmitting(false);
+          exhibitorOrganizationsCopy = [
+            ...exhibitorOrganizationsCopy,
+            {
+              ...data,
+              logo: companyLogo,
+              inviteTeam: data.inviteTeam.split(","),
+            },
+          ];
+
+          console.log(
+            exhibitorOrganizationsCopy,
+            "exhibitorOrganizationsCopy 85"
+          );
+
+          // editing data to the event model
+          const updatedEvent = await axios.patch(
+            `${process.env.REACT_APP_SERVER_URL}/event/${eventsId.params.eventId}/addOrganization`,
+            {
+              exhibitorOrganizations: [...exhibitorOrganizationsCopy],
+            },
+            {
+              headers: {
+                Authorization: `bearer ${accessToken}`,
+              },
+            }
+          );
+
+          dispatch({
+            type: UPDATE_EVENT,
+            payload: {
+              exhibitorOrganizations:
+                updatedEvent.data.savedEventConfig.exhibitorOrganizations,
+            },
+          });
+
+          setOpen(false);
+          setIsEdit(false);
+          setIsSubmitting(false);
+          reset();
+        } else {
+          // adding data to the event model
+          const updatedEvent = await axios.patch(
+            `${process.env.REACT_APP_SERVER_URL}/event/${eventsId.params.eventId}/addOrganization`,
+            {
+              exhibitorOrganizations: [
+                ...singleEvent.exhibitorOrganizations,
+                {
+                  ...data,
+                  logo: companyLogo,
+                  inviteTeam: data.inviteTeam.length > 0 ?  data.inviteTeam.split(",") : [],
+                },
+              ],
+            },
+            {
+              headers: {
+                Authorization: `bearer ${accessToken}`,
+              },
+            }
+          );
+
+          dispatch({
+            type: UPDATE_EVENT,
+            payload: {
+              exhibitorOrganizations:
+                updatedEvent.data.savedEventConfig.exhibitorOrganizations,
+            },
+          });
+
+          setOpen(false);
+          setIsEdit(false);
+          setIsSubmitting(false);
+          reset();
+        }
       } catch (error) {
         console.log(error);
         setIsSubmitting(false);
       }
     }
   }
-  console.log(errors, "Errors");
 
   return (
     <>
@@ -177,7 +239,7 @@ export default function AddSponsor({
                     <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                       <div className="px-4 sm:px-6">
                         <Dialog.Title className="text-[22px] pt-2 pb-[10px] font-[600] text-gray-900">
-                          Add a new Sponsor
+                          Add Exhibitor Organization
                         </Dialog.Title>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
@@ -188,10 +250,11 @@ export default function AddSponsor({
                         >
                           <TextInput
                             register={register}
-                            type="url"
-                            id={"linkedinUrl"}
-                            placeholder="LinkedIn URL"
-                            label="Linkedin URL"
+                            type="text"
+                            id={"companyName"}
+                            label="Company Name"
+                            required
+                            placeholder="Company Name"
                           />
 
                           <TextInput
@@ -202,48 +265,22 @@ export default function AddSponsor({
                             placeholder="Email Address"
                             label="Company Email"
                             errors={errors}
-                            required
                             pattern={
                               /^([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)$/i
                             }
                           />
-                          {/* 
-                          <TextInput
-                            register={register}
-                            type="text"
-                            id={"firstName"}
-                            placeholder="First Name"
-                            label="First Name"
-                          />
 
                           <TextInput
                             register={register}
-                            type="text"
-                            id={"lastName"}
-                            placeholder="Last Name"
-                            label="Last Name"
-                          /> */}
-                          {/* 
-                          <input
-                            type="file"
-                            {...register("profilePicture", {
-                              onChange: onChange,
-                            })}
-                            className="bg-[#f4f6f9] mb-[45px] rounded-[8px] text-[12px]"
-                          /> */}
-
-                          <TextInput
-                            register={register}
-                            type="text"
-                            id={"companyName"}
-                            label="Company Name"
-                            required
-                            placeholder="Company Name"
+                            type="url"
+                            id={"linkedinUrl"}
+                            placeholder="LinkedIn URL"
+                            label="Linkedin URL"
                           />
 
                           <FileInput
-                            profilePicture={profilePicture}
-                            setProfilePicture={setProfilePicture}
+                            profilePicture={companyLogo}
+                            setProfilePicture={setCompanyLogo}
                             label="Company Logo"
                             mb="12"
                           />
@@ -251,7 +288,7 @@ export default function AddSponsor({
                           <TextInput
                             register={register}
                             type="url"
-                            id={"webLink"}
+                            id={"website"}
                             required
                             label="website link"
                             placeholder="website link"
@@ -275,41 +312,23 @@ export default function AddSponsor({
                             placeholder="Industry"
                           />
 
-                          <TextInput
+                          <TextArea
                             register={register}
                             type="text"
-                            id={"category"}
-                            label="Category"
-                            required
-                            placeholder="Category"
+                            id={"inviteTeam"}
+                            label="Invite team (with comma separated emails)"
+                            placeholder="Event description"
+                            mt="40px"
                           />
-                          {/* <div className="flex justify-between my-4	">
-                            <div className="text-sm text-primary font-normal">
-                              Also an Exhibitor?
-                            </div>
-                            <Toggle
-                              isChecked={isExhibitor}
-                              setIsChecked={setIsExhibitor}
-                            />
-                          </div> */}
-
-                          {/* {isExhibitor ? (
-                            <TextInput
-                              register={register}
-                              type="text"
-                              id={"exhibitorDetails"}
-                              label="Exhibitor Details"
-                              placeholder="Exhibitor Details"
-                            />
-                          ) : (
-                            []
-                          )} */}
+                          <div className="mb-[42px]"></div>
 
                           <input
                             value={
                               isSubmitting
                                 ? "Loading..."
-                                : "Add Exhibitor/Sponsor"
+                                : isEdit
+                                ? "Save Changes"
+                                : "Add Organization"
                             }
                             type="submit"
                             className="primary_submit"

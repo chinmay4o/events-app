@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../src/common/layout/Layout";
-import { Provider } from "react-redux";
 import "tailwindcss/tailwind.css";
 import "./styles/globals.css";
 import { useMatch } from "react-router-dom";
-import store from "./redux/store";
 import BottomBar from "./components/bottomBar/BottomBar";
 import AllRoutes from "./AllRoutes";
 import EventHomeLayout from "./common/layout/EventHomeLayout";
@@ -34,7 +32,7 @@ function App() {
     window.addEventListener("offline", (e) => {
       setOnline(false);
     });
-    
+
     window.addEventListener("online", (e) => {
       setOnline(true);
     });
@@ -52,22 +50,20 @@ function App() {
         <meta name="description" content="Flicker Events application" />
       </Helmet>
 
-      <Provider store={store}>
-        {eventsId ||
-        formBuilder ||
-        settings ||
-        linkedinAutoPost ||
-        emailMarketing ? (
-          <EventHomeLayout>
-            <BottomBar />
-          </EventHomeLayout>
-        ) : (
-          <Layout>{login || eventId ? null : <BottomBar />}</Layout>
-        )}
+      {eventsId ||
+      formBuilder ||
+      settings ||
+      linkedinAutoPost ||
+      emailMarketing ? (
+        <EventHomeLayout>
+          <BottomBar />
+        </EventHomeLayout>
+      ) : (
+        <Layout>{login || eventId ? null : <BottomBar />}</Layout>
+      )}
 
-        {/* {All Page Router} */}
-        <AllRoutes />
-      </Provider>
+      {/* {All Page Router} */}
+      <AllRoutes />
     </>
   );
 }

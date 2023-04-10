@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import LineChart from "../charts/LineChart09";
+import BarChart from "../charts/BarChart05";
+
 // Import utilities
-import { tailwindConfig, hexToRGB } from "../../../../utils/Utils";
+import { tailwindConfig } from "../../../../utils/Utils";
 
 function getDayWiseRegistrations(arr, eventId = null, entity) {
   if (arr.length === 0) {
@@ -14,7 +15,7 @@ function getDayWiseRegistrations(arr, eventId = null, entity) {
   const resultsArray = [];
 
   for (let i = 0; i < arr.length; i++) {
-    const ele = arr[i].speaker.eventSpecificData;
+    const ele = arr[i].attendee[0].eventSpecificData;
     for (let f = 0; f < ele.length; f++) {
       if (ele[f].eventId === eventId) {
         const utcDate = new Date(ele[f].timeStamp);
@@ -65,59 +66,54 @@ function getDetailedLabels(startDate, endDate) {
   const dateArray = [];
   let currentDate1 = startDate1;
   while (currentDate1 <= endDate1) {
-    // dateArray.push(
-    //   `${currentDate1.getDate()}/0${
-    //     currentDate1.getMonth() + 1
-    //   }/${currentDate1.getFullYear()}`
-    // );
-    // currentDate1.setDate(currentDate1.getDate() + 1);
     const options = {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      timeZone: "Asia/Kolkata",
-    };
-    const dateString = currentDate1.toLocaleDateString("en-IN", options);
-    dateArray.push(dateString);
-    currentDate1.setDate(currentDate1.getDate() + 1);
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        timeZone: "Asia/Kolkata",
+      };
+      const dateString = currentDate1.toLocaleDateString("en-IN", options);
+      dateArray.push(dateString);
+      currentDate1.setDate(currentDate1.getDate() + 1);
   }
   console.log(dateArray);
   //   console.log(new Date("2023-03-20").toISOString())
   return dateArray;
 }
 
-function FintechCard12({ speakers, singleEvent }) {
+function FintechCard04({ attendees, singleEvent }) {
   const [resultsArray, setResultsArray] = useState([]);
   const [yAxis, setYaxis] = useState([]);
   const [xAxis, setXaxis] = useState([]);
   const [chartData, setChartData] = useState({
-    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    labels: [
+      "01-01-2023",
+      "01-02-2023",
+      "01-03-2023",
+      "01-04-2023",
+      "01-05-2023",
+      "01-06-2023",
+    ],
     datasets: [
-      // Line
+      // Indigo bars
       {
-        data: [0, 10, 2, 1, 0, 0, 12, 1, 3],
-        fill: true,
-        backgroundColor: `rgba(${hexToRGB(
-          tailwindConfig().theme.colors.indigo[500]
-        )}, 0.08)`,
-        borderColor: tailwindConfig().theme.colors.indigo[500],
-        borderWidth: 2,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-        pointBackgroundColor: tailwindConfig().theme.colors.indigo[500],
-        clip: 20,
+        label: "Attendees",
+        data: [800, 2600, 3700, 1200, 3200, 1700],
+        backgroundColor: tailwindConfig().theme.colors.indigo[500],
+        hoverBackgroundColor: tailwindConfig().theme.colors.indigo[600],
+        barPercentage: 0.66,
+        categoryPercentage: 0.66,
       },
     ],
   });
 
   useEffect(() => {
-    if (speakers?.length > 0) {
+    if (attendees?.length > 0) {
       setResultsArray(
-        getDayWiseRegistrations(speakers, singleEvent._id, "speakers")
+        getDayWiseRegistrations(attendees, singleEvent._id, "attendees")
       );
     }
-  }, [singleEvent._id, speakers]);
+  }, [singleEvent._id, attendees]);
 
   let lineChartEndDate = singleEvent.endDate;
   const dateArray = getDetailedLabels(singleEvent.createdAt, lineChartEndDate);
@@ -154,59 +150,50 @@ function FintechCard12({ speakers, singleEvent }) {
     setXaxis(generateXAxis(dateArray));
     setChartData({
       ...chartData,
-      datasets: [{ ...chartData.datasets[0], data: generateYAxis(resultsArray, dateArray) }],
+      datasets: [
+        {
+          ...chartData.datasets[0],
+          data: generateYAxis(resultsArray, dateArray),
+        },
+      ],
     });
   }, [resultsArray]);
 
   useEffect(() => {
     setChartData({
-      labels: xAxis,
+      labels: dateArray,
       datasets: [
-        // Line
+        // Indigo bars
         {
+          label: "Attendees",
           data: yAxis,
-          fill: true,
-          backgroundColor: `rgba(${hexToRGB(
-            tailwindConfig().theme.colors.orange[500]
-          )}, 0.08)`,
-          borderColor: tailwindConfig().theme.colors.orange[500],
-          borderWidth: 2,
-          tension: 0,
-          pointRadius: 0,
-          pointHoverRadius: 3,
-          pointBackgroundColor: tailwindConfig().theme.colors.orange[500],
-          clip: 20,
+          backgroundColor: tailwindConfig().theme.colors.indigo[500],
+          hoverBackgroundColor: tailwindConfig().theme.colors.indigo[600],
+          barPercentage: 0.66,
+          categoryPercentage: 0.66,
         },
       ],
     });
-  }, [yAxis,xAxis]);
+  }, [yAxis, xAxis]);
 
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-3 bg-[#f9fbff] shadow-lg rounded-sm">
-      <div className="px-5 pt-5">
-        <header>
-          <h3 className="text-[15px] font-[600] mb-1">
-            <span className="text-[#000]">Speakers</span>
-          </h3>
-          <div className="text-[22px] font-[600] text-[#000] mb-1">
-            {yAxis.reduce((accumulator, currentValue) => {
-              return accumulator + currentValue;
-            }, 0)}
-          </div>
-        </header>
-      </div>
+    <div className="my-[40px] flex flex-col col-span-full sm:col-span-6 bg-[#f9fbff] shadow-lg rounded-sm">
+      <header className="px-5 py-4 border-b border-slate-100">
+        <h2 className="font-[600] text-[#000]">
+          Attendee Registrations - Day Wise
+        </h2>
+      </header>
       {/* Chart built with Chart.js 3 */}
-      <div className="grow">
-        {/* Change the height attribute to adjust the chart height */}
-        <LineChart
-          data={chartData}
-          width={256}
-          height={98}
-          toolTip="Speakers"
-        />
-      </div>
+      {/* Change the height attribute to adjust the chart height */}
+      <BarChart
+        data={chartData}
+        width={595}
+        height={248}
+        toolTip="Attendees"
+        attendees={attendees.length}
+      />
     </div>
   );
 }
 
-export default FintechCard12;
+export default FintechCard04;

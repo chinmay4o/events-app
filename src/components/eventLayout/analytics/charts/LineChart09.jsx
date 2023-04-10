@@ -33,7 +33,7 @@ function LineChart09({
           },
           x: {
             type: 'linear',
-            display: false
+            display: false,
             // grace: '5%'
           },
           // x: {
@@ -65,7 +65,7 @@ function LineChart09({
     });
     return () => chart.destroy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data.datasets[0].data]);
 
   return (
     <canvas ref={canvas} width={width} height={height}></canvas>

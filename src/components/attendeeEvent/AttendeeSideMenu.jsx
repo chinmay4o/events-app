@@ -5,6 +5,9 @@ import Speakers from "../../svg/Speakers";
 import Sponsors from "../../svg/Sponsors";
 import Form from "../../svg/Form";
 import Schedule from "../../svg/Schedule";
+import Clipboard from "../../svg/Clipboard";
+import People from "../../svg/People";
+import Meetings from "../../svg/Meetings";
 
 function AttendeeSideMenu({ singleEvent }) {
   const [searchParams] = useSearchParams();
@@ -13,8 +16,8 @@ function AttendeeSideMenu({ singleEvent }) {
     {
       name: "About",
       imageUrl: (
-        <Home
-          color={searchParams.get("show") === "eventInfo" ? "#A55EEA" : ""}
+        <Clipboard
+          color={searchParams.get("tab") === "about" ? "#A55EEA" : ""}
         />
       ),
       pathName: "about",
@@ -23,55 +26,68 @@ function AttendeeSideMenu({ singleEvent }) {
 
     {
       name: "Schedule",
-      imageUrl: <Schedule color={"#A55EEA"} />,
+      imageUrl: (
+        <Schedule
+          color={searchParams.get("tab") === "schedule" ? "#A55EEA" : ""}
+        />
+      ),
       pathName: "schedule",
       comingSoon: false,
     },
     {
       name: "Speakers",
-      imageUrl: <Speakers color={"#A55EEA"} />,
+      imageUrl: (
+        <Speakers
+          color={searchParams.get("tab") === "speakers" ? "#A55EEA" : ""}
+        />
+      ),
       pathName: "speakers",
       comingSoon: false,
     },
     {
-      name: "Attendees",
-      imageUrl: <Sponsors color={"#A55EEA"} />,
-      pathName: "About",
+      name: "Networking",
+      imageUrl: (
+        <People color={searchParams.get("tab") === "people" ? "#A55EEA" : ""} />
+      ),
+      pathName: "people",
       comingSoon: false,
     },
     {
       name: "Meetings",
-      imageUrl: <Form color={"#A55EEA"} />,
-      pathName: "About",
+      imageUrl: (
+        <Meetings
+          color={searchParams.get("tab") === "meetings" ? "#A55EEA" : ""}
+        />
+      ),
+      pathName: "meetings",
       comingSoon: false,
     },
   ];
-
   return (
     <aside
       className={`hidden md:block w-[17%] fixed h-screen border-r border-[#C5C5C766] border-opacity-40 rounded bg-white aria-label=Sidebar md:h-[100%] overflow-y-scroll overflow-x-hidden scrollbar-hide md:pb-7`}
     >
       <div className="bg-white mt-[60px]">
-        {/* <div className="">
+        <div className="">
           <p
-            className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[150px] hover:underline cursor-pointer relative"
+            className="text-[18px] font-[600] relative left-[25px] top-[25px] break-normal w-[140px] hover:underline cursor-pointer relative"
             onClick={() =>
               window.open(
-                `${window.location.origin}/event/${eventsId.params.eventId}`,
+                `${window.location.origin}/event/${singleEvent._id}`,
                 "_blank"
               )
             }
           >
-            {eventTitle
-              ? eventTitle.charAt(0).toUpperCase() +
-                eventTitle.slice(1, eventTitle.length)
+            {singleEvent?.title
+              ? singleEvent?.title.charAt(0).toUpperCase() +
+                singleEvent?.title.slice(1, singleEvent?.title.length)
               : null}
           </p>
           <i
             className="fa-solid fa-up-right-from-square absolute right-[43px] mt-1 cursor-pointer text-primary ml-2"
             onClick={() =>
               window.open(
-                `${window.location.origin}/event/${eventsId.params.eventId}`,
+                `${window.location.origin}/event/${singleEvent._id}`,
                 "_blank"
               )
             }
@@ -88,11 +104,11 @@ function AttendeeSideMenu({ singleEvent }) {
         </div>
 
         <p className="text-[10px] font-[500] relative left-[27px] top-[25px] text-gray-400">
-          By {organizer ? organizer : null}
-        </p> */}
+          By {singleEvent?.organizer ? singleEvent?.organizer.firstName : null}
+        </p>
 
         {/* <p className="">{}</p> */}
-        <ul className="pt-1.5">
+        <ul className="pt-10">
           {navbarContent &&
             navbarContent.length > 0 &&
             navbarContent.map((navbar, index) => (

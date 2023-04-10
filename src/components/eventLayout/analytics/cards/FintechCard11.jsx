@@ -4,43 +4,13 @@ import LineChart from "../charts/LineChart09";
 // Import utilities
 import { tailwindConfig, hexToRGB } from "../../../../utils/Utils";
 
-function FintechCard11({ exhibitors }) {
+function FintechCard11() {
   const chartData = {
-    labels: [
-      "12-01-2020",
-      "01-01-2021",
-      "02-01-2021",
-      "03-01-2021",
-      "04-01-2021",
-      "05-01-2021",
-      "06-01-2021",
-      "07-01-2021",
-      "08-01-2021",
-      "09-01-2021",
-      "10-01-2021",
-      "11-01-2021",
-      "12-01-2021",
-      "01-01-2022",
-      "02-01-2022",
-      "03-01-2022",
-      "04-01-2022",
-      "05-01-2022",
-      "06-01-2022",
-      "07-01-2022",
-      "08-01-2022",
-      "09-01-2022",
-      "10-01-2022",
-      "11-01-2022",
-      "12-01-2022",
-      "01-01-2023",
-    ],
+    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     datasets: [
       // Line
       {
-        data: [
-          222, 222, 226, 271, 365, 365, 238, 324, 288, 206, 324, 324, 500, 409,
-          409, 273, 232, 273, 500, 570, 767, 808, 685, 767, 685, 685,
-        ],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         fill: true,
         backgroundColor: `rgba(${hexToRGB(
           tailwindConfig().theme.colors.emerald[500]
@@ -63,11 +33,9 @@ function FintechCard11({ exhibitors }) {
           <h3 className="text-[15px] font-[600] mb-1">
             <span className="text-[#000]">Exhibitors</span>
           </h3>
-          <div className="text-[22px] font-[600] text-[#000] mb-1">
-            {exhibitors.length}
-          </div>
+          <div className="text-[22px] font-[600] text-[#000] mb-1">{0}</div>
           <div className="text-sm">
-            <span className="font-medium text-emerald-500">+3</span> - Today
+            <span className="font-medium text-emerald-500">0</span> - Today
           </div>
         </header>
       </div>

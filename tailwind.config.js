@@ -48,7 +48,7 @@ module.exports = {
         // "4xl": "2rem",
       },
       colors: {
-        primary: { DEFAULT: "#A55EEA", dark: "#273444" },
+        primary: { DEFAULT: "#a55eea", dark: "#273444" },
         secondary: { DEFAULT: "#ff49db", dark: "#273444" },
         transparent: "transparent",
         current: "currentColor",

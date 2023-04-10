@@ -4,37 +4,70 @@ import BookMeeting from "../../people/BookMeeting";
 import AttendeeContactDetails from "./AttendeeContactDetails";
 import MeetingsNotes from "./MeetingsNotes";
 import { getAuthenticatedRequest } from "../../../utils/API/api.ts";
+import EditMeeting from "../../people/EditMeeting";
+import DefaultProfilePicture from "../../../common/defaultProfilePicture/DefaultProfilePicture";
 
 const AttendeeMeetings = ({ singleEvent }) => {
   const navigate = useNavigate();
-  const [trigger, settrigger] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [isReschedule, setIsReschedule] = useState(false);
-  const [isCancelled, setisCancelled] = useState(false);
   const [viewContact, setViewContact] = useState(false);
   const [notes, setNotes] = useState(false);
   const [meetingDetails, setMeetingDetails] = useState([]);
+  const [singleMeeting, setSingleMeeting] = useState([]);
+  const [reschedule, setReschedule] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [sentMeetings, setSentMeetings] = useState([]);
+  const [receivedMeetings, setReceivedMeetings] = useState([]);
+
   useEffect(() => {
     async function fetch() {
-      const response = await getAuthenticatedRequest("/user/meeting-details");
-      console.log(response);
-      setMeetingDetails(response?.data.user.scheduledMeetings);
+      const response = await getAuthenticatedRequest(
+        "/user/userMeeting-details"
+      );
+      const { meetingRequestSent, meetingRequestReceived, scheduledMeetings } =
+        response?.data.user;
+
+      const filteredscheduledMeetings = scheduledMeetings.filter(
+        (meeting) => meeting.eventId === singleEvent?._id
+      );
+      const filteredSentMeetings = meetingRequestSent.filter(
+        (meeting) => meeting.eventId === singleEvent?._id
+      );
+      const filteredReceivedMeetings = meetingRequestReceived.filter(
+        (meeting) => meeting.eventId === singleEvent?._id
+      );
+
+      setMeetingDetails(filteredscheduledMeetings);
+      setSentMeetings(filteredSentMeetings);
+      setReceivedMeetings(filteredReceivedMeetings);
     }
     fetch();
-  }, []);
-  console.log(meetingDetails);
-  if (notes) {
-    return <MeetingsNotes setNotes={setNotes} />;
-  }
+  }, [singleEvent]);
 
+  if (notes) {
+    return (
+      <MeetingsNotes
+        setNotes={setNotes}
+        singleMeeting={singleMeeting}
+        setSingleMeeting={setSingleMeeting}
+      />
+    );
+  }
   const cancelScheduledMeeting = async (user) => {
-    const updatedmeetingDetails = meetingDetails.map((meeting) => {
-      if (meeting.meetingID === user.meetingID) {
-        return { ...meeting, meetingStatus: "Cancelled" };
-      }
-      return meeting;
-    });
-    setMeetingDetails(updatedmeetingDetails);
+    if (user.meetingStatus === "Accepted") {
+      const updatedmeetingDetails = meetingDetails.map((meeting) => {
+        if (meeting.meetingID === user.meetingID) {
+          return { ...meeting, meetingStatus: "Cancelled" };
+        }
+        return meeting;
+      });
+      setMeetingDetails(updatedmeetingDetails);
+    } else {
+      const updatedmeetingDetails = meetingDetails.filter((meeting) => {
+        return meeting.meetingID !== user.meetingID;
+      });
+      setMeetingDetails(updatedmeetingDetails);
+    }
+
     try {
       const accessToken = localStorage.getItem("accessToken");
 
@@ -52,6 +85,7 @@ const AttendeeMeetings = ({ singleEvent }) => {
           },
           body: JSON.stringify({
             meetingID: user.meetingID,
+            meetingStatus: user.meetingStatus,
           }),
         }
       );
@@ -62,13 +96,12 @@ const AttendeeMeetings = ({ singleEvent }) => {
         throw new Error();
       }
     } catch (error) {
-      alert("Error");
+      console.log(error);
     }
   };
-
   return (
-    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white">
-      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px] md:relative z-10">
+    <div className="w-full min-h-[90vh] bg-[#F5F5F5] md:ml-[17%] md:w-[83%] md:bg-white md:min-h-full">
+      <div className="w-full h-[60px] fixed top-0 bg-white flex items-center px-[16px] border-b border-[#EDEDED] md:mt-[60px] md:relative z-10 md:hidden">
         <img
           src="/svgs/Arrowleft.svg"
           className="w-[24px] h-[24px] object-cover cursor-pointer"
@@ -80,31 +113,32 @@ const AttendeeMeetings = ({ singleEvent }) => {
         <AttendeeContactDetails
           setViewContact={setViewContact}
           viewContact={viewContact}
-          meetingDetails={meetingDetails[0].meetingWith[0]}
-        />
-      )}
-      {trigger && (
-        <BookMeeting
-          trigger={trigger}
-          settrigger={settrigger}
-          setIsEdit={setIsEdit}
-          isEdit={isEdit}
-          isReschedule={isReschedule}
-          setIsReschedule={setIsReschedule}
-          isCancelled={isCancelled}
-          setisCancelled={setisCancelled}
-          event={singleEvent}
+          meetingDetails={singleMeeting.meetingWith[0]}
         />
       )}
 
-      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[140px] md:w-[65%] md:flex flex-wrap justify-between">
+      {reschedule && (
+        <EditMeeting
+          singleAttendee={singleMeeting.meetingWith[0]}
+          setReschedule={setReschedule}
+          reschedule={reschedule}
+          event={singleEvent}
+          setEdit={setEdit}
+          edit={edit}
+          meetingDetailSingle={singleMeeting}
+          meetingDetails={meetingDetails}
+          setMeetingDetails={setMeetingDetails}
+        />
+      )}
+
+      <div className="mt-[60px] mx-[16px] pt-[16px] pb-[80px] md:pt-0 md:mt-[75px] md:w-[80%] md:flex flex-wrap">
         {meetingDetails.length > 0 ? (
           meetingDetails?.map((meeting) => {
             return (
               <>
                 <div
                   key={meeting.meetingID}
-                  className="bg-[#FFFFFF] mb-4 rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[220px]"
+                  className="bg-[#FFFFFF] mb-4 rounded-[10px] p-[16px] md:border md:w-[350px] md:h-[210px] md:mr-[16px] "
                 >
                   <div className="flex items-center relative">
                     {meeting.meetingWith[0]?.profilePicture ? (
@@ -113,15 +147,17 @@ const AttendeeMeetings = ({ singleEvent }) => {
                         className="rounded-full sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] object-cover mr-3"
                       />
                     ) : (
-                      <div
-                        className={`sm:w-[50px] sm:h-[50px] w-[40px] h-[40px] rounded-full bg-${
-                          ["red", "green", "blue", "yellow", "indigo"][
-                            Math.floor(Math.random() * 5)
-                          ]
-                        }-500 flex items-center justify-center mr-2 text-white text-lg font-medium uppercase`}
-                      >
-                        {meeting.meetingWith[0]?.firstName.slice(0, 1)}
-                        {meeting.meetingWith[0]?.lastName.slice(0, 1)}
+                      <div className="mr-2">
+                        <DefaultProfilePicture
+                          firstName={meeting.meetingWith[0]?.firstName}
+                          lastName={meeting.meetingWith[0]?.lastName}
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "300px",
+                            fontSize: "16px",
+                          }}
+                        />
                       </div>
                     )}
 
@@ -136,45 +172,61 @@ const AttendeeMeetings = ({ singleEvent }) => {
                       </div>
                     </div>
                     {meeting.meetingStatus === "Cancelled" ? (
-                      <></>
+                      <img
+                        src="/svgs/Delete.svg"
+                        alt=""
+                        className="right-[10px] absolute cursor-pointer"
+                        onClick={() => cancelScheduledMeeting(meeting)}
+                      />
                     ) : (
                       <img
                         src="/svgs/Phone.svg"
                         alt=""
                         className="right-[10px] absolute cursor-pointer"
-                        onClick={() => setViewContact(true)}
+                        onClick={() => {
+                          setSingleMeeting(meeting);
+                          setViewContact(true);
+                        }}
                       />
                     )}
                   </div>
                   <div className="text-[rgba(0,0,0,0.5)] text-sm font-medium mt-2 italic pb-2">
-                    {meeting?.mettingMessage.split("").length > 130 ? (
+                    {meeting?.meetingMessage.split("").length > 130 ? (
                       <>
-                        {meeting?.mettingMessage.slice(0, 130)}
+                        {meeting?.meetingMessage.slice(0, 130)}
                         ...
                       </>
                     ) : (
-                      <> {meeting?.mettingMessage.slice(0, 130)}</>
+                      <> {meeting?.meetingMessage.slice(0, 130)}</>
                     )}
                   </div>
                   <span className="text-[#727374] text-[12px] font-[500] flex ">
                     {meeting.meetingDate} | {meeting.meetingTime}
                   </span>
-                  <span className="text-[#727374] text-[12px] font-[500] flex my-3">
-                    <img
-                      src="/svgs/Location.svg"
-                      alt="location"
-                      className="h-[18px] w-[18px] mx-[5px] ml-[-3px] "
-                    />
-                    Cubic #5, Networking Dorm
-                  </span>
+                  {meeting.meetingStatus === "Cancelled" ? (
+                    <></>
+                  ) : (
+                    <span className="text-[#727374] text-[12px] font-[500] flex my-3">
+                      <img
+                        src="/svgs/Location.svg"
+                        alt="location"
+                        className="h-[18px] w-[18px] mx-[5px] ml-[-3px] "
+                      />
+                      Cubic #5, Networking Dorm
+                    </span>
+                  )}
+
                   {meeting.meetingStatus === "Cancelled" ? (
                     <>
-                      <div className="text-[#E74C3C] text-[12px] font-[500] italic my-[10px]">
+                      <div className="text-[#E74C3C] text-[12px] font-[500] italic my-3">
                         The meeting was cancelled.
                       </div>
                       <span
-                        className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] h-[32px] w-[100%] justify-center rounded-[4px] bg-primary md:w-[140px]"
-                        onClick={() => setNotes(true)}
+                        className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] h-[32px] w-[100%] justify-center rounded-[4px] bg-primary md:w-[100%]"
+                        onClick={() => {
+                          setSingleMeeting(meeting);
+                          setNotes(true);
+                        }}
                       >
                         Notes
                       </span>
@@ -182,24 +234,27 @@ const AttendeeMeetings = ({ singleEvent }) => {
                   ) : (
                     <div className="mymd:mt-3 mt-1 flex justify-between">
                       <span
-                        className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]"
+                        className="flex items-center cursor-pointer text-[#E74C3C] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[30%]"
                         onClick={() => cancelScheduledMeeting(meeting)}
                       >
                         Cancel
                       </span>
 
                       <span
-                        className="flex items-center cursor-pointer text-[#1C1C1E] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[140px]"
+                        className="flex items-center cursor-pointer text-[#1C1C1E] text-[12px] font-[500] text-[12px] border h-[32px] w-[30%] justify-center rounded-[4px] md:w-[30%]"
                         onClick={() => {
-                          settrigger(true);
-                          setIsReschedule(true);
+                          setSingleMeeting(meeting);
+                          setReschedule(true);
                         }}
                       >
                         Reschedule
                       </span>
                       <span
-                        className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] h-[32px] w-[30%] justify-center rounded-[4px] bg-primary md:w-[140px]"
-                        onClick={() => setNotes(true)}
+                        className="flex items-center cursor-pointer text-white text-[12px] font-[500] text-[12px] h-[32px] w-[30%] justify-center rounded-[4px] bg-primary md:w-[30%]"
+                        onClick={() => {
+                          setNotes(true);
+                          setSingleMeeting(meeting);
+                        }}
                       >
                         Notes
                       </span>
@@ -210,7 +265,7 @@ const AttendeeMeetings = ({ singleEvent }) => {
             );
           })
         ) : (
-          <div className="grid w-full place-items-center h-[250px]">
+          <div className="grid w-full place-items-center h-[250px] md:w-[65%]">
             <div>
               <img
                 src="/svgs/Meeting_Empty_State.svg"

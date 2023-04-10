@@ -5,26 +5,26 @@ import { getRequest } from "../../../utils/API/api.ts";
 import AttendeeCSVUpload from "./BulkUploadAttendee";
 import { useMatch } from "react-router-dom";
 import Modal from "../../../common/modals/Modal";
-import PrimaryButton from "../../../common/buttons/PrimaryButton";
-import PaginationClassic from "../../../common/pagination/PaginationClassic";
+import DefaultProfilePicture from "../../../common/defaultProfilePicture/DefaultProfilePicture";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 function Registrations() {
   const eventsId = useMatch("/events/:eventId");
   const [isBulkUpload, setIsBulkUpload] = useState(false);
   const [search, setSearch] = useState("");
   const [total, setTotal] = useState(0);
-  const [searchedRegistrations, setSearchedRegistrations] = useState([]);
   const [attendedRegistrations, setAttendedRegistrations] = useState([]);
   const [registrations, setRegistrations] = useState([]);
   const [next, setNext] = useState(`/attendee/${eventsId.params.eventId}`);
-  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [tab, setTab] = useState("Registered");
-  const [badge, setBadge] = useState("hide");
+  const [badge, setBadge] = useState(null);
   const event = useSelector((state) => state.eventData);
   const searchValue = useSelector((state) => state.searchRegistration);
   const targetRef = useRef([]);
   const tableRef = useRef("");
+  
   // UseEffect for initial registrations fetching
   useEffect(() => {
     if (eventsId.params.eventId && !isBulkUpload && event?.title) {
@@ -81,40 +81,13 @@ function Registrations() {
       },
     });
   };
+
   const getAttendedAttendees = async () => {
     const response = await getRequest(
       `attendee/${eventsId.params.eventId}/attended/?hasAttended=true`
     );
+    console.log(response);
     setAttendedRegistrations(response?.data?.registrations);
-  };
-
-  const showBadge = (index) => {
-    targetRef.current[index].style.display = "block";
-    const parentElement = targetRef.current[index].getBoundingClientRect();
-    const containerElement = tableRef.current.getBoundingClientRect();
-    const imageBottom = parentElement.top + parentElement.height;
-    console.log("parent", parentElement);
-    console.log(containerElement);
-    if (imageBottom > containerElement.height) {
-      targetRef.current[
-        index
-      ].style.top = `calc(100% - ${parentElement.height}px)`;
-    }
-    // const containerTop = containerElement.top;
-    // const containerBottom = containerElement.bottom;
-    // const imageBottom = parentElement.bottom;
-    // const imageHeight = parentElement.height;
-    // if (imageBottom > containerBottom) {
-    //   targetRef.current[index].style.top = `${
-    //     containerBottom - imageHeight - containerTop
-    //   }px`;
-    // } else if (imageBottom + imageHeight < containerBottom) {
-    //   targetRef.current[index].style.top = `${imageHeight}px`;
-    // }
-  };
-
-  const hideBadge = (index) => {
-    targetRef.current[index].style.display = "none";
   };
 
   const handleDownload = () => {
@@ -133,21 +106,9 @@ function Registrations() {
     link.click();
     document.body.removeChild(link);
   };
-  console.log(registrations);
 
-  // useEffect(() => {
-  //   tableRef.current.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     tableRef.current.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-
-  function handleScroll() {
-    const divScrollTop = tableRef.current.scrollTop;
-    console.log(divScrollTop);
-  }
   return (
-    <div className="md:ml-[0px] md:mt-[0px] md:w-[900px] pb-12">
+    <div className="md:ml-[0px] md:mt-[0px] md:w-[900px] pb-12 ">
       <div className="py-0">
         {/* <div className="flex justify-between items-center w-[335px] md:w-[422px] mx-auto md:mx-0">
           <span className="text-[22px] w-[267px] pt-2.5 md:pt-0 md:w-[314px] font-[600]">
@@ -155,7 +116,8 @@ function Registrations() {
           </span>
         </div> */}
         <div className="font-[600] w-[335px] md:w-full text-[24px] pt-5 text-black flex justify-between items-center md:sticky md:z-10 md:top-0 bg-white">
-          <div>Registrations</div>
+          <p className="text-[21px]">Registrations</p>
+
           <div className="flex">
             <button
               className="bg-primary text-white h-8 py-1 px-2 text-[14px] ml-4 my-1 font-semibold rounded-sm w-[167px] h-[35px]"
@@ -299,10 +261,7 @@ function Registrations() {
           </button> */}
         </div>
 
-        <div
-          className="overflow-y-auto w-[335px] md:w-full min-h-[270px] scrollbar"
-          ref={tableRef}
-        >
+        <div className="w-[335px] md:w-full min-h-[270px] " ref={tableRef}>
           {tab === "Registered" && registrations && registrations.length > 0 ? (
             <>
               <table className="table-auto md:w-[900px]">
@@ -339,27 +298,20 @@ function Registrations() {
                                   className="w-[32px] h-[32px] rounded-[50%] object-cover"
                                 />
                               ) : (
-                                <div
-                                  className={`sm:w-[32px] sm:h-[32px] w-[32px] h-[32px] rounded-full bg-${
-                                    [
-                                      "red",
-                                      "green",
-                                      "blue",
-                                      "yellow",
-                                      "indigo",
-                                    ][Math.floor(Math.random() * 5)]
-                                  }-500 flex items-center justify-center mr-2 text-white text-sm font-medium uppercase`}
-                                >
-                                  {attendee.firstName.slice(0, 1)}
-                                  {attendee.lastName.slice(0, 1)}
+                                <div className=" ">
+                                  <DefaultProfilePicture
+                                    firstName={attendee.firstName}
+                                    lastName={attendee.lastName}
+                                    style={{
+                                      width: "32px",
+                                      height: "32px",
+                                      borderRadius: "300px",
+                                      fontSize: "13px",
+                                    }}
+                                  />
                                 </div>
                               )}
-                              {/* <img
-                              src={`${
-                                attendee.profilePicture || "/svgs/profile.svg"
-                              }`}
-                              className="w-[32px] h-[32px] rounded-[50%] object-cover"
-                            /> */}
+
                               <p className="text-[12px] font-[400] grid grid-rows-2">
                                 <p>
                                   {attendee.firstName.charAt(0).toUpperCase() +
@@ -385,60 +337,35 @@ function Registrations() {
                               </p>
                             </p>
                           </td>
-                          {attendee.attendee[0] === undefined
-                            ? attendee.attendee?.eventSpecificData.map(
-                                (ele, index) => {
-                                  if (ele.eventId === eventsId.params.eventId) {
-                                    const options = {
-                                      day: "2-digit",
-                                      month: "2-digit",
-                                      year: "numeric",
-                                      timeZone: "Asia/Kolkata",
-                                    };
-                                    const dateString = new Date(ele.timeStamp).toLocaleDateString(
-                                      "en-IN",
-                                      options
-                                    );
-                                    {/* const xmas95 = new Date(ele.timeStamp);
-                                    const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022 */}
-                                    return (
-                                      <>
-                                      {/* <td className="text-[12px] font-[400]">
-                                        {ele?.timeStamp
-                                          ? new Intl.DateTimeFormat(
-                                              "en-US",
-                                              optionsFull
-                                            ).format(xmas95)
-                                          : "N/A"}
-                                      </td> */}
-                                      <td className="text-[12px] font-[400]">
-                                        {ele?.timeStamp
-                                          ? dateString
-                                          : "N/A"}
-                                      </td>
-                                      </>
-                                    );
-                                  }
+                          {attendee.attendee[0]?.eventSpecificData.map(
+                            (ele, index) => {
+                              if (ele.eventId === eventsId.params.eventId) {
+                                const utcDate = new Date(ele.timeStamp);
+                                {
+                                  /* const istDate = new Date(
+                                      utcDate.getTime() + 5.5 * 60 * 60 * 1000
+                                    ); */
                                 }
-                              )
-                            : attendee.attendee[0]?.eventSpecificData.map(
-                                (ele, index) => {
-                                  if (ele.eventId === eventsId.params.eventId) {
-                                    const xmas95 = new Date(ele.timeStamp);
-                                    const optionsFull = { dateStyle: "full" }; // imp gets Friday, November 18, 2022
-                                    return (
-                                      <td className="text-[12px] font-[400]">
-                                        {ele?.timeStamp
-                                          ? new Intl.DateTimeFormat(
-                                              "en-US",
-                                              optionsFull
-                                            ).format(xmas95)
-                                          : "N/A"}
-                                      </td>
-                                    );
-                                  }
-                                }
-                              )}
+                                const options = {
+                                  day: "2-digit",
+                                  month: "long",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  timeZone: "Asia/Kolkata",
+                                };
+                                const dateString = utcDate.toLocaleDateString(
+                                  "en-IN",
+                                  options
+                                );
+                                return (
+                                  <td className="text-[12px] font-[400]">
+                                    {ele?.timeStamp ? dateString : "N/A"}
+                                  </td>
+                                );
+                              }
+                            }
+                          )}
 
                           {attendee.attendee[0] === undefined
                             ? attendee.attendee?.eventSpecificData.map(
@@ -460,13 +387,16 @@ function Registrations() {
                                               : "bg-primary"
                                           } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
                                         >
-                                          {ele.highestRole
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                            ele.highestRole.slice(
-                                              1,
-                                              ele.highestRole.length
-                                            )}
+                                           {ele.highestRole ===
+                                          "exhibitorAndSponsor"
+                                            ? "Exhibitor"
+                                            : ele.highestRole
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                              ele.highestRole.slice(
+                                                1,
+                                                ele.highestRole.length
+                                              )}
                                         </p>
                                       </td>
                                     );
@@ -492,13 +422,16 @@ function Registrations() {
                                               : "bg-primary"
                                           } rounded-[12px] p-[4px] text-white grid place-items-center w-[85%]`}
                                         >
-                                          {ele.highestRole
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                            ele.highestRole.slice(
-                                              1,
-                                              ele.highestRole.length
-                                            )}
+                                          {ele.highestRole ===
+                                          "exhibitorAndSponsor"
+                                            ? "Exhibitor"
+                                            : ele.highestRole
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                              ele.highestRole.slice(
+                                                1,
+                                                ele.highestRole.length
+                                              )}
                                         </p>
                                       </td>
                                     );
@@ -507,26 +440,52 @@ function Registrations() {
                               )}
 
                           <td className="text-center">
+                            <img
+                              src="/svgs/IDCard.svg"
+                              alt="IDCard"
+                              className="ml-[30px] cursor-pointer"
+                              data-tooltip-id={attendee?._id}
+                            />
                             <div
-                              ref={(element) => {
-                                targetRef.current[index] = element;
-                              }}
-                              className={`absolute z-20 px-3 py-1 shadow-s ml-10 mt-0 bg-transparent hidden w-[250px]`}
-                              onMouseEnter={() => showBadge(index)}
-                              onMouseLeave={() => hideBadge(index)}
+                            // className="border absolute z-10 h-[200px] w-[200px]"
                             >
                               {attendee.attendee[0] === undefined
-                                ? attendee.attendee.eventSpecificData.map(
+                                ? attendee.attendee?.eventSpecificData.map(
                                     (items) => {
                                       if (
                                         items.eventId ===
                                         eventsId.params.eventId
                                       ) {
                                         return (
-                                          <img
-                                            className="w-[250px] border rounded-t-xl register_img"
-                                            src={items.badgeUrl}
-                                          />
+                                          <>
+                                            <div
+                                              className="relative z-20"
+                                              key={index}
+                                            >
+                                              <Tooltip
+                                                id={attendee?._id}
+                                                place=""
+                                                style={{
+                                                  backgroundColor: "#C5C5C766",
+                                                  borderRadius: "5px",
+                                                  padding: "1px",
+                                                  width: "200px",
+                                                }}
+                                              >
+                                                <img
+                                                  className="w-[200px]"
+                                                  src={items.badgeUrl}
+                                                />
+                                                <button
+                                                  onMouseLeave={() =>
+                                                    setBadge(null)
+                                                  }
+                                                >
+                                                  Preview
+                                                </button>
+                                              </Tooltip>
+                                            </div>
+                                          </>
                                         );
                                       }
                                     }
@@ -538,104 +497,81 @@ function Registrations() {
                                         eventsId.params.eventId
                                       ) {
                                         return (
-                                          <img
-                                            className=" border rounded-t-xl register_img"
-                                            src={items.badgeUrl}
-                                          />
+                                          <>
+                                            <div
+                                              className="relative z-20"
+                                              key={index}
+                                            >
+                                              <Tooltip
+                                                id={attendee?._id}
+                                                place=""
+                                                style={{
+                                                  backgroundColor: "#C5C5C766",
+                                                  borderRadius: "5px",
+                                                  padding: "1px",
+                                                  width: "200px",
+                                                }}
+                                              >
+                                                <img
+                                                  className="w-[200px]"
+                                                  src={items.badgeUrl}
+                                                />
+                                                <div className="flex h-[30px] text-primary">
+                                                  <button
+                                                    onMouseLeave={() =>
+                                                      setBadge(null)
+                                                    }
+                                                    className="w-[50%]"
+                                                  >
+                                                    Preview
+                                                  </button>
+                                                  <button
+                                                    onMouseLeave={() =>
+                                                      setBadge(null)
+                                                    }
+                                                    className="w-[50%]"
+                                                  >
+                                                    Download
+                                                  </button>
+                                                </div>
+                                              </Tooltip>
+                                            </div>
+                                          </>
                                         );
                                       }
                                     }
                                   )}
-
-                              <div className=" flex justify-evenly text-white">
-                                <button
-                                  onClick={() => {
-                                    let win = window.open("");
-                                    attendee.attendee[0] === undefined
-                                      ? win.document.write(
-                                          '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
-                                            attendee.attendee
-                                              ?.eventSpecificData[0].badgeUrl +
-                                            '" onload="window.print();window.close()" /></body></html>'
-                                        )
-                                      : win.document.write(
-                                          '<html><head><style>img { display: block; margin: 0 auto; }</style></head><body><img src="' +
-                                            attendee.attendee[0]
-                                              ?.eventSpecificData[0].badgeUrl +
-                                            '" onload="window.print();window.close()" /></body></html>'
-                                        );
-
-                                    win.focus();
-                                  }}
-                                  className="w-[100%] bg-primary h-[30px] mr-2 rounded-bl-lg"
-                                >
-                                  Print
-                                </button>
-                                {attendee.attendee[0] === undefined
-                                  ? attendee.attendee.eventSpecificData.map(
-                                      (items) => {
-                                        if (
-                                          items.eventId ===
-                                          eventsId.params.eventId
-                                        ) {
-                                          return (
-                                            <button
-                                              className="w-[100%] bg-primary h-[30px] rounded-br-lg"
-                                              onClick={() =>
-                                                window.open(
-                                                  `${items.badgeUrl}`,
-                                                  "_blank"
-                                                )
-                                              }
-                                            >
-                                              Preview
-                                            </button>
-                                          );
-                                        }
-                                      }
-                                    )
-                                  : attendee.attendee[0]?.eventSpecificData.map(
-                                      (items) => {
-                                        if (
-                                          items.eventId ===
-                                          eventsId.params.eventId
-                                        ) {
-                                          return (
-                                            <button
-                                              className="w-[100%] bg-primary h-[30px] rounded-br-lg"
-                                              onClick={() =>
-                                                window.open(
-                                                  `${items.badgeUrl}`,
-                                                  "_blank"
-                                                )
-                                              }
-                                            >
-                                              Preview
-                                            </button>
-                                          );
-                                        }
-                                      }
-                                    )}
-                                {/* <button
-                                  className="w-[100%] bg-primary h-[30px] rounded-br-lg"
-                                  onClick={() =>
-                                    window.open(
-                                      `${attendee.attendee[0]?.eventSpecificData[0].badgeUrl}`,
-                                      "_blank"
-                                    )
-                                  }
-                                >
-                                  Preview
-                                </button> */}
-                              </div>
                             </div>
-                            <img
-                              src="/svgs/IDCard.svg"
-                              alt="IDCard"
-                              onMouseEnter={() => showBadge(index)}
-                              onMouseLeave={() => hideBadge(index)}
-                              className="ml-[30px] cursor-pointer"
-                            />
+                            {/* <div className="relative z-20">
+                              <Tooltip
+                                id="my-tooltip"
+                                place="right"
+                                style={{
+                                  backgroundColor: "#C5C5C766",
+                                  borderRadius: "5px",
+                                  padding: "1px",
+                                  width: "200px",
+                                }}
+                              >
+                                {attendee.attendee[0]?.eventSpecificData.map(
+                                  (items) => {
+                                    if (
+                                      items.eventId === eventsId.params.eventId
+                                    ) {
+                                      return (
+                                        <>
+                                          {console.log(items.badgeUrl)}
+                                          <img
+                                            className="w-[200px]"
+                                            src={items.badgeUrl}
+                                          />
+                                        </>
+                                      );
+                                    }
+                                  }
+                                )}
+                              </Tooltip>
+                            </div> */}
                           </td>
                         </tr>
                       </>
