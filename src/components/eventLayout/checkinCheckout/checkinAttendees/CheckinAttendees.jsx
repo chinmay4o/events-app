@@ -146,6 +146,7 @@ function CheckinAttendees({ setEventTitle }) {
             }}
           ></input>
         </div>
+        {/* qr code scanner */}
         <img
           src="/svgs/qr.svg"
           alt=""
@@ -153,7 +154,7 @@ function CheckinAttendees({ setEventTitle }) {
           width={40}
           className="mx-4 cursor-pointer"
           onClick={() => {
-            navigate(`${location.pathname}/scan`);
+            navigate("/connections/scan");
           }}
         />
       </form>
